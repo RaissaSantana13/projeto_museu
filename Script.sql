@@ -1,135 +1,9 @@
--- tabelas sem dependências diretas.
-
--- tabela da escola 
-CREATE TABLE schools (
-    id_school SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    cnpj VARCHAR(18) UNIQUE,
-    created_at TIMESTAMP DEFAULT now() NOT NULL,
-    updated_at TIMESTAMP DEFAULT now() NOT NULL,
-    deleted_at TIMESTAMP
-);
-
--- tabela dos patrocinadores 
-CREATE TABLE sponsors (
-    id_sponsor SERIAL PRIMARY KEY,
-    name VARCHAR(150) NOT NULL,
-    logo_url TEXT,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT now() NOT NULL,
-    deleted_at TIMESTAMP
-);
-
--- tabela de visitantes e participantes dos eventos 
-CREATE TABLE visitors (
-    id_visitor SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    cpf VARCHAR(14) UNIQUE,
-    phone VARCHAR(20),
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT now() NOT NULL,
-    deleted_at TIMESTAMP
-);
-
--- tabela de papeis de usuários
-CREATE TABLE roles (
-    id_roles SERIAL PRIMARY KEY,
-    nome_roles VARCHAR(50) UNIQUE NOT NULL,
-    created_at TIMESTAMP DEFAULT now() NOT NULL,
-    updated_at TIMESTAMP DEFAULT now() NOT NULL,
-    deleted_at TIMESTAMP
-);
-
--- tabela de recursos do sistema - usuário, events, etc.
-CREATE TABLE resources (
-    id_recurso SERIAL PRIMARY KEY,
-    nome_recurso VARCHAR(50) UNIQUE NOT NULL,
-    created_at TIMESTAMP DEFAULT now() NOT NULL,
-    updated_at TIMESTAMP DEFAULT now() NOT NULL,
-    deleted_at TIMESTAMP
-);
-
--- tabela de eventos do museu
-
-CREATE TABLE events (
-    id_event SERIAL PRIMARY KEY,
-    title TEXT NOT NULL,
-    description TEXT,
-    start_date TIMESTAMPTZ NOT NULL,
-    end_date TIMESTAMPTZ NOT NULL,
-    all_day BOOLEAN DEFAULT false,
-    location VARCHAR(100),
-    color VARCHAR(30) NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMPTZ,
-    start_time VARCHAR(5),
-    duration_minutes INT,
-    max_capacity INT
-);
-
--- tabela dos representantes das escolas 
-
-CREATE TABLE school_representatives (
-    id_representative SERIAL PRIMARY KEY,
-    id_school INTEGER REFERENCES schools(id_school) ON DELETE CASCADE,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    phone VARCHAR(20),
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT now() NOT NULL,
-    deleted_at TIMESTAMP
-);
-
--- tabela dos participantes dos eventos 
-
-CREATE TABLE event_bookings (
-    id_booking SERIAL PRIMARY KEY,
-    id_event INTEGER NOT NULL REFERENCES events(id_event) ON DELETE CASCADE,
-    id_representative INTEGER REFERENCES school_representatives(id_representative),
-    id_visitor INTEGER REFERENCES visitors(id_visitor),
-    expected_participant_count INTEGER DEFAULT 1 NOT NULL,
-    booking_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(20) DEFAULT 'pending',
-    notes TEXT,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT now() NOT NULL,
-    deleted_at TIMESTAMP,
-    CONSTRAINT check_booking_origin CHECK (
-        (id_representative IS NOT NULL AND id_visitor IS NULL) OR
-        (id_representative IS NULL AND id_visitor IS NOT NULL)
-    )
-);
-
--- tabela de estudantes 
-
-CREATE TABLE students (
-    id_student SERIAL PRIMARY KEY,
-    id_booking INTEGER REFERENCES event_bookings(id_booking) ON DELETE CASCADE,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255),
-    attended BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT now() NOT NULL,
-    deleted_at TIMESTAMP
-);
-
--- tabela relação de patrocinadores do evento 
-
-CREATE TABLE event_sponsors_relation (
-    id_event INTEGER REFERENCES events(id_event) ON DELETE CASCADE,
-    id_sponsor INTEGER REFERENCES sponsors(id_sponsor) ON DELETE CASCADE,
-    PRIMARY KEY (id_event, id_sponsor)
-);
-
--- tabela de usuários 
-
-CREATE TABLE usuario (
-    id_usuario SERIAL PRIMARY KEY,
+CREATE TABLE "user" (
+    id_user SERIAL PRIMARY KEY,
     firstname VARCHAR(150) NOT NULL,
     lastname VARCHAR(150) NOT NULL,
-    username VARCHAR(150) NOT NULL,
+    username VARCHAR(150) NOT NULL UNIQUE,
+    phone VARCHAR(20),
     active BOOLEAN DEFAULT false NOT NULL,
     image_path VARCHAR(255),
     emailverified BOOLEAN DEFAULT false,
@@ -137,88 +11,169 @@ CREATE TABLE usuario (
     currenthashedrefreshtoken VARCHAR(255),
     mfa_code TEXT,
     mfa_expires_at TIMESTAMP,
-    created_at TIMESTAMP DEFAULT now() NOT NULL,
-    updated_at TIMESTAMP DEFAULT now() NOT NULL,
-    deleted_at TIMESTAMP
+    created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+    deleted_at TIMESTAMPTZ
 );
 
--- tabela de credenciais 
-
--- public.credentials definição
-
--- Drop table
-
--- DROP TABLE public.credentials;
-
-CREATE TABLE public.credentials (
-	id_credentials serial4 NOT NULL,
-	id_usuario int4 NOT NULL,
-	email varchar(150) NOT NULL,
-	"password" varchar(255) NOT NULL,
-	created_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
-	updated_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
-	deleted_at timestamp NULL,
-	CONSTRAINT credentials_email_key UNIQUE (email),
-	CONSTRAINT credentials_pkey PRIMARY KEY (id_credentials),
-	CONSTRAINT credentials_usuario_id_key UNIQUE (id_usuario)
+CREATE TABLE credentials (
+    id_credentials SERIAL PRIMARY KEY,
+    id_user INTEGER NOT NULL UNIQUE REFERENCES "user"(id_user) ON DELETE CASCADE,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now(),
+    deleted_at TIMESTAMPTZ
 );
 
-
-ALTER TABLE public.credentials ADD CONSTRAINT 
-  fk_credentials_usuario FOREIGN KEY (id_usuario) 
-  REFERENCES public.usuario(id_usuario) ON DELETE CASCADE;
-
--- tabela de usuários X roles 
-
-CREATE TABLE usuario_roles (
-    usuario_id INT REFERENCES usuario(id_usuario) ON DELETE CASCADE,
-    role_id INT REFERENCES roles(id_role) ON DELETE CASCADE,
-    created_at TIMESTAMP DEFAULT now() NOT NULL,
-    updated_at TIMESTAMP DEFAULT now() NOT NULL,
-    deleted_at TIMESTAMP,
-    PRIMARY KEY (usuario_id, role_id)
-);
-
--- tabela de roles X permissions
-
-CREATE TABLE permissions (
-    id_permissions SERIAL PRIMARY KEY,
-    role_id INT NOT NULL REFERENCES roles(id_role) ON DELETE CASCADE,
-    recurso_id INT NOT NULL REFERENCES resources(id_recurso) ON DELETE CASCADE,
-    action VARCHAR(20) NOT NULL,
-    possession VARCHAR(10) DEFAULT 'any',
-    attributes VARCHAR(10) DEFAULT '*',
-    created_at TIMESTAMP DEFAULT now() NOT NULL,
-    updated_at TIMESTAMP DEFAULT now() NOT NULL,
-    deleted_at TIMESTAMP
-);
-
--- tabela de accounts - acesso via providers - google, x, github, facebooks, etc.
 CREATE TABLE account (
     id_account UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    id_usuario INT NOT NULL REFERENCES usuario(id_usuario) ON DELETE CASCADE,
-    provider_id INT NOT NULL,
+    id_user INTEGER NOT NULL REFERENCES "user"(id_user) ON DELETE CASCADE,
+    provider_id VARCHAR(50) NOT NULL, -- ex: 'google', 'github'
     access_token TEXT,
     refresh_token TEXT,
     access_token_expires_at TIMESTAMP,
     refresh_token_expires_at TIMESTAMP,
     scope VARCHAR(255),
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now()
 );
-
--- tabela de sessões - verificar quais usuários estão conectados. 
 
 CREATE TABLE session (
     id_session SERIAL PRIMARY KEY,
-    id_usuario INT NOT NULL REFERENCES usuario(id_usuario) ON DELETE CASCADE,
+    id_user INTEGER NOT NULL REFERENCES "user"(id_user) ON DELETE CASCADE,
     token VARCHAR(255) UNIQUE NOT NULL,
-    expires_at TIMESTAMP NOT NULL,
+    expires_at TIMESTAMPTZ NOT NULL,
     ip_address VARCHAR(45),
     user_agent TEXT
 );
 
--- tabela de contato - 
+CREATE TABLE roles (
+    id_roles SERIAL PRIMARY KEY,
+    nome_roles VARCHAR(50) UNIQUE NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+    deleted_at TIMESTAMPTZ
+);
+
+CREATE TABLE resources (
+    id_recurso SERIAL PRIMARY KEY,
+    nome_recurso VARCHAR(50) UNIQUE NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+    deleted_at TIMESTAMPTZ
+);
+
+CREATE TABLE user_roles (
+    id_user INTEGER REFERENCES "user"(id_user) ON DELETE CASCADE,
+    id_role INTEGER REFERENCES roles(id_roles) ON DELETE CASCADE,
+    PRIMARY KEY (id_user, id_role)
+);
+
+CREATE TABLE permissions (
+    id_permission SERIAL PRIMARY KEY,
+    id_role INTEGER NOT NULL REFERENCES roles(id_roles) ON DELETE CASCADE,
+    id_recurso INTEGER NOT NULL REFERENCES resources(id_recurso) ON DELETE CASCADE,
+    action VARCHAR(20) NOT NULL, 
+    possession VARCHAR(10) DEFAULT 'any',
+    attributes VARCHAR(10) DEFAULT '*',
+    created_at TIMESTAMPTZ DEFAULT now() NOT NULL
+);
+
+CREATE TABLE schools (
+    id_school SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    cnpj VARCHAR(18) UNIQUE,
+    created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+    deleted_at TIMESTAMPTZ
+);
+
+CREATE TABLE colaborators (
+    id_colaborator SERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    logo_url TEXT,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now(),
+    deleted_at TIMESTAMPTZ
+);
+
+CREATE TABLE school_representatives (
+    id_representative SERIAL PRIMARY KEY,
+    id_school INTEGER NOT NULL REFERENCES schools(id_school) ON DELETE CASCADE,
+    id_user INTEGER NOT NULL UNIQUE REFERENCES "user"(id_user) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now(),
+    deleted_at TIMESTAMPTZ
+);
+
+CREATE TABLE events (
+    id_event SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT,
+    start_date TIMESTAMPTZ NOT NULL,
+    end_date TIMESTAMPTZ NOT NULL,
+    location VARCHAR(100),
+    max_capacity INTEGER,
+    color VARCHAR(30) NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now(),
+    deleted_at TIMESTAMPTZ
+);
+
+CREATE TABLE visitors (
+    id_visitor SERIAL PRIMARY KEY,
+    firstname VARCHAR(150) NOT NULL,
+    lastname VARCHAR(150) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    phone VARCHAR(20),
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+create TABLE school_groups (
+    id_group SERIAL PRIMARY KEY,
+    id_school INTEGER NOT NULL REFERENCES schools(id_school) ON DELETE CASCADE,
+    id_representative INTEGER REFERENCES school_representatives(id_representative) ON DELETE SET NULL,
+    group_name VARCHAR(150) NOT NULL,
+    total_students INTEGER NOT NULL DEFAULT 0,
+    student_list JSONB, -- Lista estática de alunos (ex: nomes e idades)
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now(),
+    deleted_at TIMESTAMPTZ
+);
+
+CREATE TABLE event_bookings (
+    id_booking SERIAL PRIMARY KEY,
+    id_event INTEGER NOT NULL REFERENCES events(id_event) ON DELETE CASCADE,
+    id_visitor INTEGER REFERENCES visitors(id_visitor) ON DELETE CASCADE,
+    id_user INTEGER REFERENCES "user"(id_user) ON DELETE CASCADE,
+    id_group INTEGER REFERENCES school_groups(id_group) ON DELETE CASCADE,
+    expected_participant_count INTEGER DEFAULT 1 NOT NULL,
+    booking_date TIMESTAMPTZ DEFAULT now(),
+    status VARCHAR(20) DEFAULT 'pending',
+    notes TEXT,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now(),
+    deleted_at TIMESTAMPTZ,
+    CONSTRAINT check_booking_origin CHECK (
+        (id_visitor IS NOT NULL AND id_user IS NULL AND id_group IS NULL) OR
+        (id_user IS NOT NULL AND id_visitor IS NULL AND id_group IS NULL) OR
+        (id_group IS NOT NULL AND id_visitor IS NULL AND id_user IS NULL)
+    )
+);
+
+CREATE TABLE event_booking_groups (
+    id_booking INTEGER NOT NULL REFERENCES event_bookings(id_booking) ON DELETE CASCADE,
+    id_group INTEGER NOT NULL REFERENCES school_groups(id_group) ON DELETE CASCADE,
+    attending_students INTEGER, 
+    PRIMARY KEY (id_booking, id_group)
+);
+
+CREATE TABLE event_colaborator_relation (
+    id_event INTEGER REFERENCES events(id_event) ON DELETE CASCADE,
+    id_colaborator INTEGER REFERENCES colaborators(id_colaborator) ON DELETE CASCADE,
+    PRIMARY KEY (id_event, id_colaborator)
+);
 
 CREATE TABLE contact (
     id_contact SERIAL PRIMARY KEY,
@@ -227,8 +182,74 @@ CREATE TABLE contact (
     phone VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     message TEXT NOT NULL,
-    agreed_to_privacy BOOLEAN DEFAULT FALSE NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMPTZ
+    agreed_to_privacy BOOLEAN DEFAULT false NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+create type shape as enum('square', 'rectangle');
+create table images (
+	id_img SERIAL primary key,
+	title VARCHAR(255) NOT NULL,
+  	description TEXT,
+	form shape,
+  	is_cover bool,
+  	is_front bool,
+  	url_img TEXT
+);
+
+CREATE TABLE works (
+   id_work SERIAL PRIMARY KEY,
+   title VARCHAR(255) NOT NULL,
+   artist VARCHAR(255) NOT NULL,
+   creation_year INT,
+   description TEXT,
+   dimensions VARCHAR(100),
+   type VARCHAR(100),
+   category VARCHAR(100),
+   location VARCHAR(150),
+   id_img INTEGER references images(id_img) ON DELETE CASCADE,
+   has_3D bool,
+   url_3D TEXT,
+   status VARCHAR(50) DEFAULT 'disponivel',
+   created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+   updated_at TIMESTAMP DEFAULT now() NOT NULL,
+   deleted_at TIMESTAMP
+);
+
+create table prints (
+	id_print SERIAL primary key,
+	title VARCHAR(255) NOT NULL,
+  	description TEXT,
+  	url_print TEXT
+);
+
+CREATE TABLE documents (
+   id_doc SERIAL PRIMARY KEY,
+   title VARCHAR(255) NOT NULL,
+   origin VARCHAR(255) NOT NULL,
+   creation_year INT,
+   description TEXT,
+   dimensions VARCHAR(100),
+   type VARCHAR(100),
+   category VARCHAR(100),
+   location VARCHAR(150),
+   id_print INTEGER references prints(id_print) ON DELETE CASCADE,
+   status VARCHAR(50) DEFAULT 'disponivel',
+   created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+   updated_at TIMESTAMP DEFAULT now() NOT NULL,
+   deleted_at TIMESTAMP
+);
+
+create table img_spotlight (
+	id_img_spotlight SERIAL primary key,
+	id_img INTEGER references images(id_img) ON DELETE CASCADE,
+	start_date TIMESTAMPTZ, 
+	end_date TIMESTAMPTZ
+);
+
+create table event_spotlight (
+	id_event_spotlight SERIAL primary key,
+	id_event INTEGER references events(id_event) ON DELETE CASCADE,
+	start_date TIMESTAMPTZ, 
+	end_date TIMESTAMPTZ
 );
