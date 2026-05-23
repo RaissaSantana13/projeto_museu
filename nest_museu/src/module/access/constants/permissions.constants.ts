@@ -1,32 +1,32 @@
-import { criarMensagensOperacao } from "../../../commons/constants/constants.entity";
+import { criarMensagensOperacao } from '../../../commons/constants/constants.entity';
 import {
   gerarMensagem,
   MENSAGEM_GENERICA,
-} from "../../../commons/constants/mensagem.sistema";
+} from '../../../commons/constants/mensagem.sistema';
 import {
   gerarRotaRecurso,
   RotaRecurso,
-} from "../../../commons/constants/url.sistema";
+} from '../../../commons/constants/url.sistema';
 
-const ENTITY_NAME = "permissions";
-const ALIAS_NAME = "Permissions";
+const ENTITY_NAME = 'permissions';
+const ALIAS_NAME = 'Permissions';
 
 export const PERMISSIONS = {
   ENTITY: ENTITY_NAME,
   ALIAS: ALIAS_NAME,
 
   TABLE_FIELDS: {
-    ID_PERMISSIONS: "id_permissions",
-    NOME_PERMISSIONS: "nome_permissions",
-    ACTION: "action",
-    POSSESSION: "possession",
+    ID_PERMISSIONS: 'id_permissions',
+    NOME_PERMISSIONS: 'nome_permissions',
+    ACTION: 'action',
+    POSSESSION: 'possession',
   },
 
   FIELDS: {
-    ID_PERMISSIONS: "idPermissions",
-    NOME_PERMISSIONS: "nomePermissions",
-    ACTION: "action",
-    POSSESSION: "possession",
+    ID_PERMISSIONS: 'idPermissions',
+    NOME_PERMISSIONS: 'nomePermissions',
+    ACTION: 'action',
+    POSSESSION: 'possession',
   },
 
   SWAGGER: {
@@ -35,7 +35,7 @@ export const PERMISSIONS = {
     ACTION: `utorização realizada no registro da ${ALIAS_NAME}`,
     POSSESSION: `Dono ou proprietário do registro da ${ALIAS_NAME}`,
     ROLE: `Autorização de acesso ao recurso`,
-    RESOURCE: "Recurso com autorização de acesso",
+    RESOURCE: 'Recurso com autorização de acesso',
   },
 
   SEARCH: {

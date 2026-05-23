@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { SIS_MUSEU } from '../enum/sis-museu.enum';
-import { HateoasHelper } from '../helpers/hateos.helpers';
-import { Page } from '../pagination/paginacao.sistema';
+import { HateoasHelper } from '../helpers/hateoas.helpers';
+import { Page } from '../pagination/pagination.sistema';
 
 export abstract class BaseController {
   protected abstract readonly entityPath: string;

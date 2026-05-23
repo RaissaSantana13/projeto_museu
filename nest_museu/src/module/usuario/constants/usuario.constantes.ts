@@ -1,41 +1,41 @@
-import { criarMensagensOperacao } from "../../../commons/constants/constants.entity";
+import { criarMensagensOperacao } from '../../../commons/constants/constants.entity';
 import {
   gerarMensagem,
   MENSAGEM_GENERICA,
-} from "../../../commons/constants/mensagem.sistema";
+} from '../../../commons/constants/mensagem.sistema';
 import {
   gerarRotaRecurso,
   RotaRecurso,
-} from "../../../commons/constants/url.sistema";
+} from '../../../commons/constants/url.sistema';
 
-const ENTITY_NAME = "usuario";
-const ALIAS_NAME = "Usuário";
+const ENTITY_NAME = 'usuario';
+const ALIAS_NAME = 'Usuário';
 
 export const USUARIO = {
   ENTITY: ENTITY_NAME,
 
   ALIAS: ALIAS_NAME,
 
-  REGISTER: "/register",
+  REGISTER: '/register',
 
   TABLE_FIELDS: {
-    ID_USUARIO: "id_usuario",
-    FIRSTNAME: "firstname",
-    LASTNAME: "lastname",
-    USERNAME: "username",
-    EMAIL_VERIFIED: "emailverified",
-    ACTIVE: "active",
-    IMAGE_PATH: "image_path",
+    ID_USUARIO: 'id_usuario',
+    FIRSTNAME: 'firstname',
+    LASTNAME: 'lastname',
+    USERNAME: 'username',
+    EMAIL_VERIFIED: 'emailverified',
+    ACTIVE: 'active',
+    IMAGE_PATH: 'image_path',
   },
 
   FIELDS: {
-    ID_USUARIO: "idUsuario",
-    FIRSTNAME: "firstname",
-    LASTNAME: "lastname",
-    USERNAME: "username",
-    EMAIL_VERIFIED: "emailverified",
-    ACTIVE: "active",
-    IMAGE_PATH: "image_path",
+    ID_USUARIO: 'idUsuario',
+    FIRSTNAME: 'firstname',
+    LASTNAME: 'lastname',
+    USERNAME: 'username',
+    EMAIL_VERIFIED: 'emailverified',
+    ACTIVE: 'active',
+    IMAGE_PATH: 'image_path',
   },
 
   SEARCH: {

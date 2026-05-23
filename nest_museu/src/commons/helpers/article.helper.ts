@@ -1,4 +1,4 @@
-import { Gender } from '../type/fieldoptions.type';
+import { Gender } from '../type/field-options.type';
 
 export function article(gender: Gender = 'm'): string {
   return gender === 'f' ? 'A' : 'O';

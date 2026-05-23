@@ -7,7 +7,7 @@ import { ROLES } from '../../constants/roles.constants';
 export class RolesRequest {
   static entityName = ROLES.ALIAS.toLowerCase();
   @ApiProperty({
-    description: ROLES.SWAGGER.ID_ROLES,
+    description: ROLES.SWAGGER.ID_ROLE,
     example: '1',
   })
   @Type(() => Number)
@@ -15,7 +15,7 @@ export class RolesRequest {
   idRoles!: number;
 
   @ApiProperty({
-    description: ROLES.SWAGGER.NOME_ROLES,
+    description: ROLES.SWAGGER.NOME_ROLE,
     example: 'administrador',
   })
   @TextField({ required: true, min: 8, max: 100, label: 'Nome', gender: 'f' })

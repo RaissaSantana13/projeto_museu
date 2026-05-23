@@ -1,7 +1,7 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { BaseEntity } from "../../../commons/entities/base.entity";
-import { SCHOOL } from "../constants/school.constantes";
-import { SchoolRepresentative } from "./school-representative.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity } from '../../../commons/entities/base.entity';
+import { SCHOOL } from '../constants/school.constantes';
+import { SchoolRepresentative } from './school-representative.entity';
 
 @Entity(SCHOOL.ENTITY)
 export class School extends BaseEntity {

@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { BaseOAuthStrategy } from "./base-oauth.strategy";
-import { OAuthAccountProfile } from "./oauth.strategy.interface";
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { BaseOAuthStrategy } from './base-oauth.strategy';
+import { OAuthAccountProfile } from './oauth.strategy.interface';
 
 /**
  * Facebook Token Response
@@ -28,17 +28,17 @@ interface FacebookUserProfileResponse {
 
 @Injectable()
 export class FacebookOAuthStrategy extends BaseOAuthStrategy {
-  private readonly AUTH_URL = "https://www.facebook.com/v18.0/dialog/oauth";
+  private readonly AUTH_URL = 'https://www.facebook.com/v18.0/dialog/oauth';
   private readonly TOKEN_URL =
-    "https://graph.facebook.com/v18.0/oauth/access_token";
-  private readonly USER_INFO_URL = "https://graph.facebook.com/v18.0/me";
+    'https://graph.facebook.com/v18.0/oauth/access_token';
+  private readonly USER_INFO_URL = 'https://graph.facebook.com/v18.0/me';
 
   constructor(configService: ConfigService) {
-    super(configService, "facebook");
+    super(configService, 'facebook');
   }
 
   protected getScopes(): string[] {
-    return ["email", "public_profile"];
+    return ['email', 'public_profile'];
   }
 
   getAuthorizationUrl(state?: string): string {
@@ -46,12 +46,12 @@ export class FacebookOAuthStrategy extends BaseOAuthStrategy {
     const params = new URLSearchParams({
       client_id: config.clientId,
       redirect_uri: config.callbackUrl,
-      scope: config.scopes.join(","),
-      response_type: "code",
+      scope: config.scopes.join(','),
+      response_type: 'code',
     });
 
     if (state) {
-      params.append("state", state);
+      params.append('state', state);
     }
 
     return `${this.AUTH_URL}?${params.toString()}`;
@@ -65,7 +65,7 @@ export class FacebookOAuthStrategy extends BaseOAuthStrategy {
       // 1. Troca o código pelo Token
       const tokenResponse = await this.exchangeCodeForToken(code);
 
-      this.logger.log("Successfully obtained access token for Facebook OAuth");
+      this.logger.log('Successfully obtained access token for Facebook OAuth');
 
       // 2. Busca o Perfil (Garante que os campos id, email, name, first_name e last_name sejam solicitados)
       const userProfile = await this.fetchUserProfile(
@@ -73,7 +73,7 @@ export class FacebookOAuthStrategy extends BaseOAuthStrategy {
       );
 
       if (!userProfile.email) {
-        throw new Error("No email found on Facebook account");
+        throw new Error('No email found on Facebook account');
       }
 
       // 3. Cálculo de datas
@@ -83,24 +83,24 @@ export class FacebookOAuthStrategy extends BaseOAuthStrategy {
       );
 
       // 4. Mapeamento para o formato unificado do Museu Virtual
-      const names = userProfile.name.split(" ");
+      const names = userProfile.name.split(' ');
 
       return {
         // Dados para as tabelas 'usuario' e 'credentials'
         email: userProfile.email,
         name: userProfile.name,
         firstName: names[0], // Facebook nem sempre retorna given_name se não for solicitado, fazemos o split por segurança
-        lastName: names.slice(1).join(" ") || " ",
-        picture: userProfile.picture?.data?.url || "",
+        lastName: names.slice(1).join(' ') || ' ',
+        picture: userProfile.picture?.data?.url || '',
         emailVerified: true, // Facebook valida o e-mail no ato do cadastro
 
         // Dados para a tabela 'account' no Postgres
         providerId: userProfile.id,
         accessToken: tokenResponse.access_token,
-        refreshToken: "", // Facebook não retorna refresh_token por padrão neste fluxo
+        refreshToken: '', // Facebook não retorna refresh_token por padrão neste fluxo
         accessTokenExpiresAt: accessTokenExpiresAt,
         //refreshTokenExpiresAt: null,
-        scope: "email,public_profile",
+        scope: 'email,public_profile',
       };
     } catch (error) {
       this.logger.error(
@@ -134,7 +134,7 @@ export class FacebookOAuthStrategy extends BaseOAuthStrategy {
   ): Promise<FacebookUserProfileResponse> {
     // Importante solicitar explicitamente os campos que você quer usar
     const params = new URLSearchParams({
-      fields: "id,email,name,picture.type(large)",
+      fields: 'id,email,name,picture.type(large)',
       access_token: accessToken,
     });
 

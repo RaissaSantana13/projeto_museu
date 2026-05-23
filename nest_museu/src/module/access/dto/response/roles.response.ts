@@ -5,13 +5,13 @@ import { ROLES } from '../../constants/roles.constants';
 export class RolesResponse {
   @Expose()
   @ApiProperty({
-    description: ROLES.SWAGGER.ID_ROLES,
+    description: ROLES.SWAGGER.ID_ROLE,
     example: '1',
   })
   idRoles!: number;
   @Expose()
   @ApiProperty({
-    description: ROLES.SWAGGER.NOME_ROLES,
+    description: ROLES.SWAGGER.NOME_ROLE,
     example: 'administrador',
   })
   nomeRoles!: string;

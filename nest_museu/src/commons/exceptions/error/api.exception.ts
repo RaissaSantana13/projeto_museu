@@ -1,5 +1,5 @@
-import { HttpStatus } from "@nestjs/common";
-import { NegocioException } from "./negocio.exceptions";
+import { HttpStatus } from '@nestjs/common';
+import { NegocioException } from './negocio.exception';
 
 export class ApiException extends NegocioException {
   constructor(
@@ -10,7 +10,7 @@ export class ApiException extends NegocioException {
     super({
       statusCode,
       message,
-      error: error ?? "Erro de negócio ",
+      error: error ?? 'Erro de negócio ',
     });
   }
 }

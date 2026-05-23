@@ -1,53 +1,53 @@
 export enum MENSAGEM_GENERICA {
-  ENTIDADE_NAO_ENCONTRADA = "ENTIDADE_NAO_ENCONTRADA",
-  EMAIL_CADASTRADO = "EMAIL_CADASTRADO",
-  EMAIL_NAO_CADASTRADO = "EMAIL_NAO_CADASTRADO",
-  EMAIL_RECUPERACAO_ENVIADO = "EMAIL_RECUPERACAO_ENVIADO",
-  EMAIL_LOCALIZADO_NO_SISTEMA = "EMAIL_LOCALIZADO_NO_SISTEMA",
-  EMAIL_NAO_CONFIRMADO_NO_SISTEMA = "EMAIL_NAO_CONFIRMADO_NO_SISTEMA",
-  EMAIL_CONFIRMADO_NO_SISTEMA = "EMAIL_CONFIRMADO_NO_SISTENA",
-  FALHA_SERVICO_EMAIL = "FALHA_SERVICO_EMAIL",
-  ENTIDADE_CADASTRADA = "ENITDADE_CADASTRADA",
-  ENTIDADE_ALTERADA = "ENTIDADE_ALTERADA",
-  ENTIDADE_EXCLUIDA = "ENITDADE_EXCLUIDA",
-  ENTIDADE_LOCALIZADA = "ENITDADE_LOCALIZADA",
-  ENTIDADE_LISTADA = "ENTIDADE_LISTADA",
-  CREDENCIAL_INVALIDA = "CREDENCIAL_INVALIDA",
-  LOGIN_EFETUADO = "LOGIN_EFETUADO",
-  ERROR_SERVICE = "ERROR_SERVICE",
-  CREDENTIALS_UPDATE_SUCCESS = "CREDENTIALS_UPDATE_SUCCESS",
-  TOKEN_INVALIDO_EXPIRADO = "TOKEN_INVALIDO_EXPIRADO",
-  ACTIVATION_CODE_EXPIRED = "ACTIVATION_CODE_EXPIRED",
-  ACTIVATION_CODE_INVALID = "ACTIVATION_CODE_INVALID",
-  MAX_ATTEMPTS_EXCEEDED = "MAX_ATTEMPTS_EXCEEDED",
-  SESSION_EXPIRED = "SESSION_EXPIRED",
-  SESSION_REQUIRED = "SESSION_REQUIRED",
-  SESSION_INVALID = "SESSION_INVALID",
-  VALIDATION_ERROR = "VALIDATION_ERROR",
-  RATE_LIMIT_EXCEEDED = "RATE_LIMIT_EXCEEDED",
-  FORBIDDEN = "FORBIDDEN",
-  CANNOT_MODIFY_SELF = "CANNOT_MODIFY_SELF",
-  OAUTH_AUTHENTICATION_FAILED = "OAUTH_AUTHENTICATION_FAILED",
-  SAME_PASSWORD = "SAME_PASSWORD",
-  INVALID_OAUTH_PROVIDER = "INVALID_OAUTH_PROVIDER",
-  OAUTH_INVALID_CODE = "OAUTH_INVALID_CODE",
+  ENTIDADE_NAO_ENCONTRADA = 'ENTIDADE_NAO_ENCONTRADA',
+  EMAIL_CADASTRADO = 'EMAIL_CADASTRADO',
+  EMAIL_NAO_CADASTRADO = 'EMAIL_NAO_CADASTRADO',
+  EMAIL_RECUPERACAO_ENVIADO = 'EMAIL_RECUPERACAO_ENVIADO',
+  EMAIL_LOCALIZADO_NO_SISTEMA = 'EMAIL_LOCALIZADO_NO_SISTEMA',
+  EMAIL_NAO_CONFIRMADO_NO_SISTEMA = 'EMAIL_NAO_CONFIRMADO_NO_SISTEMA',
+  EMAIL_CONFIRMADO_NO_SISTEMA = 'EMAIL_CONFIRMADO_NO_SISTEMA',
+  FALHA_SERVICO_EMAIL = 'FALHA_SERVICO_EMAIL',
+  ENTIDADE_CADASTRADA = 'ENTIDADE_CADASTRADA',
+  ENTIDADE_ALTERADA = 'ENTIDADE_ALTERADA',
+  ENTIDADE_EXCLUIDA = 'ENTIDADE_EXCLUIDA',
+  ENTIDADE_LOCALIZADA = 'ENTIDADE_LOCALIZADA',
+  ENTIDADE_LISTADA = 'ENTIDADE_LISTADA',
+  CREDENCIAL_INVALIDA = 'CREDENCIAL_INVALIDA',
+  LOGIN_EFETUADO = 'LOGIN_EFETUADO',
+  ERROR_SERVICE = 'ERROR_SERVICE',
+  CREDENTIALS_UPDATE_SUCCESS = 'CREDENTIALS_UPDATE_SUCCESS',
+  TOKEN_INVALIDO_EXPIRADO = 'TOKEN_INVALIDO_EXPIRADO',
+  ACTIVATION_CODE_EXPIRED = 'ACTIVATION_CODE_EXPIRED',
+  ACTIVATION_CODE_INVALID = 'ACTIVATION_CODE_INVALID',
+  MAX_ATTEMPTS_EXCEEDED = 'MAX_ATTEMPTS_EXCEEDED',
+  SESSION_EXPIRED = 'SESSION_EXPIRED',
+  SESSION_REQUIRED = 'SESSION_REQUIRED',
+  SESSION_INVALID = 'SESSION_INVALID',
+  VALIDATION_ERROR = 'VALIDATION_ERROR',
+  RATE_LIMIT_EXCEEDED = 'RATE_LIMIT_EXCEEDED',
+  FORBIDDEN = 'FORBIDDEN',
+  CANNOT_MODIFY_SELF = 'CANNOT_MODIFY_SELF',
+  OAUTH_AUTHENTICATION_FAILED = 'OAUTH_AUTHENTICATION_FAILED',
+  SAME_PASSWORD = 'SAME_PASSWORD',
+  INVALID_OAUTH_PROVIDER = 'INVALID_OAUTH_PROVIDER',
+  OAUTH_INVALID_CODE = 'OAUTH_INVALID_CODE',
 
-  GOOGLE_TOKEN_INVALID = "GOOGLE_TOKEN_INVALID",
-  GOOGLE_TOKEN_EXPIRED = "GOOGLE_TOKEN_EXPIRED",
-  GOOGLE_NOT_CONFIGURED = "GOOGLE_NOT_CONFIGURED",
-  GOOGLE_EMAIL_NOT_VERIFIED = "GOOGLE_EMAIL_NOT_VERIFIED",
+  GOOGLE_TOKEN_INVALID = 'GOOGLE_TOKEN_INVALID',
+  GOOGLE_TOKEN_EXPIRED = 'GOOGLE_TOKEN_EXPIRED',
+  GOOGLE_NOT_CONFIGURED = 'GOOGLE_NOT_CONFIGURED',
+  GOOGLE_EMAIL_NOT_VERIFIED = 'GOOGLE_EMAIL_NOT_VERIFIED',
 
-  GITHUB_CODE_INVALID = "GITHUB_CODE_INVALID",
-  GITHUB_CODE_EXPIRED = "GITHUB_CODE_EXPIRED",
-  GITHUB_NOT_CONFIGURED = "GITHUB_NOT_CONFIGURED",
-  GITHUB_EMAIL_NOT_VERIFIED = "GITHUB_EMAIL_NOT_VERIFIED",
-  GITHUB_API_ERROR = "GITHUB_API_ERROR",
+  GITHUB_CODE_INVALID = 'GITHUB_CODE_INVALID',
+  GITHUB_CODE_EXPIRED = 'GITHUB_CODE_EXPIRED',
+  GITHUB_NOT_CONFIGURED = 'GITHUB_NOT_CONFIGURED',
+  GITHUB_EMAIL_NOT_VERIFIED = 'GITHUB_EMAIL_NOT_VERIFIED',
+  GITHUB_API_ERROR = 'GITHUB_API_ERROR',
 
-  FACEBOOK_CODE_INVALID = "FACEBOOK_CODE_INVALID",
-  FACEBOOK_CODE_EXPIRED = "FACEBOOK_CODE_EXPIRED",
-  FACEBOOK_NOT_CONFIGURED = "FACEBOOK_NOT_CONFIGURED",
-  FACEBOOK_EMAIL_NOT_VERIFIED = "FACEBOOK_EMAIL_NOT_VERIFIED",
-  FACEBOOK_API_ERROR = "FACEBOOK_API_ERROR",
+  FACEBOOK_CODE_INVALID = 'FACEBOOK_CODE_INVALID',
+  FACEBOOK_CODE_EXPIRED = 'FACEBOOK_CODE_EXPIRED',
+  FACEBOOK_NOT_CONFIGURED = 'FACEBOOK_NOT_CONFIGURED',
+  FACEBOOK_EMAIL_NOT_VERIFIED = 'FACEBOOK_EMAIL_NOT_VERIFIED',
+  FACEBOOK_API_ERROR = 'FACEBOOK_API_ERROR',
 }
 
 type MensagemValor = string | ((...args: any[]) => string);
@@ -84,68 +84,68 @@ const MENSAGENS_GENERICAS: MensagensGenericas = {
   [MENSAGEM_GENERICA.FALHA_SERVICO_EMAIL]: (entidade: string) =>
     `Falha no serviço de ${entidade}.`,
   [MENSAGEM_GENERICA.CREDENCIAL_INVALIDA]: () =>
-    `As credenciais de de acesso está inválida`,
+    `As credenciais de acesso estão inválidas.`,
   [MENSAGEM_GENERICA.LOGIN_EFETUADO]: (entidade: string) =>
-    `O ${entidade} efetuado.`,
+    `${entidade} efetuado com sucesso.`,
   [MENSAGEM_GENERICA.ERROR_SERVICE]: () => `Erro de processamento no servidor.`,
   [MENSAGEM_GENERICA.CREDENTIALS_UPDATE_SUCCESS]: () =>
     `Credenciais atualizadas com sucesso.`,
   [MENSAGEM_GENERICA.TOKEN_INVALIDO_EXPIRADO]: () =>
-    `Token inválido ou expirado`,
+    `Token inválido ou expirado.`,
   [MENSAGEM_GENERICA.ACTIVATION_CODE_EXPIRED]: () =>
-    "O código de ativação expirou.",
+    'O código de ativação expirou.',
   [MENSAGEM_GENERICA.ACTIVATION_CODE_INVALID]: () =>
-    "Código de ativação inválido.",
+    'Código de ativação inválido.',
   [MENSAGEM_GENERICA.MAX_ATTEMPTS_EXCEEDED]: () =>
-    "Limite máximo de tentativas excedido.",
+    'Limite máximo de tentativas excedido.',
   [MENSAGEM_GENERICA.SESSION_REQUIRED]: () =>
-    "Autenticação requerida, Por favor, faça o login.",
+    'Autenticação requerida. Por favor, faça login.',
   [MENSAGEM_GENERICA.SESSION_EXPIRED]: () =>
-    "Sua sessão expirou. Por favor, faça login novamente.",
+    'Sua sessão expirou. Por favor, faça login novamente.',
   [MENSAGEM_GENERICA.SESSION_INVALID]: () =>
-    "Sua sessão está inválida. Por favor, faça login novamente.",
+    'Sua sessão está inválida. Por favor, faça login novamente.',
   [MENSAGEM_GENERICA.VALIDATION_ERROR]: () =>
-    "Erro de validação nos dados enviados.",
+    'Erro de validação nos dados enviados.',
   [MENSAGEM_GENERICA.RATE_LIMIT_EXCEEDED]: () =>
-    "Limite de requisições excedido. Tente mais tarde.",
+    'Limite de requisições excedido. Tente mais tarde.',
   [MENSAGEM_GENERICA.FORBIDDEN]: () =>
-    "Você não tem permissão para acessar este recurso.",
+    'Você não tem permissão para acessar este recurso.',
   [MENSAGEM_GENERICA.CANNOT_MODIFY_SELF]: () =>
-    "Não é permitido alterar o próprio perfil/status através desta rota.",
+    'Não é permitido alterar o próprio perfil/status através desta rota.',
   [MENSAGEM_GENERICA.OAUTH_AUTHENTICATION_FAILED]: (entidade: string) =>
     `Falha na autenticação via ${entidade}.`,
   [MENSAGEM_GENERICA.SAME_PASSWORD]: () =>
-    "A nova senha não pode ser igual à senha atual.",
+    'A nova senha não pode ser igual à senha atual.',
   [MENSAGEM_GENERICA.INVALID_OAUTH_PROVIDER]: () =>
-    "O token de ID Oauth do provider específicado é inválido.",
+    'O token de ID OAuth do provedor especificado é inválido.',
   [MENSAGEM_GENERICA.OAUTH_INVALID_CODE]: () =>
-    "O token de ID Oauth é inválido ou expirado.",
+    'O token de ID OAuth é inválido ou expirado.',
   [MENSAGEM_GENERICA.GOOGLE_TOKEN_INVALID]: () =>
-    "O token de ID do Google é inválido.",
+    'O token de ID do Google é inválido.',
   [MENSAGEM_GENERICA.GOOGLE_TOKEN_EXPIRED]: () =>
-    "O token de ID do Google expirou .",
+    'O token de ID do Google expirou.',
   [MENSAGEM_GENERICA.GOOGLE_NOT_CONFIGURED]: () =>
-    "Google OAuth não configurado.",
+    'Google OAuth não configurado.',
   [MENSAGEM_GENERICA.GOOGLE_EMAIL_NOT_VERIFIED]: () =>
-    "O e-mail do Google não está verificado.",
+    'O e-mail do Google não está verificado.',
   [MENSAGEM_GENERICA.GITHUB_CODE_INVALID]: () =>
-    "O código de autorização do GitHub é inválido.",
+    'O código de autorização do GitHub é inválido.',
   [MENSAGEM_GENERICA.GITHUB_CODE_EXPIRED]: () =>
-    "O código de autorização do GitHub expirou.",
+    'O código de autorização do GitHub expirou.',
   [MENSAGEM_GENERICA.GITHUB_NOT_CONFIGURED]: () =>
-    "GitHub OAuth não configurado.",
+    'GitHub OAuth não configurado.',
   [MENSAGEM_GENERICA.GITHUB_EMAIL_NOT_VERIFIED]: () =>
-    "O e-mail do GitHub não está verificado.",
-  [MENSAGEM_GENERICA.GITHUB_API_ERROR]: () => "Erro na API do GitHub.",
+    'O e-mail do GitHub não está verificado.',
+  [MENSAGEM_GENERICA.GITHUB_API_ERROR]: () => 'Erro na API do GitHub.',
   [MENSAGEM_GENERICA.FACEBOOK_CODE_INVALID]: () =>
-    "O código de autorização do Facebook é inválido.",
+    'O código de autorização do Facebook é inválido.',
   [MENSAGEM_GENERICA.FACEBOOK_CODE_EXPIRED]: () =>
-    " O código de autorização do Facebook expirou.",
+    'O código de autorização do Facebook expirou.',
   [MENSAGEM_GENERICA.FACEBOOK_NOT_CONFIGURED]: () =>
-    "Facebook OAuth não configurado.",
+    'Facebook OAuth não configurado.',
   [MENSAGEM_GENERICA.FACEBOOK_EMAIL_NOT_VERIFIED]: () =>
-    "O e-mail do Facebook não está verificado.",
-  [MENSAGEM_GENERICA.FACEBOOK_API_ERROR]: () => "Erro na API do Facebook.",
+    'O e-mail do Facebook não está verificado.',
+  [MENSAGEM_GENERICA.FACEBOOK_API_ERROR]: () => 'Erro na API do Facebook.',
 };
 
 export function gerarMensagem(
@@ -154,7 +154,7 @@ export function gerarMensagem(
 ): string {
   const mensagem = MENSAGENS_GENERICAS[chave];
 
-  if (typeof mensagem === "function") {
+  if (typeof mensagem === 'function') {
     return mensagem(...params);
   }
 

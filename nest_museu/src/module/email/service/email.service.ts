@@ -1,11 +1,11 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 
-import { ConfigService } from "@nestjs/config";
-import { createTransport } from "nodemailer";
-import Mail from "nodemailer/lib/mailer";
-import { EmailException } from "../../../commons/excpetions/error/email.exceptions";
-import { MailPayload } from "../config/mail-options";
-import { TemplateService } from "./email.template.service";
+import { ConfigService } from '@nestjs/config';
+import { createTransport } from 'nodemailer';
+import Mail from 'nodemailer/lib/mailer';
+import { EmailException } from '../../../commons/excpetions/error/email.exceptions';
+import { MailPayload } from '../config/mail-options';
+import { TemplateService } from './email.template.service';
 
 @Injectable()
 export default class EmailService {
@@ -15,12 +15,12 @@ export default class EmailService {
     private templateService: TemplateService,
   ) {
     this.nodemailerTransport = createTransport({
-      host: this.configService.getOrThrow<string>("EMAIL_HOST"),
-      port: this.configService.getOrThrow<number>("EMAIL_PORT"),
-      secure: this.configService.getOrThrow<boolean>("EMAIL_SECURE"),
+      host: this.configService.getOrThrow<string>('EMAIL_HOST'),
+      port: this.configService.getOrThrow<number>('EMAIL_PORT'),
+      secure: this.configService.getOrThrow<boolean>('EMAIL_SECURE'),
       auth: {
-        user: this.configService.getOrThrow<string>("EMAIL_USER"),
-        pass: this.configService.getOrThrow<string>("EMAIL_PASSWORD"),
+        user: this.configService.getOrThrow<string>('EMAIL_USER'),
+        pass: this.configService.getOrThrow<string>('EMAIL_PASSWORD'),
       },
     });
   }
@@ -28,13 +28,13 @@ export default class EmailService {
   async sendMail(options: MailPayload): Promise<void> {
     if (!options.from) {
       throw new EmailException(
-        "SMTP_FROM environment variable is not configured",
+        'SMTP_FROM environment variable is not configured',
       );
     }
 
     if (options.context) {
       Object.entries(options.context).forEach(([key, value]) => {
-        const regex = new RegExp(`{{${key}}}`, "g");
+        const regex = new RegExp(`{{${key}}}`, 'g');
         if (options.html)
           options.html = options.html.replace(regex, String(value));
         options.text = options.text.replace(regex, String(value));
@@ -58,7 +58,7 @@ export default class EmailService {
     try {
       await this.nodemailerTransport.sendMail({
         from: options.from,
-        to: Array.isArray(options.to) ? options.to.join(", ") : options.to,
+        to: Array.isArray(options.to) ? options.to.join(', ') : options.to,
         subject: options.subject,
         html: options.html,
         text: options.text,
@@ -72,72 +72,72 @@ export default class EmailService {
   }
 
   async sendRegisterConfirmation(email: string, name: string, token: string) {
-    const url = `${this.configService.getOrThrow<string>("REGISTER_CONFIRMATION")}?token=${token}`;
+    const url = `${this.configService.getOrThrow<string>('REGISTER_CONFIRMATION')}?token=${token}`;
     return this.prepareAndSend(
       email,
-      "Verifique seu E-mail",
-      "Confirmação de Registro",
-      "Obrigado por se registrar! Use o link abaixo para ativar sua conta:",
+      'Verifique seu E-mail',
+      'Confirmação de Registro',
+      'Obrigado por se registrar! Use o link abaixo para ativar sua conta:',
       url,
       name,
     );
   }
 
   async sendResendEmail(email: string, name: string, token: string) {
-    const url = `${this.configService.getOrThrow<string>("RESEND_EMAIL")}?token=${token}`;
+    const url = `${this.configService.getOrThrow<string>('RESEND_EMAIL')}?token=${token}`;
     return this.prepareAndSend(
       email,
-      "Novo Link de Ativação",
-      "Reenvio de E-mail",
-      "Você solicitou um novo link. Clique abaixo para verificar seu endereço:",
+      'Novo Link de Ativação',
+      'Reenvio de E-mail',
+      'Você solicitou um novo link. Clique abaixo para verificar seu endereço:',
       url,
       name,
     );
   }
 
   async sendresetPassword(email: string, name: string, token: string) {
-    const url = `${this.configService.getOrThrow<string>("RESET_PASSWORD")}?token=${token}`;
+    const url = `${this.configService.getOrThrow<string>('RESET_PASSWORD')}?token=${token}`;
     return this.prepareAndSend(
       email,
-      "Recuperação de Senha",
-      "Redefinir Senha",
-      "Recebemos um pedido para alterar sua senha. Se não foi você, ignore este e-mail:",
+      'Recuperação de Senha',
+      'Redefinir Senha',
+      'Recebemos um pedido para alterar sua senha. Se não foi você, ignore este e-mail:',
       url,
       name,
     );
   }
 
   async sendVerificationEmail(email: string, name: string, token: string) {
-    const url = `${this.configService.getOrThrow<string>("VERIFICATION_EMAIL")}?token=${token}`;
+    const url = `${this.configService.getOrThrow<string>('VERIFICATION_EMAIL')}?token=${token}`;
     return this.prepareAndSend(
       email,
-      "Verificação de Identidade",
-      "Verificar Conta",
-      "Por favor, confirme sua identidade clicando no botão abaixo:",
+      'Verificação de Identidade',
+      'Verificar Conta',
+      'Por favor, confirme sua identidade clicando no botão abaixo:',
       url,
       name,
     );
   }
 
   async sendEmailConfirmed(email: string, name: string) {
-    const url = this.configService.getOrThrow<string>("EMAIL_CONFIRMED");
+    const url = this.configService.getOrThrow<string>('EMAIL_CONFIRMED');
     return this.prepareAndSend(
       email,
-      "Verificação de E-mail",
-      "Verificar situação do E-mail",
-      "O seu e-mail já está confirmado no sistema",
+      'Verificação de E-mail',
+      'Verificar situação do E-mail',
+      'O seu e-mail já está confirmado no sistema',
       url,
       name,
     );
   }
 
   async sendChangePassword(email: string, name: string) {
-    const url = this.configService.getOrThrow<string>("CHANGE_PASSWORD");
+    const url = this.configService.getOrThrow<string>('CHANGE_PASSWORD');
     return this.prepareAndSend(
       email,
-      "Sua senha foi alterada",
-      "Senha Alterada",
-      "A senha da sua conta foi modificada com sucesso. Se você não realizou esta ação, recupere seu acesso imediatamente:",
+      'Sua senha foi alterada',
+      'Senha Alterada',
+      'A senha da sua conta foi modificada com sucesso. Se você não realizou esta ação, recupere seu acesso imediatamente:',
       url,
       name,
     );
@@ -159,7 +159,7 @@ export default class EmailService {
 
     return this.sendMail({
       to,
-      from: this.configService.getOrThrow<string>("EMAIL_FROM"),
+      from: this.configService.getOrThrow<string>('EMAIL_FROM'),
       subject,
       text,
       html,

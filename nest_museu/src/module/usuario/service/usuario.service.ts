@@ -4,29 +4,29 @@ import {
   Inject,
   Injectable,
   UnauthorizedException,
-} from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { JwtService } from "@nestjs/jwt";
-import { InjectRepository } from "@nestjs/typeorm";
-import * as bcrypt from "bcrypt";
-import { DataSource, Repository } from "typeorm";
-import { GenericConverter } from "../../../commons/converter/converter.commons";
-import { BaseService } from "../../../commons/entities/base.service";
-import PostgresErrorCode from "../../../commons/enum/postgre.code.enun";
-import { EmailException } from "../../../commons/excpetions/error/email.exceptions";
-import { EntityNotFoundException } from "../../../commons/excpetions/error/entityNotFound.exceptions";
-import { ServerErrorExceptions } from "../../../commons/excpetions/error/server.error.exceptions";
-import { Pageable } from "../../../commons/pagination/page.response";
-import { Page } from "../../../commons/pagination/paginacao.sistema";
-import { AUTH } from "../../auth/constants/login.constants";
-import { RegisterUsuarioRequest } from "../../auth/dto/request/register.usuario.request";
-import { Credentials } from "../../auth/entities/credentials.entity";
-import EmailService from "../../email/service/email.service";
-import { fieldsUsuario, USUARIO } from "../constants/usuario.constantes";
-import { UsuarioConverter } from "../dto/converter/usuario.converter";
-import { UsuarioRequest } from "../dto/request/usuario.request";
-import { UsuarioResponse } from "../dto/response/usuario.response";
-import { Usuario } from "../entities/usuario.entity";
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
+import { DataSource, Repository } from 'typeorm';
+import { GenericConverter } from '../../../commons/converter/converter.commons';
+import { BaseService } from '../../../commons/entities/base.service';
+import PostgresErrorCode from '../../../commons/enum/postgre.code.enun';
+import { EmailException } from '../../../commons/excpetions/error/email.exceptions';
+import { EntityNotFoundException } from '../../../commons/excpetions/error/entityNotFound.exceptions';
+import { ServerErrorExceptions } from '../../../commons/excpetions/error/server.error.exceptions';
+import { Pageable } from '../../../commons/pagination/page.response';
+import { Page } from '../../../commons/pagination/paginacao.sistema';
+import { AUTH } from '../../auth/constants/login.constants';
+import { RegisterUsuarioRequest } from '../../auth/dto/request/register.usuario.request';
+import { Credentials } from '../../auth/entities/credentials.entity';
+import EmailService from '../../email/service/email.service';
+import { fieldsUsuario, USUARIO } from '../constants/usuario.constantes';
+import { UsuarioConverter } from '../dto/converter/usuario.converter';
+import { UsuarioRequest } from '../dto/request/usuario.request';
+import { UsuarioResponse } from '../dto/response/usuario.response';
+import { Usuario } from '../entities/usuario.entity';
 
 @Injectable()
 export class UsuarioService extends BaseService<Usuario> {
@@ -55,11 +55,11 @@ export class UsuarioService extends BaseService<Usuario> {
     try {
       const query = this.usuarioRepository
         .createQueryBuilder(USUARIO.ENTITY)
-        .innerJoin("usuario.credentials", "cred")
-        .select("usuario.id_usuario", "idUsuario")
-        .addSelect("cred.email", "email")
-        .where("usuario.deleted_at IS NULL")
-        .andWhere("cred.deleted_at IS NULL");
+        .innerJoin('usuario.credentials', 'cred')
+        .select('usuario.id_usuario', 'idUsuario')
+        .addSelect('cred.email', 'email')
+        .where('usuario.deleted_at IS NULL')
+        .andWhere('cred.deleted_at IS NULL');
 
       if (search) {
         query.where(`${USUARIO.ENTITY}.${field} LIKE :search`, {
@@ -187,7 +187,7 @@ export class UsuarioService extends BaseService<Usuario> {
   async excluir(id: number): Promise<void> {
     const usuario = await this.usuarioRepository.findOne({
       where: { idUsuario: id },
-      relations: ["credentials"],
+      relations: ['credentials'],
     });
 
     if (!usuario) {
@@ -209,9 +209,9 @@ export class UsuarioService extends BaseService<Usuario> {
   async buscarPorId(id: number): Promise<Usuario> {
     try {
       const usuario = await this.usuarioRepository
-        .createQueryBuilder("usuario") // Nome da entidade
-        .leftJoinAndSelect("usuario.roles", "roles") // Carrega as roles atuais
-        .where("usuario.idUsuario = :id", { id })
+        .createQueryBuilder('usuario') // Nome da entidade
+        .leftJoinAndSelect('usuario.roles', 'roles') // Carrega as roles atuais
+        .where('usuario.idUsuario = :id', { id })
         .getOne();
 
       if (!usuario) {
@@ -231,13 +231,13 @@ export class UsuarioService extends BaseService<Usuario> {
   async markEmailAsConfirmed(token: string) {
     try {
       const payload = await this.jwtService.verify(token, {
-        secret: this.configService.getOrThrow("JWT_VERIFICATION_TOKEN_SECRET"),
+        secret: this.configService.getOrThrow('JWT_VERIFICATION_TOKEN_SECRET'),
       });
 
-      if (typeof payload === "object" && "email" in payload) {
+      if (typeof payload === 'object' && 'email' in payload) {
         const credentials = await this.credentialsRepository.findOne({
           where: { email: payload.email },
-          relations: ["usuario"],
+          relations: ['usuario'],
         });
 
         if (!credentials) {
@@ -279,7 +279,7 @@ export class UsuarioService extends BaseService<Usuario> {
 
   async removeRefreshToken(userId: number) {
     return await this.usuarioRepository.update(userId, {
-      currentHashedRefreshToken: "",
+      currentHashedRefreshToken: '',
     });
   }
 
@@ -301,26 +301,26 @@ export class UsuarioService extends BaseService<Usuario> {
       where: { idUsuario: userId },
     });
     if (!usuario) {
-      throw new UnauthorizedException("Usuário não encontrado.");
+      throw new UnauthorizedException('Usuário não encontrado.');
     }
     const isMatching = await bcrypt.compare(
       refreshToken,
-      usuario.currentHashedRefreshToken ?? "",
+      usuario.currentHashedRefreshToken ?? '',
     );
     if (isMatching) return usuario;
-    throw new UnauthorizedException("Refresh token inválido.");
+    throw new UnauthorizedException('Refresh token inválido.');
   }
 
   async hashedRefreshToken(userId: number) {
     try {
       await this.usuarioRepository.update(userId, {
-        currentHashedRefreshToken: "",
+        currentHashedRefreshToken: '',
       });
 
-      return { message: "Senha redefinida com sucesso!" };
+      return { message: 'Senha redefinida com sucesso!' };
     } catch (error: any) {
       throw new BadRequestException(
-        "Token de recuperação inválido ou expirado.",
+        'Token de recuperação inválido ou expirado.',
         error.message,
       );
     }
@@ -359,8 +359,8 @@ export class UsuarioService extends BaseService<Usuario> {
 
       const payload = { email: registerUsuarioRequest.email };
       const token = this.jwtService.sign(payload, {
-        secret: this.configService.getOrThrow("JWT_VERIFICATION_TOKEN_SECRET"),
-        expiresIn: "900s", // 15 minutos
+        secret: this.configService.getOrThrow('JWT_VERIFICATION_TOKEN_SECRET'),
+        expiresIn: '900s', // 15 minutos
       });
 
       await this.emailService.sendRegisterConfirmation(

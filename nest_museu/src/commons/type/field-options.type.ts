@@ -1,4 +1,4 @@
-export type Gender = "m" | "f";
+export type Gender = 'm' | 'f';
 
 export interface FieldOptions {
   required?: boolean;

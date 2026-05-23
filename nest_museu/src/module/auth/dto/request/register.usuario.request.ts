@@ -1,8 +1,8 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { MatchField } from "../../../../commons/decorators/validation/match.decorators";
-import { Password } from "../../../../commons/decorators/validation/password.decorators";
-import { TextField } from "../../../../commons/decorators/validation/text.decorators";
-import { USUARIO } from "../../../usuario/constants/usuario.constantes";
+import { ApiProperty } from '@nestjs/swagger';
+import { MatchField } from '../../../../commons/decorators/validation/match.decorators';
+import { Password } from '../../../../commons/decorators/validation/password.decorators';
+import { TextField } from '../../../../commons/decorators/validation/text.decorators';
+import { USUARIO } from '../../../usuario/constants/usuario.constantes';
 
 export class RegisterUsuarioRequest {
   @ApiProperty({ description: USUARIO.SWAGGER.FIRSTNAME })
@@ -10,8 +10,8 @@ export class RegisterUsuarioRequest {
     required: true,
     min: 6,
     max: 100,
-    label: "Primeiro nome",
-    gender: "m",
+    label: 'Primeiro nome',
+    gender: 'm',
   })
   firstName!: string;
 
@@ -20,8 +20,8 @@ export class RegisterUsuarioRequest {
     required: true,
     min: 6,
     max: 100,
-    label: "Último nome",
-    gender: "m",
+    label: 'Último nome',
+    gender: 'm',
   })
   lastName!: string;
 
@@ -31,8 +31,8 @@ export class RegisterUsuarioRequest {
     min: 6,
     max: 100,
     email: true,
-    label: "Nome do usuário",
-    gender: "m",
+    label: 'Nome do usuário',
+    gender: 'm',
   })
   username!: string;
 
@@ -42,8 +42,8 @@ export class RegisterUsuarioRequest {
     min: 6,
     max: 100,
     email: true,
-    label: "E-mail",
-    gender: "m",
+    label: 'E-mail',
+    gender: 'm',
   })
   email!: string;
 
@@ -52,8 +52,8 @@ export class RegisterUsuarioRequest {
     required: true,
     min: 6,
     max: 100,
-    label: "Senha",
-    gender: "f",
+    label: 'Senha',
+    gender: 'f',
   })
   @Password()
   password!: string;
@@ -63,14 +63,14 @@ export class RegisterUsuarioRequest {
     required: true,
     min: 6,
     max: 100,
-    label: "Confirmação de Senha",
-    gender: "f",
+    label: 'Confirmação de Senha',
+    gender: 'f',
   })
   @Password()
-  @MatchField("password", {
+  @MatchField('password', {
     required: true,
-    label: "Confirmação de Senha",
-    gender: "f",
+    label: 'Confirmação de Senha',
+    gender: 'f',
   })
   confirmPassword!: string;
 

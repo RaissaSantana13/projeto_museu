@@ -10,22 +10,22 @@ import {
   Put,
   Query,
   Req,
-} from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
-import { Request } from "express";
-import { PARAMS } from "../../../commons/constants/param.constants";
-import { ApiPaginatedResponse } from "../../../commons/decorators/swagger/api-paginated-response.decorator";
-import { ApiPaginationQuery } from "../../../commons/decorators/swagger/api-pagination-query.decorator";
-import { ApiGetDoc } from "../../../commons/decorators/swagger/swagger.decorators";
-import { BaseController } from "../../../commons/entities/base.controller";
-import { Page } from "../../../commons/pagination/paginacao.sistema";
-import { PaginationDto } from "../../../commons/pagination/pagination.dto";
-import { ApiResponse } from "../../../commons/response/api.response";
-import { ResponseBuilder } from "../../../commons/response/builder.response";
-import { RESOURCES } from "../constants/resources.constants";
-import { ResourcesRequest } from "../dto/request/resources.request";
-import { ResourcesResponse } from "../dto/response/resources.response";
-import { ResourcesService } from "../service/resources.service";
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
+import { PARAMS } from '../../../commons/constants/param.constants';
+import { ApiPaginatedResponse } from '../../../commons/decorators/swagger/api-paginated-response.decorator';
+import { ApiPaginationQuery } from '../../../commons/decorators/swagger/api-pagination-query.decorator';
+import { ApiGetDoc } from '../../../commons/decorators/swagger/swagger.decorators';
+import { BaseController } from '../../../commons/entities/base.controller';
+import { Page } from '../../../commons/pagination/paginacao.sistema';
+import { PaginationDto } from '../../../commons/pagination/pagination.dto';
+import { ApiResponse } from '../../../commons/response/api.response';
+import { ResponseBuilder } from '../../../commons/response/builder.response';
+import { RESOURCES } from '../constants/resources.constants';
+import { ResourcesRequest } from '../dto/request/resources.request';
+import { ResourcesResponse } from '../dto/response/resources.response';
+import { ResourcesService } from '../service/resources.service';
 
 @ApiTags(RESOURCES.ALIAS)
 @Controller(RESOURCES.ROTAS.BASE)
@@ -113,14 +113,14 @@ export class ResourcesController extends BaseController {
       .build();
   }
 
-  @Get("matriz/:roleId")
+  @Get('matriz/:roleId')
   @ApiGetDoc(RESOURCES.OPERACAO.LISTAR, ResourcesResponse)
   @ApiPaginationQuery()
   @ApiPaginatedResponse(ResourcesResponse)
   async listarMatriz(
     @Req() req: Request,
     @Query() pagination: PaginationDto,
-    @Param("roleId") roleId: number,
+    @Param('roleId') roleId: number,
   ): Promise<ApiResponse<Page<ResourcesResponse>>> {
     const response = await this.resourcesService.listarMatriz(
       pagination,

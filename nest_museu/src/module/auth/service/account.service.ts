@@ -1,16 +1,16 @@
-import { Injectable, InternalServerErrorException } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 
-import { Repository } from "typeorm";
-import { GenericConverter } from "../../../commons/converter/converter.commons";
-import { EmailException } from "../../../commons/excpetions/error/email.exceptions";
-import { EntityNotFoundException } from "../../../commons/excpetions/error/entityNotFound.exceptions";
-import { Pageable } from "../../../commons/pagination/page.response";
-import { Page } from "../../../commons/pagination/paginacao.sistema";
-import { ACCOUNT, fieldsAccount } from "../constants/accounts.constants";
-import { AccountRequest } from "../dto/request/account.request";
-import { AccountResponse } from "../dto/response/account.response";
-import { Account } from "../entities/account.entity";
+import { Repository } from 'typeorm';
+import { GenericConverter } from '../../../commons/converter/converter.commons';
+import { EmailException } from '../../../commons/excpetions/error/email.exceptions';
+import { EntityNotFoundException } from '../../../commons/excpetions/error/entityNotFound.exceptions';
+import { Pageable } from '../../../commons/pagination/page.response';
+import { Page } from '../../../commons/pagination/paginacao.sistema';
+import { ACCOUNT, fieldsAccount } from '../constants/accounts.constants';
+import { AccountRequest } from '../dto/request/account.request';
+import { AccountResponse } from '../dto/response/account.response';
+import { Account } from '../entities/account.entity';
 
 @Injectable()
 export class AccountService {
@@ -78,7 +78,7 @@ export class AccountService {
       return GenericConverter.toResponse(Account, accountSalvo);
     } catch (error: any) {
       // Tratativa para e-mail duplicado (Postgres 23505)
-      if (error.code === "23505") {
+      if (error.code === '23505') {
         throw new EmailException(ACCOUNT.MENSAGEM.EMAIL_CADASTRADO);
       }
       throw new InternalServerErrorException(
@@ -107,7 +107,7 @@ export class AccountService {
 
       return GenericConverter.toResponse(Account, accountExistente);
     } catch (error: any) {
-      if (error.code === "23505") {
+      if (error.code === '23505') {
         throw new EmailException(ACCOUNT.MENSAGEM.EMAIL_CADASTRADO);
       }
 

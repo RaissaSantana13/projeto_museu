@@ -10,30 +10,30 @@ import {
   Put,
   Query,
   Req,
-} from "@nestjs/common";
-import { ApiExtraModels, ApiTags } from "@nestjs/swagger";
-import { Crud } from "@nestjsx/crud";
-import { Request } from "express";
-import { PARAMS } from "../../../commons/constants/param.constants";
-import { ApiPaginatedResponse } from "../../../commons/decorators/swagger/api-paginated-response.decorator";
-import { ApiPaginationQuery } from "../../../commons/decorators/swagger/api-pagination-query.decorator";
+} from '@nestjs/common';
+import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
+import { Crud } from '@nestjsx/crud';
+import { Request } from 'express';
+import { PARAMS } from '../../../commons/constants/param.constants';
+import { ApiPaginatedResponse } from '../../../commons/decorators/swagger/api-paginated-response.decorator';
+import { ApiPaginationQuery } from '../../../commons/decorators/swagger/api-pagination-query.decorator';
 import {
   ApiDeleteDoc,
   ApiGetDoc,
   ApiPostDoc,
   ApiPutDoc,
-} from "../../../commons/decorators/swagger/swagger.decorators";
-import { BaseController } from "../../../commons/entities/base.controller";
-import { GLOBAL_CRUD_OPTIONS } from "../../../commons/entities/crud.options";
-import { PAGINATION } from "../../../commons/enum/pagination.enum";
-import { Page } from "../../../commons/pagination/paginacao.sistema";
-import { ApiResponse, Link } from "../../../commons/response/api.response";
-import { ResponseBuilder } from "../../../commons/response/builder.response";
-import { USUARIO } from "../constants/usuario.constantes";
-import { UsuarioRequest } from "../dto/request/usuario.request";
-import { UsuarioResponse } from "../dto/response/usuario.response";
-import { Usuario } from "../entities/usuario.entity";
-import { UsuarioService } from "../service/usuario.service";
+} from '../../../commons/decorators/swagger/swagger.decorators';
+import { BaseController } from '../../../commons/entities/base.controller';
+import { GLOBAL_CRUD_OPTIONS } from '../../../commons/entities/crud.options';
+import { PAGINATION } from '../../../commons/enum/pagination.enum';
+import { Page } from '../../../commons/pagination/paginacao.sistema';
+import { ApiResponse, Link } from '../../../commons/response/api.response';
+import { ResponseBuilder } from '../../../commons/response/builder.response';
+import { USUARIO } from '../constants/usuario.constantes';
+import { UsuarioRequest } from '../dto/request/usuario.request';
+import { UsuarioResponse } from '../dto/response/usuario.response';
+import { Usuario } from '../entities/usuario.entity';
+import { UsuarioService } from '../service/usuario.service';
 
 @Crud({
   model: { type: Usuario },
@@ -53,11 +53,11 @@ export class UsuarioController extends BaseController {
   @ApiPaginatedResponse(UsuarioResponse)
   async listar(
     @Req() req: Request,
-    @Query("page") page?: string,
-    @Query("pageSize") pageSize?: string,
-    @Query("field") field?: string,
-    @Query("order") order?: string,
-    @Query("search") search?: string,
+    @Query('page') page?: string,
+    @Query('pageSize') pageSize?: string,
+    @Query('field') field?: string,
+    @Query('order') order?: string,
+    @Query('search') search?: string,
   ): Promise<ApiResponse<Page<UsuarioResponse>>> {
     const pageControler = Number(page) ? Number(page) : PAGINATION.PAGE;
     const pageSizeController = Number(pageSize)

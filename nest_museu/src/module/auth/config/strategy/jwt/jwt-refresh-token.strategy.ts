@@ -1,15 +1,15 @@
-import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { PassportStrategy } from "@nestjs/passport";
-import { Request } from "express";
-import { ExtractJwt, Strategy } from "passport-jwt";
-import { UsuarioService } from "../../../../usuario/service/usuario.service";
-import TokenPayload from "../../tokenPayload.interface";
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PassportStrategy } from '@nestjs/passport';
+import { Request } from 'express';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import { UsuarioService } from '../../../../usuario/service/usuario.service';
+import TokenPayload from '../../tokenPayload.interface';
 
 @Injectable()
 export class JwtRefreshTokenStrategy extends PassportStrategy(
   Strategy,
-  "jwt-refresh-token",
+  'jwt-refresh-token',
 ) {
   constructor(
     private readonly configService: ConfigService,
@@ -21,7 +21,7 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(
           return request?.cookies?.Refresh;
         },
       ]),
-      secretOrKey: configService.getOrThrow<string>("JWT_REFRESH_TOKEN_SECRET"),
+      secretOrKey: configService.getOrThrow<string>('JWT_REFRESH_TOKEN_SECRET'),
       passReqToCallback: true,
     });
   }

@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
-import { NegocioException } from './negocio.exceptions';
+import { NegocioException } from './negocio.exception';
 
 export class ServerErrorExceptions extends NegocioException {
   constructor(message: string, error?: string | null) {

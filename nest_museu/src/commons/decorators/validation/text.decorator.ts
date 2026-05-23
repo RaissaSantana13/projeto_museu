@@ -1,8 +1,15 @@
 import { Transform } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import { article } from '../../helpers/article.helper';
-import { getEntityName } from '../../helpers/getentityname.helper';
-import { FieldOptions } from '../../type/fieldoptions.type';
+import { getEntityName } from '../../helpers/get-entity-name.helper';
+import { FieldOptions } from '../../type/field-options.type';
 import { FIELD_LABEL_KEY } from './field.metadata';
 
 export function TextField(options: FieldOptions): PropertyDecorator {
@@ -17,7 +24,9 @@ export function TextField(options: FieldOptions): PropertyDecorator {
     Reflect.defineMetadata(FIELD_LABEL_KEY, label, target, propertyKey);
 
     // Transform automático
-    Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))(target, propertyKey);
+    Transform(({ value }) =>
+      typeof value === 'string' ? value.trim() : value,
+    )(target, propertyKey);
 
     // Tipo
     IsString({

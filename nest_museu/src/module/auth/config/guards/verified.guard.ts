@@ -3,13 +3,13 @@ import {
   ExecutionContext,
   HttpStatus,
   Injectable,
-} from "@nestjs/common";
+} from '@nestjs/common';
 import {
   gerarMensagem,
   MENSAGEM_GENERICA,
-} from "../../../../commons/constants/mensagem.sistema";
-import { ApiException } from "../../../../commons/excpetions/error/api.exceptions";
-import { RequestWithUser } from "./auth.guard";
+} from '../../../../commons/constants/mensagem.sistema';
+import { ApiException } from '../../../../commons/excpetions/error/api.exceptions';
+import { RequestWithUser } from './auth.guard';
 
 @Injectable()
 export class VerifiedGuard implements CanActivate {

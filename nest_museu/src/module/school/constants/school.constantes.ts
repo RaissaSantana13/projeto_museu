@@ -1,15 +1,15 @@
-import { criarMensagensOperacao } from "../../../commons/constants/constants.entity";
+import { criarMensagensOperacao } from '../../../commons/constants/constants.entity';
 import {
   gerarMensagem,
   MENSAGEM_GENERICA,
-} from "../../../commons/constants/mensagem.sistema";
+} from '../../../commons/constants/mensagem.sistema';
 import {
   gerarRotaRecurso,
   RotaRecurso,
-} from "../../../commons/constants/url.sistema";
+} from '../../../commons/constants/url.sistema';
 
-const ENTITY_NAME = "schools";
-const ALIAS_NAME = "Escola";
+const ENTITY_NAME = 'schools';
+const ALIAS_NAME = 'Escola';
 
 export const SCHOOL = {
   ENTITY: ENTITY_NAME,
@@ -17,15 +17,15 @@ export const SCHOOL = {
   ALIAS: ALIAS_NAME,
 
   TABLE_FIELDS: {
-    ID_SCHOOL: "id_school",
-    NAME: "name",
-    CNPJ: "cnpj",
+    ID_SCHOOL: 'id_school',
+    NAME: 'name',
+    CNPJ: 'cnpj',
   },
 
   FIELDS: {
-    ID_SCHOOL: "idSchool",
-    NAME: "name",
-    CNPJ: "cnpj",
+    ID_SCHOOL: 'idSchool',
+    NAME: 'name',
+    CNPJ: 'cnpj',
   },
 
   SEARCH: {

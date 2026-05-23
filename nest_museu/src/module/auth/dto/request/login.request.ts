@@ -1,7 +1,7 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Password } from "../../../../commons/decorators/validation/password.decorators";
-import { TextField } from "../../../../commons/decorators/validation/text.decorators";
-import { AUTH } from "../../constants/login.constants";
+import { ApiProperty } from '@nestjs/swagger';
+import { Password } from '../../../../commons/decorators/validation/password.decorators';
+import { TextField } from '../../../../commons/decorators/validation/text.decorators';
+import { AUTH } from '../../constants/login.constants';
 
 export class LoginRequest {
   static entityName = AUTH.ALIAS.toLowerCase();
@@ -10,14 +10,14 @@ export class LoginRequest {
     required: true,
     min: 6,
     max: 100,
-    label: "E-mail",
-    gender: "m",
+    label: 'E-mail',
+    gender: 'm',
     email: true,
   })
   email!: string;
 
   @ApiProperty({ description: AUTH.SWAGGER.PASSWORD })
-  @TextField({ required: true, min: 6, max: 20, label: "Senha", gender: "f" })
+  @TextField({ required: true, min: 6, max: 20, label: 'Senha', gender: 'f' })
   @Password()
   senha!: string;
 

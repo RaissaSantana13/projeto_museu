@@ -1,16 +1,16 @@
-import { SIS_MUSEU } from "../../../commons/enum/sis-museu.enum";
-import { PERMISSIONS } from "../../access/constants/permissions.constants";
-import { RESOURCES } from "../../access/constants/resources.constants";
-import { ROLES } from "../../access/constants/roles.constants";
-import { ACCOUNT } from "../../auth/constants/accounts.constants";
-import { AUTH } from "../../auth/constants/login.constants";
-import { SESSION } from "../../auth/constants/session.constants";
-import { CONTACT } from "../../contact/constants/contact.constantes";
-import { EVENT } from "../../event/constants/event.constantes";
-import { FOTO } from "../../imagem/constants/foto.constants";
-import { USUARIO } from "../../usuario/constants/usuario.constantes";
+import { SIS_MUSEU } from '../../../commons/enum/sis-museu.enum';
+import { PERMISSIONS } from '../../access/constants/permissions.constants';
+import { RESOURCES } from '../../access/constants/resources.constants';
+import { ROLES } from '../../access/constants/roles.constants';
+import { ACCOUNT } from '../../auth/constants/accounts.constants';
+import { AUTH } from '../../auth/constants/login.constants';
+import { SESSION } from '../../auth/constants/session.constants';
+import { CONTACT } from '../../contact/constants/contact.constantes';
+import { EVENT } from '../../event/constants/event.constantes';
+import { FOTO } from '../../imagem/constants/foto.constants';
+import { USUARIO } from '../../usuario/constants/usuario.constantes';
 
-type VERBO_HTTP = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+type VERBO_HTTP = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 export interface Resource {
   name: string;
@@ -42,27 +42,27 @@ export function buildResource(entityName: string): Resource[] {
     {
       name: entityName,
       endpoint: endPointBase(entityPath),
-      method: ["GET"],
+      method: ['GET'],
     },
     {
       name: entityName,
       endpoint: endPointBase(entityPath),
-      method: ["POST"],
+      method: ['POST'],
     },
     {
       name: entityName,
       endpoint: endPointId(entityPath),
-      method: ["GET"],
+      method: ['GET'],
     },
     {
       name: entityName,
       endpoint: endPointId(entityPath),
-      method: ["PUT"],
+      method: ['PUT'],
     },
     {
       name: entityName,
       endpoint: endPointId(entityPath),
-      method: ["DELETE"],
+      method: ['DELETE'],
     },
   ];
 }
@@ -79,42 +79,42 @@ export function buildAuthResources(): Resource[] {
     {
       name: `${AUTH.ENTITY}`,
       endpoint: endPointBase(sessionPath),
-      method: ["POST"],
+      method: ['POST'],
     }, // Login
     {
       name: `${AUTH.ENTITY}`,
       endpoint: endPointBase(sessionPath),
-      method: ["DELETE"],
+      method: ['DELETE'],
     }, // Logout
     {
       name: `${AUTH.ENTITY}`,
       endpoint: endPointBase(refreshToken),
-      method: ["PUT"],
+      method: ['PUT'],
     }, // Refresh
     {
       name: `${AUTH.ENTITY}`,
       endpoint: endPointBase(me),
-      method: ["GET"],
+      method: ['GET'],
     }, // Perfil
     {
       name: `${AUTH.ENTITY}`,
       endpoint: endPointBase(forgotPassword),
-      method: ["POST"],
+      method: ['POST'],
     }, // Forgot Password
     {
       name: `${AUTH.ENTITY}`,
       endpoint: endPointBase(resetPasswordPath),
-      method: ["PUT"],
+      method: ['PUT'],
     }, // Reset Password
     {
       name: `${AUTH.ENTITY}`,
       endpoint: endPointBase(changePasswordPath),
-      method: ["PUT"],
+      method: ['PUT'],
     }, // change Password
     {
       name: `${AUTH.ENTITY}`,
       endpoint: endPointBase(registerPath),
-      method: ["POST"],
+      method: ['POST'],
     }, // register user
   ];
 }
@@ -125,7 +125,7 @@ export function buildPermissionsResources(): Resource[] {
     {
       name: `${PERMISSIONS.ENTITY}`,
       endpoint: endPointBase(path),
-      method: ["POST"],
+      method: ['POST'],
     },
   ];
 }

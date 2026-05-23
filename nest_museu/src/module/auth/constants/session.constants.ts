@@ -1,15 +1,15 @@
-import { criarMensagensOperacao } from "../../../commons/constants/constants.entity";
+import { criarMensagensOperacao } from '../../../commons/constants/constants.entity';
 import {
   gerarMensagem,
   MENSAGEM_GENERICA,
-} from "../../../commons/constants/mensagem.sistema";
+} from '../../../commons/constants/mensagem.sistema';
 import {
   gerarRotaRecurso,
   RotaRecurso,
-} from "../../../commons/constants/url.sistema";
+} from '../../../commons/constants/url.sistema';
 
-const ENTITY_NAME = "session";
-const ALIAS_NAME = "Sessão";
+const ENTITY_NAME = 'session';
+const ALIAS_NAME = 'Sessão';
 
 export const SESSION = {
   ENTITY: ENTITY_NAME,
@@ -17,29 +17,29 @@ export const SESSION = {
   ALIAS: ALIAS_NAME,
 
   TABLE_FIELDS: {
-    ID_SESSION: "id_session",
-    ID_USUARIO: "id_usuario",
-    TOKEN: "token",
-    EXPIRES_AT: "expires_at",
-    IP_ADDRESS: "ip_address",
-    USER_AGENT: "user_agent",
+    ID_SESSION: 'id_session',
+    ID_USUARIO: 'id_usuario',
+    TOKEN: 'token',
+    EXPIRES_AT: 'expires_at',
+    IP_ADDRESS: 'ip_address',
+    USER_AGENT: 'user_agent',
   },
 
   FIELDS: {
-    ID_SESSION: "idSession",
-    ID_USUARIO: "idUsuario",
-    TOKEN: "token",
-    EXPIRES_AT: "ExpiresAt",
-    IP_ADDRESS: "ipAddress",
-    USER_AGENT: "userAgent",
+    ID_SESSION: 'idSession',
+    ID_USUARIO: 'idUsuario',
+    TOKEN: 'token',
+    EXPIRES_AT: 'ExpiresAt',
+    IP_ADDRESS: 'ipAddress',
+    USER_AGENT: 'userAgent',
   },
 
   SWAGGER: {
     ID_SESSION: `Código do ${ALIAS_NAME} de identificação única `,
     ID_USUARIO: `Código do ${ALIAS_NAME} de identificação única `,
-    TOKEN: "Token de acesso",
-    EXPIRES_AT: "Data de cancelamento do token",
-    IP_ADDRESS: "Ip de acesso ",
+    TOKEN: 'Token de acesso',
+    EXPIRES_AT: 'Data de cancelamento do token',
+    IP_ADDRESS: 'Ip de acesso ',
     USER_AGENT: `Agente de Usuário do ${ALIAS_NAME}`,
   },
 

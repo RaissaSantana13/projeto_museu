@@ -1,16 +1,16 @@
-import { Injectable, InternalServerErrorException } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { InjectRepository } from "@nestjs/typeorm";
-import * as crypto from "crypto";
-import { DeepPartial, MoreThan, Not, Repository } from "typeorm";
-import { GenericConverter } from "../../../commons/converter/converter.commons";
-import { EntityNotFoundException } from "../../../commons/excpetions/error/entityNotFound.exceptions";
-import { Pageable } from "../../../commons/pagination/page.response";
-import { Page } from "../../../commons/pagination/paginacao.sistema";
-import { fieldsSession, SESSION } from "../constants/session.constants";
-import { SessionRequest } from "../dto/request/session.request";
-import { SessionResponse } from "../dto/response/session.response";
-import { Session } from "../entities/session.entity";
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
+import * as crypto from 'crypto';
+import { DeepPartial, MoreThan, Not, Repository } from 'typeorm';
+import { GenericConverter } from '../../../commons/converter/converter.commons';
+import { EntityNotFoundException } from '../../../commons/excpetions/error/entityNotFound.exceptions';
+import { Pageable } from '../../../commons/pagination/page.response';
+import { Page } from '../../../commons/pagination/paginacao.sistema';
+import { fieldsSession, SESSION } from '../constants/session.constants';
+import { SessionRequest } from '../dto/request/session.request';
+import { SessionResponse } from '../dto/response/session.response';
+import { Session } from '../entities/session.entity';
 
 @Injectable()
 export class SessionService {
@@ -68,7 +68,7 @@ export class SessionService {
 
   async salvar(session: DeepPartial<Session>): Promise<void> {
     if (!session) {
-      throw new InternalServerErrorException("Dados da sessão não informados.");
+      throw new InternalServerErrorException('Dados da sessão não informados.');
     }
     try {
       const newSession = this.sessionRepository.create(session);
@@ -148,7 +148,7 @@ export class SessionService {
         isValid: true,
         expiresAt: MoreThan(new Date()),
       },
-      relations: ["usuario"],
+      relations: ['usuario'],
     });
 
     if (!session) {
@@ -164,9 +164,9 @@ export class SessionService {
     userAgent: string,
     ipAddress: string,
   ): Promise<string> {
-    const token = crypto.randomBytes(32).toString("hex");
+    const token = crypto.randomBytes(32).toString('hex');
     const cookieMaxAge = this.configService.get<number>(
-      "session.cookieMaxAge",
+      'session.cookieMaxAge',
       604800000,
     );
 
@@ -223,7 +223,7 @@ export class SessionService {
         isValid: true,
         expiresAt: MoreThan(new Date()),
       },
-      order: { lastUsedAt: "DESC" },
+      order: { lastUsedAt: 'DESC' },
     });
   }
 

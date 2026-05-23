@@ -1,10 +1,10 @@
 import {
   gerarMensagem,
   MENSAGEM_GENERICA,
-} from "../../../commons/constants/mensagem.sistema";
+} from '../../../commons/constants/mensagem.sistema';
 
-const ENTITY_NAME = "email";
-const ALIAS_NAME = "EMAIL";
+const ENTITY_NAME = 'email';
+const ALIAS_NAME = 'EMAIL';
 
 export const EMAIL = {
   ENTITY: ENTITY_NAME,

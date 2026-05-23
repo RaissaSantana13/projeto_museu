@@ -1,6 +1,12 @@
 import { criarMensagensOperacao } from '../../../commons/constants/constants.entity';
-import { gerarMensagem, MENSAGEM_GENERICA } from '../../../commons/constants/mensagem.sistema';
-import { gerarRotaRecurso, RotaRecurso } from '../../../commons/constants/url.sistema';
+import {
+  gerarMensagem,
+  MENSAGEM_GENERICA,
+} from '../../../commons/constants/mensagem.sistema';
+import {
+  gerarRotaRecurso,
+  RotaRecurso,
+} from '../../../commons/constants/url.sistema';
 
 const ENTITY_NAME = 'contacts';
 const ALIAS_NAME = 'Contato';
@@ -56,12 +62,27 @@ export const CONTACT = {
 
 function getMensagem(ALIAS: string) {
   return {
-    ENTIDADE_CADASTRADA: gerarMensagem(MENSAGEM_GENERICA.ENTIDADE_CADASTRADA, ALIAS),
-    ENTIDADE_NAO_ENCONTRADA: gerarMensagem(MENSAGEM_GENERICA.ENTIDADE_NAO_ENCONTRADA, ALIAS),
+    ENTIDADE_CADASTRADA: gerarMensagem(
+      MENSAGEM_GENERICA.ENTIDADE_CADASTRADA,
+      ALIAS,
+    ),
+    ENTIDADE_NAO_ENCONTRADA: gerarMensagem(
+      MENSAGEM_GENERICA.ENTIDADE_NAO_ENCONTRADA,
+      ALIAS,
+    ),
     EMAIL_CADASTRADO: gerarMensagem(MENSAGEM_GENERICA.EMAIL_CADASTRADO, ALIAS),
-    ENTIDADE_ALTERADA: gerarMensagem(MENSAGEM_GENERICA.ENTIDADE_ALTERADA, ALIAS),
-    ENTIDADE_EXCLUIDA: gerarMensagem(MENSAGEM_GENERICA.ENTIDADE_EXCLUIDA, ALIAS),
-    ENTIDADE_LOCALIZADA: gerarMensagem(MENSAGEM_GENERICA.ENTIDADE_LOCALIZADA, ALIAS),
+    ENTIDADE_ALTERADA: gerarMensagem(
+      MENSAGEM_GENERICA.ENTIDADE_ALTERADA,
+      ALIAS,
+    ),
+    ENTIDADE_EXCLUIDA: gerarMensagem(
+      MENSAGEM_GENERICA.ENTIDADE_EXCLUIDA,
+      ALIAS,
+    ),
+    ENTIDADE_LOCALIZADA: gerarMensagem(
+      MENSAGEM_GENERICA.ENTIDADE_LOCALIZADA,
+      ALIAS,
+    ),
     ENITDADE_LISTADA: gerarMensagem(MENSAGEM_GENERICA.ENTIDADE_LISTADA, ALIAS),
   };
 }

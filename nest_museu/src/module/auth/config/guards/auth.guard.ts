@@ -3,20 +3,20 @@ import {
   ExecutionContext,
   HttpStatus,
   Injectable,
-} from "@nestjs/common";
+} from '@nestjs/common';
 
-import { InjectRepository } from "@nestjs/typeorm";
-import { Request } from "express";
-import { Repository } from "typeorm";
+import { InjectRepository } from '@nestjs/typeorm';
+import { Request } from 'express';
+import { Repository } from 'typeorm';
 import {
   gerarMensagem,
   MENSAGEM_GENERICA,
-} from "../../../../commons/constants/mensagem.sistema";
-import { ApiException } from "../../../../commons/excpetions/error/api.exceptions";
-import { Roles } from "../../../access/entities/role.entity";
-import { Usuario } from "../../../usuario/entities/usuario.entity";
-import { Session } from "../../entities/session.entity";
-import { SessionService } from "../../service/session.service";
+} from '../../../../commons/constants/mensagem.sistema';
+import { ApiException } from '../../../../commons/excpetions/error/api.exceptions';
+import { Roles } from '../../../access/entities/role.entity';
+import { Usuario } from '../../../usuario/entities/usuario.entity';
+import { Session } from '../../entities/session.entity';
+import { SessionService } from '../../service/session.service';
 
 export interface RequestWithUser extends Request {
   user?: {
@@ -40,7 +40,7 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<RequestWithUser>();
-    const cookieName = process.env.SESSION_COOKIE_NAME || "sid";
+    const cookieName = process.env.SESSION_COOKIE_NAME || 'sid';
     const sessionToken = request.cookies?.[cookieName] as string | undefined;
 
     if (!sessionToken) {
@@ -95,7 +95,7 @@ export class AuthGuard implements CanActivate {
         } else {
           const roleData = await this.rolesRepository.findOne({
             where: { idRoles: role.idRoles },
-            relations: ["permissions"],
+            relations: ['permissions'],
           });
           roleData?.permissions?.forEach((p) =>
             permissionsSet.add(p.resource.nomeResources || p.action),

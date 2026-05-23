@@ -1,7 +1,7 @@
-import { plainToInstance } from "class-transformer";
-import { School } from "../../entities/school.entity";
-import { SchoolRequest } from "../request/school.request";
-import { SchoolResponse } from "../response/school.response";
+import { plainToInstance } from 'class-transformer';
+import { School } from '../../entities/school.entity';
+import { SchoolRequest } from '../request/school.request';
+import { SchoolResponse } from '../response/school.response';
 
 export class SchoolConverter {
   /**

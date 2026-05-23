@@ -3,23 +3,23 @@ import {
   Inject,
   Injectable,
   UnauthorizedException,
-} from "@nestjs/common";
-import * as bcrypt from "bcrypt";
+} from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 
-import { ConfigService } from "@nestjs/config";
-import { JwtService } from "@nestjs/jwt";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { BadRequestException } from "../../../commons/excpetions/error/badrequest.exceptions";
-import { EntityNotFoundException } from "../../../commons/excpetions/error/entityNotFound.exceptions";
-import { PasswordInvalidExceptions } from "../../../commons/excpetions/error/password.invalid.exceptions";
-import { ServerErrorExceptions } from "../../../commons/excpetions/error/server.error.exceptions";
-import EmailService from "../../email/service/email.service";
-import { Usuario } from "../../usuario/entities/usuario.entity";
-import { UsuarioService } from "../../usuario/service/usuario.service";
-import TokenPayload from "../config/tokenPayload.interface";
-import { AUTH } from "../constants/login.constants";
-import { Credentials } from "../entities/credentials.entity";
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { BadRequestException } from '../../../commons/excpetions/error/badrequest.exceptions';
+import { EntityNotFoundException } from '../../../commons/excpetions/error/entityNotFound.exceptions';
+import { PasswordInvalidExceptions } from '../../../commons/excpetions/error/password.invalid.exceptions';
+import { ServerErrorExceptions } from '../../../commons/excpetions/error/server.error.exceptions';
+import EmailService from '../../email/service/email.service';
+import { Usuario } from '../../usuario/entities/usuario.entity';
+import { UsuarioService } from '../../usuario/service/usuario.service';
+import TokenPayload from '../config/tokenPayload.interface';
+import { AUTH } from '../constants/login.constants';
+import { Credentials } from '../entities/credentials.entity';
 
 export interface RefreshTokenResult {
   cookie: string;
@@ -53,11 +53,11 @@ export class AuthenticationService {
     const payload: TokenPayload = { userId, isSecondFactorAuthenticated };
 
     const secret = this.configService.getOrThrow<string>(
-      "JWT_ACCESS_TOKEN_SECRET",
+      'JWT_ACCESS_TOKEN_SECRET',
     );
     const expiresInSeconds =
       this.configService.getOrThrow<number>(
-        "JWT_ACCESS_TOKEN_EXPIRATION_TIME",
+        'JWT_ACCESS_TOKEN_EXPIRATION_TIME',
       ) ?? 3600;
 
     const token = this.jwtService.sign(payload, {
@@ -87,10 +87,10 @@ export class AuthenticationService {
     const payload: TokenPayload = { userId };
 
     const secret = this.configService.getOrThrow<string>(
-      "JWT_REFRESH_TOKEN_SECRET",
+      'JWT_REFRESH_TOKEN_SECRET',
     );
     const expiresInSeconds = this.configService.getOrThrow<number>(
-      "JWT_REFRESH_TOKEN_EXPIRATION_TIME",
+      'JWT_REFRESH_TOKEN_EXPIRATION_TIME',
     );
 
     const token = this.jwtService.sign(payload, {
@@ -118,8 +118,8 @@ export class AuthenticationService {
 
   public getCookiesForLogOut() {
     return [
-      "Authentication=; HttpOnly; Path=/; Max-Age=0",
-      "Refresh=; HttpOnly; Path=/; Max-Age=0",
+      'Authentication=; HttpOnly; Path=/; Max-Age=0',
+      'Refresh=; HttpOnly; Path=/; Max-Age=0',
     ];
   }
 
@@ -162,7 +162,7 @@ export class AuthenticationService {
     token: string,
   ): Promise<Usuario | undefined> {
     const payload: TokenPayload = this.jwtService.verify(token, {
-      secret: this.configService.get("JWT_ACCESS_TOKEN_SECRET"),
+      secret: this.configService.get('JWT_ACCESS_TOKEN_SECRET'),
     });
     if (payload.userId) {
       return await this.usuarioService.buscarPorId(payload.userId);
@@ -173,7 +173,7 @@ export class AuthenticationService {
     try {
       const credentials = await this.credentialsRepository
         .createQueryBuilder(AUTH.ENTITY)
-        .leftJoinAndSelect("credentials.usuario", "usuario")
+        .leftJoinAndSelect('credentials.usuario', 'usuario')
         .where(`${AUTH.SEARCH.POR_EMAIL} = :email`, { email })
         .getOne();
       if (!credentials) {
@@ -203,7 +203,7 @@ export class AuthenticationService {
 
     const credentials = await this.credentialsRepository
       .createQueryBuilder(AUTH.ENTITY)
-      .leftJoinAndSelect("credentials.usuario", "usuario")
+      .leftJoinAndSelect('credentials.usuario', 'usuario')
       .where(`${AUTH.SEARCH.POR_USUARIO} = :userId`, { userId })
       .getOne();
 
@@ -231,8 +231,8 @@ export class AuthenticationService {
 
     const payload = { email: credentials.email };
     const token = this.jwtService.sign(payload, {
-      secret: this.configService.getOrThrow("JWT_VERIFICATION_TOKEN_SECRET"),
-      expiresIn: "900s", // 15 minutos
+      secret: this.configService.getOrThrow('JWT_VERIFICATION_TOKEN_SECRET'),
+      expiresIn: '900s', // 15 minutos
     });
 
     await this.emailService.sendresetPassword(
@@ -250,10 +250,10 @@ export class AuthenticationService {
   ): Promise<string | undefined> {
     try {
       const payload = await this.jwtService.verify(token, {
-        secret: this.configService.getOrThrow("JWT_VERIFICATION_TOKEN_SECRET"),
+        secret: this.configService.getOrThrow('JWT_VERIFICATION_TOKEN_SECRET'),
       });
 
-      if (typeof payload === "object" && "email" in payload) {
+      if (typeof payload === 'object' && 'email' in payload) {
         const credentials = await this.getByEmail(payload.email);
 
         if (!credentials) {
@@ -285,7 +285,7 @@ export class AuthenticationService {
   async sendResendEmail(email: string) {
     const credentials = await this.credentialsRepository.findOne({
       where: { email },
-      relations: ["usuario"],
+      relations: ['usuario'],
     });
 
     if (!credentials) {
@@ -298,8 +298,8 @@ export class AuthenticationService {
 
     const payload = { email: credentials.email };
     const token = this.jwtService.sign(payload, {
-      secret: this.configService.getOrThrow("JWT_VERIFICATION_TOKEN_SECRET"),
-      expiresIn: "900s", // 15 min
+      secret: this.configService.getOrThrow('JWT_VERIFICATION_TOKEN_SECRET'),
+      expiresIn: '900s', // 15 min
     });
 
     await this.emailService.sendResendEmail(

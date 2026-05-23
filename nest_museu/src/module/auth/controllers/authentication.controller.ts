@@ -11,27 +11,27 @@ import {
   Req,
   UseGuards,
   UseInterceptors,
-} from "@nestjs/common";
+} from '@nestjs/common';
 
-import { Request } from "express";
-import { GenericConverter } from "../../../commons/converter/converter.commons";
-import { ApiResponse } from "../../../commons/response/api.response";
-import { ResponseBuilder } from "../../../commons/response/builder.response";
-import { USUARIO } from "../../usuario/constants/usuario.constantes";
-import { UsuarioResponse } from "../../usuario/dto/response/usuario.response";
-import { UsuarioService } from "../../usuario/service/usuario.service";
-import JwtAuthenticationGuard from "../config/guards/jwt-authentication.guard";
-import JwtRefreshGuard from "../config/guards/jwt-refresh.guard";
-import { LocalAuthenticationGuard } from "../config/guards/localAuthentication.guard";
-import RequestWithUser from "../config/requestWithUser.interface";
-import { AUTH } from "../constants/login.constants";
-import { ChangePasswordRequest } from "../dto/request/change.password.request";
-import { ForgotPasswordRequest } from "../dto/request/forgot.password.request";
-import { RegisterUsuarioRequest } from "../dto/request/register.usuario.request";
-import { ResetPasswordRequest } from "../dto/request/reset.password.request";
-import { LoginResponse } from "../dto/response/login.response";
-import { AuthenticationService } from "../service/authentication.service";
-import { SessionService } from "../service/session.service";
+import { Request } from 'express';
+import { GenericConverter } from '../../../commons/converter/converter.commons';
+import { ApiResponse } from '../../../commons/response/api.response';
+import { ResponseBuilder } from '../../../commons/response/builder.response';
+import { USUARIO } from '../../usuario/constants/usuario.constantes';
+import { UsuarioResponse } from '../../usuario/dto/response/usuario.response';
+import { UsuarioService } from '../../usuario/service/usuario.service';
+import JwtAuthenticationGuard from '../config/guards/jwt-authentication.guard';
+import JwtRefreshGuard from '../config/guards/jwt-refresh.guard';
+import { LocalAuthenticationGuard } from '../config/guards/localAuthentication.guard';
+import RequestWithUser from '../config/requestWithUser.interface';
+import { AUTH } from '../constants/login.constants';
+import { ChangePasswordRequest } from '../dto/request/change.password.request';
+import { ForgotPasswordRequest } from '../dto/request/forgot.password.request';
+import { RegisterUsuarioRequest } from '../dto/request/register.usuario.request';
+import { ResetPasswordRequest } from '../dto/request/reset.password.request';
+import { LoginResponse } from '../dto/response/login.response';
+import { AuthenticationService } from '../service/authentication.service';
+import { SessionService } from '../service/session.service';
 
 @Controller(AUTH.ENTITY)
 @UseInterceptors(ClassSerializerInterceptor)
@@ -65,13 +65,13 @@ export class AuthenticationController {
       usuario.idUsuario,
     );
 
-    req.res?.setHeader("Set-Cookie", [accessTokenCookie, refreshTokenCookie]);
+    req.res?.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
 
     const session = {
       idUsuario: usuario.idUsuario,
       token: refreshToken,
-      ipAddress: req.ip ?? "0.0.0.0",
-      userAgent: String(req.headers["user-agent"] ?? "unknown"),
+      ipAddress: req.ip ?? '0.0.0.0',
+      userAgent: String(req.headers['user-agent'] ?? 'unknown'),
       expiresAt: expiresRefreshToken,
     };
 
@@ -90,7 +90,7 @@ export class AuthenticationController {
   async logOut(@Req() request: RequestWithUser) {
     await this.usuarioService.removeRefreshToken(request.user.idUsuario);
     request.res?.setHeader(
-      "Set-Cookie",
+      'Set-Cookie',
       this.authticationService.getCookiesForLogOut(),
     );
   }
@@ -109,7 +109,7 @@ export class AuthenticationController {
         request.user.idUsuario,
       );
 
-    request.res?.setHeader("Set-Cookie", accessTokenCookie);
+    request.res?.setHeader('Set-Cookie', accessTokenCookie);
     return request.user;
   }
 

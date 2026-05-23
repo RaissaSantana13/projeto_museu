@@ -1,8 +1,8 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { BaseEntity } from "../../../commons/entities/base.entity";
-import { School } from "./school.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity } from '../../../commons/entities/base.entity';
+import { School } from './school.entity';
 
-@Entity("school_representatives")
+@Entity('school_representatives')
 export class SchoolRepresentative extends BaseEntity {
   @PrimaryGeneratedColumn()
   idRepresentative!: number;

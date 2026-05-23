@@ -1,19 +1,19 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { DataSource, Repository } from "typeorm";
-import { GenericConverter } from "../../../commons/converter/converter.commons";
-import { EntityNotFoundException } from "../../../commons/excpetions/error/entityNotFound.exceptions";
-import { ServerErrorExceptions } from "../../../commons/excpetions/error/server.error.exceptions";
-import { Pageable } from "../../../commons/pagination/page.response";
-import { Page } from "../../../commons/pagination/paginacao.sistema";
-import { PaginationDto } from "../../../commons/pagination/pagination.dto";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
+import { GenericConverter } from '../../../commons/converter/converter.commons';
+import { EntityNotFoundException } from '../../../commons/excpetions/error/entityNotFound.exceptions';
+import { ServerErrorExceptions } from '../../../commons/excpetions/error/server.error.exceptions';
+import { Pageable } from '../../../commons/pagination/page.response';
+import { Page } from '../../../commons/pagination/paginacao.sistema';
+import { PaginationDto } from '../../../commons/pagination/pagination.dto';
 import {
   fieldsPermissions,
   PERMISSIONS,
-} from "../constants/permissions.constants";
-import { PermissionsRequest } from "../dto/request/permissions.request";
-import { PermissionsResponse } from "../dto/response/permissions.response";
-import { Permissions } from "../entities/permissions.entitty";
+} from '../constants/permissions.constants';
+import { PermissionsRequest } from '../dto/request/permissions.request';
+import { PermissionsResponse } from '../dto/response/permissions.response';
+import { Permissions } from '../entities/permissions.entitty';
 
 @Injectable()
 export class PermissionsService {
@@ -41,8 +41,8 @@ export class PermissionsService {
     try {
       const query = this.permissionsRepository
         .createQueryBuilder(PERMISSIONS.ENTITY)
-        .leftJoinAndSelect(`${PERMISSIONS.ENTITY}.role`, "role")
-        .leftJoinAndSelect(`${PERMISSIONS.ENTITY}.resource`, "resource")
+        .leftJoinAndSelect(`${PERMISSIONS.ENTITY}.role`, 'role')
+        .leftJoinAndSelect(`${PERMISSIONS.ENTITY}.resource`, 'resource')
         .orderBy(`${PERMISSIONS.ENTITY}.${pageable.field}`, pageable.order)
         .skip(pageable.offset)
         .take(pageable.limit);
@@ -165,8 +165,8 @@ export class PermissionsService {
     try {
       const permissions = await this.permissionsRepository
         .createQueryBuilder(PERMISSIONS.ENTITY)
-        .leftJoinAndSelect(`${PERMISSIONS.ENTITY}.role`, "role")
-        .leftJoinAndSelect(`${PERMISSIONS.ENTITY}.resource`, "resource")
+        .leftJoinAndSelect(`${PERMISSIONS.ENTITY}.role`, 'role')
+        .leftJoinAndSelect(`${PERMISSIONS.ENTITY}.resource`, 'resource')
         .where(`${PERMISSIONS.SEARCH.POR_ID} = :id`, { id })
         .getOne();
 

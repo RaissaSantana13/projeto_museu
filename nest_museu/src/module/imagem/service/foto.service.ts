@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as sharp from 'sharp';
@@ -22,7 +26,9 @@ export class FotoService {
     // Caminho absoluto da pasta de destino (Ex: /uploads_projeto_museu/pecas)
     const allowedFolders = Object.values(MediaCategory) as string[];
     if (!allowedFolders.includes(subfolder)) {
-      throw new BadRequestException(`A categoria ${subfolder} não é permitida.`);
+      throw new BadRequestException(
+        `A categoria ${subfolder} não é permitida.`,
+      );
     }
     const targetPath = path.join(this.diskRoot, subfolder);
 
@@ -31,11 +37,17 @@ export class FotoService {
       fs.mkdirSync(targetPath, { recursive: true });
     }
 
-    const uploadPromises = files.map((file) => this.processSingleFile(file, targetPath, subfolder));
+    const uploadPromises = files.map((file) =>
+      this.processSingleFile(file, targetPath, subfolder),
+    );
     return Promise.all(uploadPromises);
   }
 
-  private async processSingleFile(file: Express.Multer.File, targetPath: string, subfolder: string) {
+  private async processSingleFile(
+    file: Express.Multer.File,
+    targetPath: string,
+    subfolder: string,
+  ) {
     const fileHash = uuidv4();
     const extension = this.getExtension(file);
     const fileName = `${fileHash}${extension}`;
@@ -50,7 +62,9 @@ export class FotoService {
       await fs.promises.writeFile(fullDiskPath, file.buffer);
 
       // 2. Gera Thumbnail usando o caminho absoluto
-      await sharp(file.buffer).resize(400, 400, { fit: 'cover' }).toFile(thumbDiskPath);
+      await sharp(file.buffer)
+        .resize(400, 400, { fit: 'cover' })
+        .toFile(thumbDiskPath);
 
       // 3. Retorna os caminhos absolutos para salvar no banco
       return {
@@ -62,7 +76,9 @@ export class FotoService {
       };
     } catch (error) {
       console.error(error);
-      throw new InternalServerErrorException(`Erro ao gravar arquivo na raiz: ${file.originalname}`);
+      throw new InternalServerErrorException(
+        `Erro ao gravar arquivo na raiz: ${file.originalname}`,
+      );
     }
   }
 

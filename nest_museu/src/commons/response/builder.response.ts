@@ -1,4 +1,4 @@
-import { ApiResponse, Link } from "./api.response";
+import { ApiResponse, Link } from './api.response';
 
 export class ResponseBuilder<T> {
   private response: Partial<ApiResponse<T>> = {};

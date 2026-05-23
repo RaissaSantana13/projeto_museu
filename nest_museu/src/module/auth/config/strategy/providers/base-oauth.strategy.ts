@@ -1,10 +1,10 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import {
   IOAuthStrategy,
   OAuthAccountProfile,
   OAuthConfig,
-} from "./oauth.strategy.interface";
+} from './oauth.strategy.interface';
 
 /**
  * Base OAuth Strategy
@@ -148,9 +148,9 @@ export abstract class BaseOAuthStrategy implements IOAuthStrategy {
     headers: Record<string, string> = {},
   ): Promise<T> {
     const response = await fetch(url, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         ...headers,
       },
     });
@@ -183,9 +183,9 @@ export abstract class BaseOAuthStrategy implements IOAuthStrategy {
     });
 
     const response = await fetch(url, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        'Content-Type': 'application/x-www-form-urlencoded',
         ...headers,
       },
       body: formData.toString(),

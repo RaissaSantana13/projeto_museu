@@ -1,5 +1,5 @@
 export const PARAMS = {
-  ID: "id",
+  ID: 'id',
 } as const;
 
 export type Id = string | number;

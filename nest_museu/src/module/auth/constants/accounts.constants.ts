@@ -1,15 +1,15 @@
-import { criarMensagensOperacao } from "../../../commons/constants/constants.entity";
+import { criarMensagensOperacao } from '../../../commons/constants/constants.entity';
 import {
   gerarMensagem,
   MENSAGEM_GENERICA,
-} from "../../../commons/constants/mensagem.sistema";
+} from '../../../commons/constants/mensagem.sistema';
 import {
   gerarRotaRecurso,
   RotaRecurso,
-} from "../../../commons/constants/url.sistema";
+} from '../../../commons/constants/url.sistema';
 
-const ENTITY_NAME = "account";
-const ALIAS_NAME = "Conta";
+const ENTITY_NAME = 'account';
+const ALIAS_NAME = 'Conta';
 
 export const ACCOUNT = {
   ENTITY: ENTITY_NAME,
@@ -22,40 +22,40 @@ export const ACCOUNT = {
   },
 
   TABLE_FIELDS: {
-    ID_ACCOUNT: "id_account",
-    ID_USUARIO: "id_usuario",
-    ACCOUNT_ID: "account_id",
-    PROVIDER_ID: "provider_id",
-    ACCESS_TOKEN: "access_token",
-    REFRESH_TOKEN: "refresh_token",
-    ACCESS_TOKEN_EXPIRES_AT: "access_token_expires_at",
-    REFRESH_TOKEN_EXPIRES_AT: "refresh_token_expires_at",
-    SCOPE: "scope",
-    PASSWORD: "password",
+    ID_ACCOUNT: 'id_account',
+    ID_USUARIO: 'id_usuario',
+    ACCOUNT_ID: 'account_id',
+    PROVIDER_ID: 'provider_id',
+    ACCESS_TOKEN: 'access_token',
+    REFRESH_TOKEN: 'refresh_token',
+    ACCESS_TOKEN_EXPIRES_AT: 'access_token_expires_at',
+    REFRESH_TOKEN_EXPIRES_AT: 'refresh_token_expires_at',
+    SCOPE: 'scope',
+    PASSWORD: 'password',
   },
 
   FIELDS: {
-    ID_ACCOUNT: "idAccount",
-    ID_USUARIO: "idUsuario",
-    ACCOUNT_ID: "accountId",
-    PROVIDER_ID: "providerId",
-    ACCESS_TOKEN: "accessToken",
-    REFRESH_TOKEN: "refreshToken",
-    ACCESS_TOKEN_EXPIRES_AT: "accessTokenExpiresAt",
-    REFRESH_TOKEN_EXPIRES_AT: "refreshTokenExpiresAt",
-    SCOPE: "scope",
-    PASSWORD: "password",
+    ID_ACCOUNT: 'idAccount',
+    ID_USUARIO: 'idUsuario',
+    ACCOUNT_ID: 'accountId',
+    PROVIDER_ID: 'providerId',
+    ACCESS_TOKEN: 'accessToken',
+    REFRESH_TOKEN: 'refreshToken',
+    ACCESS_TOKEN_EXPIRES_AT: 'accessTokenExpiresAt',
+    REFRESH_TOKEN_EXPIRES_AT: 'refreshTokenExpiresAt',
+    SCOPE: 'scope',
+    PASSWORD: 'password',
   },
 
   SWAGGER: {
     ID_ACCOUNT: `Código do ${ALIAS_NAME} de identificação única `,
     ID_USUARIO: `Código do ${ALIAS_NAME} de identificação única `,
     ACCOUNT_ID: `Código de acesso do provedor de serviço`,
-    PROVIDER_ID: "Código de acesso do provedor de serviço",
-    ACCESS_TOKEN: "Token de acesso",
-    REFRESH_TOKEN: "Validação do token de acesso",
-    ACCESS_TOKEN_EXPIRES_AT: "Data de cancelamento do token",
-    REFRESH_TOKEN_EXPIRES_AT: "Data de cancelamento do token",
+    PROVIDER_ID: 'Código de acesso do provedor de serviço',
+    ACCESS_TOKEN: 'Token de acesso',
+    REFRESH_TOKEN: 'Validação do token de acesso',
+    ACCESS_TOKEN_EXPIRES_AT: 'Data de cancelamento do token',
+    REFRESH_TOKEN_EXPIRES_AT: 'Data de cancelamento do token',
     SCOPE: `Scopo de acesso do ${ALIAS_NAME}`,
     PASSWORD: `Senha deacesso de ${ENTITY_NAME}`,
   },

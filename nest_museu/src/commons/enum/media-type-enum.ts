@@ -6,4 +6,9 @@ export enum MediaCategory {
   DOCUMENTS = 'documentos',
 }
 
-export type MediaCategoryType = 'usuarios' | 'pecas' | 'jornal' | 'eventos' | 'documentos';
+export type MediaCategoryType =
+  | 'usuarios'
+  | 'pecas'
+  | 'jornal'
+  | 'eventos'
+  | 'documentos';

@@ -4,10 +4,10 @@ import {
   JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { BaseEntity } from "../../../commons/entities/base.entity";
-import { Usuario } from "../../usuario/entities/usuario.entity";
-import { AUTH } from "../constants/login.constants";
+} from 'typeorm';
+import { BaseEntity } from '../../../commons/entities/base.entity';
+import { Usuario } from '../../usuario/entities/usuario.entity';
+import { AUTH } from '../constants/login.constants';
 
 @Entity(AUTH.ENTITY)
 export class Credentials extends BaseEntity {
@@ -24,7 +24,7 @@ export class Credentials extends BaseEntity {
   password!: string;
 
   @OneToOne(() => Usuario, (user: Usuario) => user.credentials, {
-    onDelete: "CASCADE",
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: AUTH.TABLE_FIELDS.ID_USUARIO })
   usuario!: Usuario;

@@ -1,7 +1,7 @@
-import { plainToInstance } from "class-transformer";
-import { Usuario } from "../../entities/usuario.entity";
-import { UsuarioRequest } from "../request/usuario.request";
-import { UsuarioResponse } from "../response/usuario.response";
+import { plainToInstance } from 'class-transformer';
+import { Usuario } from '../../entities/usuario.entity';
+import { UsuarioRequest } from '../request/usuario.request';
+import { UsuarioResponse } from '../response/usuario.response';
 
 export class UsuarioConverter {
   static toUsuario(usuarioRequest: UsuarioRequest): Usuario {

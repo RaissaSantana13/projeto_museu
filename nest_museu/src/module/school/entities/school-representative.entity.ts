@@ -4,13 +4,13 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { BaseEntity } from "../../../commons/entities/base.entity";
-import { School } from "./school.entity";
+} from 'typeorm';
+import { BaseEntity } from '../../../commons/entities/base.entity';
+import { School } from './school.entity';
 
-@Entity("school_representatives")
+@Entity('school_representatives')
 export class SchoolRepresentative extends BaseEntity {
-  @PrimaryGeneratedColumn({ name: "id_representative" })
+  @PrimaryGeneratedColumn({ name: 'id_representative' })
   idRepresentative!: number;
 
   @Column({ length: 150 })
@@ -27,9 +27,9 @@ export class SchoolRepresentative extends BaseEntity {
 
   // Muitos representantes pertencem a uma escola
   @ManyToOne(() => School, (school) => school.representatives, {
-    onDelete: "CASCADE",
+    onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: "id_school" })
+  @JoinColumn({ name: 'id_school' })
   school!: School;
 
   constructor(data: Partial<SchoolRepresentative> = {}) {

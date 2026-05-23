@@ -16,18 +16,18 @@ export const ROLES = {
   ALIAS: ALIAS_NAME,
 
   TABLE_FIELDS: {
-    ID_ROLES: 'id_roles',
-    NOME_ROLES: 'nome_roles',
+    ID_ROLE: 'id_role',
+    NOME_ROLE: 'nome_role',
   },
 
   FIELDS: {
-    ID_ROLES: 'idRoles',
-    NOME_ROLES: 'nomeRoles',
+    ID_ROLE: 'idRole',
+    NOME_ROLE: 'nomeRole',
   },
 
   SWAGGER: {
-    ID_ROLES: `Código da ${ALIAS_NAME} de identificação único `,
-    NOME_ROLES: `Nome da ${ALIAS_NAME}`,
+    ID_ROLE: `Código da ${ALIAS_NAME} de identificação único `,
+    NOME_ROLE: `Nome da ${ALIAS_NAME}`,
   },
 
   SEARCH: {

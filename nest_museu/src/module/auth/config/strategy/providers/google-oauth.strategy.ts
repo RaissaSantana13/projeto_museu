@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { BaseOAuthStrategy } from "./base-oauth.strategy";
-import { OAuthAccountProfile } from "./oauth.strategy.interface";
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { BaseOAuthStrategy } from './base-oauth.strategy';
+import { OAuthAccountProfile } from './oauth.strategy.interface';
 
 interface GoogleTokenResponse {
   access_token: string;
@@ -25,17 +25,17 @@ interface GoogleUserProfileResponse {
 
 @Injectable()
 export class GoogleOAuthStrategy extends BaseOAuthStrategy {
-  private readonly AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
-  private readonly TOKEN_URL = "https://oauth2.googleapis.com/token";
+  private readonly AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
+  private readonly TOKEN_URL = 'https://oauth2.googleapis.com/token';
   private readonly USER_INFO_URL =
-    "https://www.googleapis.com/oauth2/v2/userinfo";
+    'https://www.googleapis.com/oauth2/v2/userinfo';
 
   constructor(configService: ConfigService) {
-    super(configService, "google");
+    super(configService, 'google');
   }
 
   protected getScopes(): string[] {
-    return ["openid", "email", "profile"];
+    return ['openid', 'email', 'profile'];
   }
 
   getAuthorizationUrl(state?: string): string {
@@ -43,14 +43,14 @@ export class GoogleOAuthStrategy extends BaseOAuthStrategy {
     const params = new URLSearchParams({
       client_id: config.clientId,
       redirect_uri: config.callbackUrl,
-      response_type: "code",
-      scope: config.scopes.join(" "),
-      access_type: "offline", // Necessário para receber o refresh_token
-      prompt: "consent",
+      response_type: 'code',
+      scope: config.scopes.join(' '),
+      access_type: 'offline', // Necessário para receber o refresh_token
+      prompt: 'consent',
     });
 
     if (state) {
-      params.append("state", state);
+      params.append('state', state);
     }
 
     return `${this.AUTH_URL}?${params.toString()}`;
@@ -70,7 +70,7 @@ export class GoogleOAuthStrategy extends BaseOAuthStrategy {
           client_id: config.clientId,
           client_secret: config.clientSecret,
           redirect_uri: config.callbackUrl,
-          grant_type: "authorization_code",
+          grant_type: 'authorization_code',
         },
       );
 
@@ -86,7 +86,7 @@ export class GoogleOAuthStrategy extends BaseOAuthStrategy {
 
       // Validação de segurança
       if (!userProfile.verified_email) {
-        throw new Error("Google email is not verified");
+        throw new Error('Google email is not verified');
       }
 
       // 3. Monta o objeto padronizado para o seu Service
@@ -108,7 +108,7 @@ export class GoogleOAuthStrategy extends BaseOAuthStrategy {
         // Dados para a tabela 'account' (Postgres)
         providerId: userProfile.id, // Convertendo para string por segurança
         accessToken: tokenResponse.access_token,
-        refreshToken: tokenResponse.refresh_token || "", // Pode ser undefined se não for a primeira vez
+        refreshToken: tokenResponse.refresh_token || '', // Pode ser undefined se não for a primeira vez
         accessTokenExpiresAt: accessTokenExpiresAt,
         //refreshTokenExpiresAt: null, // Google não costuma enviar expiração fixa para refresh_token
         scope: tokenResponse.scope,

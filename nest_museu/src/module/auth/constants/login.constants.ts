@@ -1,30 +1,30 @@
-import { criarMensagensOperacao } from "../../../commons/constants/constants.entity";
+import { criarMensagensOperacao } from '../../../commons/constants/constants.entity';
 import {
   gerarMensagem,
   MENSAGEM_GENERICA,
-} from "../../../commons/constants/mensagem.sistema";
+} from '../../../commons/constants/mensagem.sistema';
 
-const ENTITY_NAME = "credentials";
-const ALIAS_NAME = "Credenciais";
+const ENTITY_NAME = 'credentials';
+const ALIAS_NAME = 'Credenciais';
 
 export const AUTH = {
   ENTITY: ENTITY_NAME,
   ALIAS: ALIAS_NAME,
 
-  DATABASE_TABLE: "LOGIN",
+  DATABASE_TABLE: 'LOGIN',
 
   TABLE_FIELDS: {
-    ID_LOGIN: "id_login",
-    ID_USUARIO: "id_usuario",
-    EMAIL: "email",
-    PASSWORD: "password",
+    ID_LOGIN: 'id_login',
+    ID_USUARIO: 'id_usuario',
+    EMAIL: 'email',
+    PASSWORD: 'password',
   },
 
   FIELDS: {
-    ID_LOGIN: "idLogin",
-    id_USUARIO: "idUsuario",
-    EMAIL: "email",
-    PASSWORD: "password",
+    ID_LOGIN: 'idLogin',
+    id_USUARIO: 'idUsuario',
+    EMAIL: 'email',
+    PASSWORD: 'password',
   },
 
   SWAGGER: {
@@ -47,14 +47,14 @@ export const AUTH = {
   ROTAS: {
     BASE: `${ENTITY_NAME}`,
     SESSION: `/session`,
-    SESSION_CHANGE_PASSWORDS: "/change-password",
-    SESSION_PASSWORD_RESETS: "/reset-password",
-    SESSION_PASSWORD_FORGOT: "/forgot-password",
-    SESSION_ME: "/session/me",
-    REGISTER: "/register",
-    VERIFICATION_EMAIL: "/verification-email",
-    CONFIRM_EMAIL: "/confirm-email",
-    REFRESH_TOKEN: "/refresh-token",
+    SESSION_CHANGE_PASSWORDS: '/change-password',
+    SESSION_PASSWORD_RESETS: '/reset-password',
+    SESSION_PASSWORD_FORGOT: '/forgot-password',
+    SESSION_ME: '/session/me',
+    REGISTER: '/register',
+    VERIFICATION_EMAIL: '/verification-email',
+    CONFIRM_EMAIL: '/confirm-email',
+    REFRESH_TOKEN: '/refresh-token',
   },
 };
 

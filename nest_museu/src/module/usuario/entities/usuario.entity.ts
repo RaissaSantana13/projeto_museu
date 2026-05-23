@@ -6,13 +6,13 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { BaseEntity } from "../../../commons/entities/base.entity";
-import { Roles } from "../../access/entities/role.entity";
-import { Account } from "../../auth/entities/account.entity";
-import { Credentials } from "../../auth/entities/credentials.entity";
-import { Session } from "../../auth/entities/session.entity";
-import { USUARIO } from "../constants/usuario.constantes";
+} from 'typeorm';
+import { BaseEntity } from '../../../commons/entities/base.entity';
+import { Roles } from '../../access/entities/role.entity';
+import { Account } from '../../auth/entities/account.entity';
+import { Credentials } from '../../auth/entities/credentials.entity';
+import { Session } from '../../auth/entities/session.entity';
+import { USUARIO } from '../constants/usuario.constantes';
 
 @Entity(USUARIO.ENTITY)
 export class Usuario extends BaseEntity {
@@ -54,31 +54,31 @@ export class Usuario extends BaseEntity {
 
   @OneToOne(() => Credentials, (cred: Credentials) => cred.usuario, {
     cascade: true,
-    onDelete: "CASCADE",
+    onDelete: 'CASCADE',
   })
   credentials!: Credentials;
 
-  @ManyToMany(() => Roles, (roles) => roles.usuario, { onDelete: "CASCADE" })
+  @ManyToMany(() => Roles, (roles) => roles.usuario, { onDelete: 'CASCADE' })
   @JoinTable({
-    name: "USUARIO_ROLES", // Nome da tabela de junção criada no SQL
-    joinColumn: { name: "USUARIO_ID", referencedColumnName: "idUsuario" },
-    inverseJoinColumn: { name: "ROLE_ID", referencedColumnName: "idRoles" },
+    name: 'USUARIO_ROLES', // Nome da tabela de junção criada no SQL
+    joinColumn: { name: 'USUARIO_ID', referencedColumnName: 'idUsuario' },
+    inverseJoinColumn: { name: 'ROLE_ID', referencedColumnName: 'idRoles' },
   })
   role!: Roles[];
 
-  @Column({ name: "twofactorauthenticationsecret", nullable: true })
+  @Column({ name: 'twofactorauthenticationsecret', nullable: true })
   twoFactorAuthenticationSecret?: string;
 
-  @Column({ name: "istwofactorauthenticationenabled", default: false })
+  @Column({ name: 'istwofactorauthenticationenabled', default: false })
   isTwoFactorAuthenticationEnabled!: boolean;
 
-  @Column({ name: "currenthashedrefreshtoken", nullable: true })
+  @Column({ name: 'currenthashedrefreshtoken', nullable: true })
   currentHashedRefreshToken?: string;
 
-  @Column({ type: "text", nullable: true })
+  @Column({ type: 'text', nullable: true })
   mfaCode!: string;
 
-  @Column({ type: "timestamp", nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   mfaExpiresAt!: Date;
 
   constructor(data: Partial<Usuario> = {}) {

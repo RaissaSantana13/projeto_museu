@@ -15,19 +15,31 @@ export class ContactResponse {
   @Expose()
   lastName!: string;
 
-  @ApiProperty({ description: CONTACT.SWAGGER.PHONE, example: '(99)-99999-9999' })
+  @ApiProperty({
+    description: CONTACT.SWAGGER.PHONE,
+    example: '(99)-99999-9999',
+  })
   @Expose()
   phone!: string;
 
-  @ApiProperty({ description: CONTACT.SWAGGER.EMAIL, example: 'silva@gmail.com' })
+  @ApiProperty({
+    description: CONTACT.SWAGGER.EMAIL,
+    example: 'silva@gmail.com',
+  })
   @Expose()
   email!: string;
 
-  @ApiProperty({ description: CONTACT.SWAGGER.MESSAGE, example: 'texto referente a mensagem ' })
+  @ApiProperty({
+    description: CONTACT.SWAGGER.MESSAGE,
+    example: 'texto referente a mensagem ',
+  })
   @Expose()
   message!: string;
 
-  @ApiProperty({ description: CONTACT.SWAGGER.AGREED_TO_PRIVACY, example: 'termo de concordância sim ou não' })
+  @ApiProperty({
+    description: CONTACT.SWAGGER.AGREED_TO_PRIVACY,
+    example: 'termo de concordância sim ou não',
+  })
   @Expose()
   agreedToPrivacy!: boolean;
 

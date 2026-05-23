@@ -1,32 +1,32 @@
-import { HttpStatus, Injectable, Logger } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
-import { Response } from "express";
+import { Response } from 'express';
 
-import { FacebookOAuthStrategy } from "../config/strategy/providers/facebook-oauth.strategy";
-import { GitHubOAuthStrategy } from "../config/strategy/providers/github-oauth.strategy";
-import { GoogleOAuthStrategy } from "../config/strategy/providers/google-oauth.strategy";
+import { FacebookOAuthStrategy } from '../config/strategy/providers/facebook-oauth.strategy';
+import { GitHubOAuthStrategy } from '../config/strategy/providers/github-oauth.strategy';
+import { GoogleOAuthStrategy } from '../config/strategy/providers/google-oauth.strategy';
 import {
   IOAuthStrategy,
   OAuthAccountProfile,
-} from "../config/strategy/providers/oauth.strategy.interface";
-import { SessionService } from "./session.service";
+} from '../config/strategy/providers/oauth.strategy.interface';
+import { SessionService } from './session.service';
 
 /**
  * OAuth Provider Type
  */
-import { InjectRepository } from "@nestjs/typeorm";
-import { DataSource, Repository } from "typeorm";
+import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
 import {
   gerarMensagem,
   MENSAGEM_GENERICA,
-} from "../../../commons/constants/mensagem.sistema";
-import { ApiException } from "../../../commons/excpetions/error/api.exceptions";
-import { Usuario } from "../../usuario/entities/usuario.entity";
-import { Account } from "../entities/account.entity";
-import { Credentials } from "../entities/credentials.entity";
+} from '../../../commons/constants/mensagem.sistema';
+import { ApiException } from '../../../commons/excpetions/error/api.exceptions';
+import { Usuario } from '../../usuario/entities/usuario.entity';
+import { Account } from '../entities/account.entity';
+import { Credentials } from '../entities/credentials.entity';
 
-export type OAuthProvider = "google" | "facebook" | "github";
+export type OAuthProvider = 'google' | 'facebook' | 'github';
 
 @Injectable()
 export class OAuthService {
@@ -51,9 +51,9 @@ export class OAuthService {
   }
   private registerStrategies(): void {
     const allStrategies: [OAuthProvider, IOAuthStrategy][] = [
-      ["google", this.googleStrategy],
-      ["github", this.githubStrategy],
-      ["facebook", this.facebookStrategy],
+      ['google', this.googleStrategy],
+      ['github', this.githubStrategy],
+      ['facebook', this.facebookStrategy],
     ];
 
     for (const [provider, strategy] of allStrategies) {
@@ -67,7 +67,7 @@ export class OAuthService {
     const strategy = this.strategies.get(provider);
 
     if (!strategy) {
-      const knownProviders: OAuthProvider[] = ["google", "facebook", "github"];
+      const knownProviders: OAuthProvider[] = ['google', 'facebook', 'github'];
       if (knownProviders.includes(provider)) {
         const errorCodeMap: Record<OAuthProvider, MENSAGEM_GENERICA> = {
           google: MENSAGEM_GENERICA.GOOGLE_NOT_CONFIGURED,
@@ -116,8 +116,8 @@ export class OAuthService {
       const usuario = await this.findOrCreateUser(provider, oauthProfile);
 
       // Criação de sessão (usando o id_usuario do Postgres)
-      const userAgent = response.req.headers["user-agent"] || "Unknown";
-      const ip = response.req.ip || "127.0.0.1";
+      const userAgent = response.req.headers['user-agent'] || 'Unknown';
+      const ip = response.req.ip || '127.0.0.1';
 
       const sessionToken = await this.sessionService.createSession(
         usuario.idUsuario,
@@ -148,7 +148,7 @@ export class OAuthService {
       where: {
         providerId: profile.providerId,
       },
-      relations: ["usuario"],
+      relations: ['usuario'],
     });
 
     if (existingAccount) {
@@ -158,7 +158,7 @@ export class OAuthService {
     // 2. Se não tem a "account", verifica se o e-mail já existe nas "credentials"
     const existingCredentials = await this.credentialsRepository.findOne({
       where: { email: profile.email },
-      relations: ["usuario"],
+      relations: ['usuario'],
     });
 
     if (existingCredentials) {
@@ -210,13 +210,13 @@ export class OAuthService {
   }
 
   private setCookie(response: Response, token: string) {
-    const cookieName = this.configService.get("session.cookieName", "sid");
+    const cookieName = this.configService.get('session.cookieName', 'sid');
     response.cookie(cookieName, token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: this.configService.get("session.cookieMaxAge", 604800000),
-      path: "/",
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: this.configService.get('session.cookieMaxAge', 604800000),
+      path: '/',
     });
   }
 

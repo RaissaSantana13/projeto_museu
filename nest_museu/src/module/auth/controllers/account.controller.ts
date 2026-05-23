@@ -10,23 +10,23 @@ import {
   Put,
   Query,
   Req,
-} from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
-import { Request } from "express";
-import { PARAMS } from "../../../commons/constants/param.constants";
-import { ApiPaginatedResponse } from "../../../commons/decorators/swagger/api-paginated-response.decorator";
-import { ApiPaginationQuery } from "../../../commons/decorators/swagger/api-pagination-query.decorator";
-import { ApiGetDoc } from "../../../commons/decorators/swagger/swagger.decorators";
-import { PAGINATION } from "../../../commons/enum/pagination.enum";
-import { SIS_MUSEU } from "../../../commons/enum/sis-museu.enum";
-import { HateoasHelper } from "../../../commons/helpers/hateos.helpers";
-import { Page } from "../../../commons/pagination/paginacao.sistema";
-import { ApiResponse, Link } from "../../../commons/response/api.response";
-import { ResponseBuilder } from "../../../commons/response/builder.response";
-import { ACCOUNT } from "../constants/accounts.constants";
-import { AccountRequest } from "../dto/request/account.request";
-import { AccountResponse } from "../dto/response/account.response";
-import { AccountService } from "../service/account.service";
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
+import { PARAMS } from '../../../commons/constants/param.constants';
+import { ApiPaginatedResponse } from '../../../commons/decorators/swagger/api-paginated-response.decorator';
+import { ApiPaginationQuery } from '../../../commons/decorators/swagger/api-pagination-query.decorator';
+import { ApiGetDoc } from '../../../commons/decorators/swagger/swagger.decorators';
+import { PAGINATION } from '../../../commons/enum/pagination.enum';
+import { SIS_MUSEU } from '../../../commons/enum/sis-museu.enum';
+import { HateoasHelper } from '../../../commons/helpers/hateos.helpers';
+import { Page } from '../../../commons/pagination/paginacao.sistema';
+import { ApiResponse, Link } from '../../../commons/response/api.response';
+import { ResponseBuilder } from '../../../commons/response/builder.response';
+import { ACCOUNT } from '../constants/accounts.constants';
+import { AccountRequest } from '../dto/request/account.request';
+import { AccountResponse } from '../dto/response/account.response';
+import { AccountService } from '../service/account.service';
 
 @ApiTags(ACCOUNT.ALIAS)
 @Controller(ACCOUNT.ROTAS.BASE)
@@ -39,11 +39,11 @@ export class AccountController {
   @ApiPaginatedResponse(AccountResponse)
   async listar(
     @Req() req: Request,
-    @Query("page") page?: string,
-    @Query("pageSize") pageSize?: string,
-    @Query("field") field?: string,
-    @Query("order") order?: string,
-    @Query("search") search?: string,
+    @Query('page') page?: string,
+    @Query('pageSize') pageSize?: string,
+    @Query('field') field?: string,
+    @Query('order') order?: string,
+    @Query('search') search?: string,
   ): Promise<ApiResponse<Page<AccountResponse>>> {
     const pageControler = Number(page) ? Number(page) : PAGINATION.PAGE;
     const pageSizeController = Number(pageSize)

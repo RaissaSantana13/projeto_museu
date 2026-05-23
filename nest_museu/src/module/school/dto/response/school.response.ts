@@ -1,6 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Expose } from "class-transformer";
-import { SCHOOL } from "../../constants/school.constantes";
+import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
+import { SCHOOL } from '../../constants/school.constantes';
 
 export class SchoolResponse {
   @ApiProperty({
@@ -12,14 +12,14 @@ export class SchoolResponse {
 
   @ApiProperty({
     description: SCHOOL.SWAGGER.NAME,
-    example: "Escola Estadual João da Silva",
+    example: 'Escola Estadual João da Silva',
   })
   @Expose()
   name!: string;
 
   @ApiProperty({
     description: SCHOOL.SWAGGER.CNPJ,
-    example: "12.345.678/0001-90",
+    example: '12.345.678/0001-90',
   })
   @Expose()
   cnpj?: string;

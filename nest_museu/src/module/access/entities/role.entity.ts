@@ -5,19 +5,19 @@ import {
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import { Usuario } from "../../usuario/entities/usuario.entity";
-import { ROLES } from "../constants/roles.constants";
-import { Permissions } from "./permissions.entitty";
+} from 'typeorm';
+import { Usuario } from '../../usuario/entities/usuario.entity';
+import { ROLES } from '../constants/roles.constants';
+import { Permissions } from './permissions.entitty';
 
 @Entity(ROLES.ENTITY)
 export class Roles extends BaseEntity {
-  @PrimaryGeneratedColumn({ name: ROLES.TABLE_FIELDS.ID_ROLES })
+  @PrimaryGeneratedColumn({ name: ROLES.TABLE_FIELDS.ID_ROLE })
   idRoles!: number;
 
   @Column({
-    name: ROLES.TABLE_FIELDS.NOME_ROLES,
-    type: "varchar",
+    name: ROLES.TABLE_FIELDS.NOME_ROLE,
+    type: 'varchar',
     length: 50,
     unique: true,
     nullable: false,

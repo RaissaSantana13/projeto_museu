@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { BaseOAuthStrategy } from "./base-oauth.strategy";
-import { OAuthAccountProfile } from "./oauth.strategy.interface";
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { BaseOAuthStrategy } from './base-oauth.strategy';
+import { OAuthAccountProfile } from './oauth.strategy.interface';
 
 /**
  * GitHub Token Response
@@ -35,17 +35,17 @@ interface GitHubEmailResponse {
 
 @Injectable()
 export class GitHubOAuthStrategy extends BaseOAuthStrategy {
-  private readonly AUTH_URL = "https://github.com/login/oauth/authorize";
-  private readonly TOKEN_URL = "https://github.com/login/oauth/access_token";
-  private readonly USER_INFO_URL = "https://api.github.com/user";
-  private readonly USER_EMAILS_URL = "https://api.github.com/user/emails";
+  private readonly AUTH_URL = 'https://github.com/login/oauth/authorize';
+  private readonly TOKEN_URL = 'https://github.com/login/oauth/access_token';
+  private readonly USER_INFO_URL = 'https://api.github.com/user';
+  private readonly USER_EMAILS_URL = 'https://api.github.com/user/emails';
 
   constructor(configService: ConfigService) {
-    super(configService, "github");
+    super(configService, 'github');
   }
 
   protected getScopes(): string[] {
-    return ["user:email", "read:user"];
+    return ['user:email', 'read:user'];
   }
 
   getAuthorizationUrl(state?: string): string {
@@ -53,11 +53,11 @@ export class GitHubOAuthStrategy extends BaseOAuthStrategy {
     const params = new URLSearchParams({
       client_id: config.clientId,
       redirect_uri: config.callbackUrl,
-      scope: config.scopes.join(" "),
+      scope: config.scopes.join(' '),
     });
 
     if (state) {
-      params.append("state", state);
+      params.append('state', state);
     }
 
     return `${this.AUTH_URL}?${params.toString()}`;
@@ -70,13 +70,13 @@ export class GitHubOAuthStrategy extends BaseOAuthStrategy {
     try {
       // 1. Troca o código pelo token
       const tokenResponse = await this.exchangeCodeForToken(code);
-      this.logger.log("Successfully obtained access token for GitHub OAuth");
+      this.logger.log('Successfully obtained access token for GitHub OAuth');
       const userProfile = await this.httpGet<GitHubUserProfileResponse>(
         this.USER_INFO_URL,
         {
           Authorization: `Bearer ${tokenResponse.access_token}`,
-          Accept: "application/vnd.github.v3+json",
-          "User-Agent": "Museu-Virtual-App",
+          Accept: 'application/vnd.github.v3+json',
+          'User-Agent': 'Museu-Virtual-App',
         },
       );
 
@@ -86,19 +86,19 @@ export class GitHubOAuthStrategy extends BaseOAuthStrategy {
       );
 
       if (!email) {
-        throw new Error("No verified email found on GitHub account");
+        throw new Error('No verified email found on GitHub account');
       }
 
       // 4. Tratamento de nome para a tabela 'usuario'
       const displayName = userProfile.name || userProfile.login;
-      const names = displayName.split(" ");
+      const names = displayName.split(' ');
 
       return {
         // Dados para 'usuario' e 'credentials'
         email: email,
         name: displayName,
         firstName: names[0],
-        lastName: names.slice(1).join(" ") || " ",
+        lastName: names.slice(1).join(' ') || ' ',
         picture: userProfile.avatar_url,
         emailVerified: true,
 
@@ -123,10 +123,10 @@ export class GitHubOAuthStrategy extends BaseOAuthStrategy {
   ): Promise<GitHubTokenResponse> {
     const config = this.ensureEnabled();
     const response = await fetch(this.TOKEN_URL, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify({
         client_id: config.clientId,
@@ -148,7 +148,7 @@ export class GitHubOAuthStrategy extends BaseOAuthStrategy {
     };
     if (data.error) {
       throw new Error(
-        `GitHub OAuth error: ${data.error} - ${data.error_description || "Unknown error"}`,
+        `GitHub OAuth error: ${data.error} - ${data.error_description || 'Unknown error'}`,
       );
     }
     return data;
@@ -162,8 +162,8 @@ export class GitHubOAuthStrategy extends BaseOAuthStrategy {
         this.USER_EMAILS_URL,
         {
           Authorization: `Bearer ${accessToken}`,
-          Accept: "application/vnd.github.v3+json",
-          "User-Agent": "NestJS-Auth-App",
+          Accept: 'application/vnd.github.v3+json',
+          'User-Agent': 'NestJS-Auth-App',
         },
       );
       const primaryEmail = emails.find((e) => e.primary && e.verified);

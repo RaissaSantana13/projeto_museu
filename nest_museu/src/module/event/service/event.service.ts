@@ -22,7 +22,6 @@ export class EventService {
     endDate?: string,
   ): Promise<EventResponse[]> {
     try {
-
       const query = this.eventRepository.createQueryBuilder(EVENT.ENTITY);
 
       if (search) {
@@ -82,7 +81,6 @@ export class EventService {
 
       return GenericConverter.toResponse(EventResponse, eventSalvo);
     } catch (error: any) {
-
       throw new InternalServerErrorException(
         `Erro ao criar usuário: ${error.message}`,
       );
