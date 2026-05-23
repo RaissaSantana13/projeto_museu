@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { TextField } from '../../../../commons/decorators/validation/text.decorators';
+import { TextField } from '../../../../commons/decorators/validation/text.decorator';
 import { USUARIO } from '../../../usuario/constants/usuario.constantes';
 
 export class ForgotPasswordRequest {

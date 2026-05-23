@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from '../../../commons/entities/base.entity';
 import { RESOURCES } from '../constants/resources.constants';
-import { Permissions } from './permissions.entitty';
+import { Permissions } from './permissions.entity';
 
 @Entity(RESOURCES.ENTITY)
 export class Resources extends BaseEntity {

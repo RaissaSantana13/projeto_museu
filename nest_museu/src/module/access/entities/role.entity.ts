@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Usuario } from '../../usuario/entities/usuario.entity';
 import { ROLES } from '../constants/roles.constants';
-import { Permissions } from './permissions.entitty';
+import { Permissions } from './permissions.entity';
 
 @Entity(ROLES.ENTITY)
 export class Roles extends BaseEntity {

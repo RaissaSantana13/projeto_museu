@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsArray, IsOptional } from 'class-validator';
-import { Password } from '../../../../commons/decorators/validation/password.decorators';
-import { TextField } from '../../../../commons/decorators/validation/text.decorators';
+import { Password } from '../../../../commons/decorators/validation/password.decorator';
+import { TextField } from '../../../../commons/decorators/validation/text.decorator';
 import { USUARIO } from '../../constants/usuario.constantes';
 
 export class UsuarioRequest {

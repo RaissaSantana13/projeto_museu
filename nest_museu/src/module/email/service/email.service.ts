@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createTransport } from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
-import { EmailException } from '../../../commons/excpetions/error/email.exceptions';
+import { EmailException } from '../../../commons/exceptions/error/email.exception';
 import { MailPayload } from '../config/mail-options';
 import { TemplateService } from './email.template.service';
 

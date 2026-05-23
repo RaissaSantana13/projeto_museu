@@ -1,10 +1,10 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { EmailException } from '../../../commons/excpetions/error/email.exceptions';
-import { EntityNotFoundException } from '../../../commons/excpetions/error/entityNotFound.exceptions';
+import { EmailException } from '../../../commons/exceptions/error/email.exception';
+import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
 import { Pageable } from '../../../commons/pagination/page.response';
-import { Page } from '../../../commons/pagination/paginacao.sistema';
+import { Page } from '../../../commons/pagination/pagination.sistema';
 import { CONTACT, fieldsContact } from '../constants/contact.constantes';
 import { ContactConverter } from '../dto/converter/contact.converter';
 import { ContactRequest } from '../dto/request/contact.request';

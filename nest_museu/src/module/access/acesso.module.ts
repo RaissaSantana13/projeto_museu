@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PermissionsController } from './controller/permissions.controller';
 import { ResourcesController } from './controller/resources.controller';
 import { RolesController } from './controller/roles.controller';
-import { Permissions } from './entities/permissions.entitty';
+import { Permissions } from './entities/permissions.entity';
 import { Resources } from './entities/resources.entity';
 import { Roles } from './entities/role.entity';
 import { PermissionsService } from './service/permissions.service';

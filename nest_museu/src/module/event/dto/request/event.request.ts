@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { BooleanField } from '../../../../commons/decorators/validation/boolean.decorators';
-import { DateField } from '../../../../commons/decorators/validation/date.decorators';
-import { TextField } from '../../../../commons/decorators/validation/text.decorators';
+import { BooleanField } from '../../../../commons/decorators/validation/boolean.decorator';
+import { DateField } from '../../../../commons/decorators/validation/date.decorator';
+import { TextField } from '../../../../commons/decorators/validation/text.decorator';
 import { EVENT } from '../../constants/event.constantes';
 
 export class EventRequest {

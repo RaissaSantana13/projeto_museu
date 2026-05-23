@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { SCHOOL } from '../../constants/school.constantes';
+import { SCHOOL } from '../../constants/school.constants';
 
 export class SchoolResponse {
   @ApiProperty({

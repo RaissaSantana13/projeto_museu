@@ -63,12 +63,12 @@ function getMensagem(ALIAS: string) {
       MENSAGEM_GENERICA.ENTIDADE_LOCALIZADA,
       ALIAS,
     ),
-    ENITDADE_LISTADA: gerarMensagem(MENSAGEM_GENERICA.ENTIDADE_LISTADA, ALIAS),
+    ENTIDADE_LISTADA: gerarMensagem(MENSAGEM_GENERICA.ENTIDADE_LISTADA, ALIAS),
     SERVER_ERROR: gerarMensagem(MENSAGEM_GENERICA.ERROR_SERVICE, ALIAS),
   };
 }
 
-export const fieldsRoles = Object.values(ROLES.FIELDS);
+export const roleFields = Object.values(ROLES.FIELDS);
 
 function getRotas(ENTITY: string): RotaRecurso {
   return gerarRotaRecurso(ENTITY);

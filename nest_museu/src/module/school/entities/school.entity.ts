@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from '../../../commons/entities/base.entity';
-import { SCHOOL } from '../constants/school.constantes';
+import { SCHOOL } from '../constants/school.constants';
 import { SchoolRepresentative } from './school-representative.entity';
 
 @Entity(SCHOOL.ENTITY)

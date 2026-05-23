@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsOptional } from 'class-validator';
-import { TextField } from '../../../../commons/decorators/validation/text.decorators';
+import { TextField } from '../../../../commons/decorators/validation/text.decorator';
 import { PERMISSIONS } from '../../constants/permissions.constants';
 import { Resources } from '../../entities/resources.entity';
 import { Roles } from '../../entities/role.entity';
@@ -10,7 +10,7 @@ export class PermissionsRequest {
   static entityName = PERMISSIONS.ALIAS.toLowerCase();
   @ApiProperty({
     description: PERMISSIONS.SWAGGER.ID_PERMISSIONS,
-    example: '1',
+    example: 1,
   })
   @Type(() => Number)
   @IsOptional()
@@ -32,7 +32,7 @@ export class PermissionsRequest {
     description: PERMISSIONS.SWAGGER.ACTION,
     example: 'leitura',
   })
-  @TextField({ required: true, min: 8, max: 20, label: 'Ação', gender: 'm' })
+  @TextField({ required: true, min: 8, max: 20, label: 'Ação', gender: 'f' })
   action!: string;
 
   /*   @ApiProperty({

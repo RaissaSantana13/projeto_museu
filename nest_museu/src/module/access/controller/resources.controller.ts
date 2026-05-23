@@ -16,9 +16,9 @@ import { Request } from 'express';
 import { PARAMS } from '../../../commons/constants/param.constants';
 import { ApiPaginatedResponse } from '../../../commons/decorators/swagger/api-paginated-response.decorator';
 import { ApiPaginationQuery } from '../../../commons/decorators/swagger/api-pagination-query.decorator';
-import { ApiGetDoc } from '../../../commons/decorators/swagger/swagger.decorators';
+import { ApiGetDoc } from '../../../commons/decorators/swagger/swagger.decorator';
 import { BaseController } from '../../../commons/entities/base.controller';
-import { Page } from '../../../commons/pagination/paginacao.sistema';
+import { Page } from '../../../commons/pagination/pagination.sistema';
 import { PaginationDto } from '../../../commons/pagination/pagination.dto';
 import { ApiResponse } from '../../../commons/response/api.response';
 import { ResponseBuilder } from '../../../commons/response/builder.response';
@@ -46,7 +46,7 @@ export class ResourcesController extends BaseController {
 
     return ResponseBuilder.status<Page<ResourcesResponse>>(HttpStatus.OK)
       .path(req.path)
-      .message(RESOURCES.MENSAGEM.ENITDADE_LISTADA)
+      .message(RESOURCES.MENSAGEM.ENTIDADE_LISTADA)
       .data(response)
       .metodo(req.method)
       .links(this.getCollectionLinks(req, response))
@@ -129,7 +129,7 @@ export class ResourcesController extends BaseController {
 
     return ResponseBuilder.status<Page<ResourcesResponse>>(HttpStatus.OK)
       .path(req.path)
-      .message(RESOURCES.MENSAGEM.ENITDADE_LISTADA)
+      .message(RESOURCES.MENSAGEM.ENTIDADE_LISTADA)
       .data(response)
       .metodo(req.method)
       .links(this.getCollectionLinks(req, response))

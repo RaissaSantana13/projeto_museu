@@ -2,18 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { GenericConverter } from '../../../commons/converter/converter.commons';
-import { EntityNotFoundException } from '../../../commons/excpetions/error/entityNotFound.exceptions';
-import { ServerErrorExceptions } from '../../../commons/excpetions/error/server.error.exceptions';
+import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
+import { ServerErrorExceptions } from '../../../commons/exceptions/error/server-error.exception';
 import { Pageable } from '../../../commons/pagination/page.response';
-import { Page } from '../../../commons/pagination/paginacao.sistema';
+import { Page } from '../../../commons/pagination/pagination.sistema';
 import { PaginationDto } from '../../../commons/pagination/pagination.dto';
 import {
-  fieldsPermissions,
+  permissionFields,
   PERMISSIONS,
 } from '../constants/permissions.constants';
 import { PermissionsRequest } from '../dto/request/permissions.request';
 import { PermissionsResponse } from '../dto/response/permissions.response';
-import { Permissions } from '../entities/permissions.entitty';
+import { Permissions } from '../entities/permissions.entity';
 
 @Injectable()
 export class PermissionsService {
@@ -36,7 +36,7 @@ export class PermissionsService {
       pageSize,
       field,
       order,
-      fieldsPermissions,
+      permissionFields,
     );
     try {
       const query = this.permissionsRepository

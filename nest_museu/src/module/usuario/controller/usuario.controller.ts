@@ -22,11 +22,11 @@ import {
   ApiGetDoc,
   ApiPostDoc,
   ApiPutDoc,
-} from '../../../commons/decorators/swagger/swagger.decorators';
+} from '../../../commons/decorators/swagger/swagger.decorator';
 import { BaseController } from '../../../commons/entities/base.controller';
 import { GLOBAL_CRUD_OPTIONS } from '../../../commons/entities/crud.options';
 import { PAGINATION } from '../../../commons/enum/pagination.enum';
-import { Page } from '../../../commons/pagination/paginacao.sistema';
+import { Page } from '../../../commons/pagination/pagination.sistema';
 import { ApiResponse, Link } from '../../../commons/response/api.response';
 import { ResponseBuilder } from '../../../commons/response/builder.response';
 import { USUARIO } from '../constants/usuario.constantes';

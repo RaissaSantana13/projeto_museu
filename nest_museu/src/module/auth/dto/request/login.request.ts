@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Password } from '../../../../commons/decorators/validation/password.decorators';
-import { TextField } from '../../../../commons/decorators/validation/text.decorators';
+import { Password } from '../../../../commons/decorators/validation/password.decorator';
+import { TextField } from '../../../../commons/decorators/validation/text.decorator';
 import { AUTH } from '../../constants/login.constants';
 
 export class LoginRequest {

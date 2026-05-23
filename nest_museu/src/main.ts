@@ -11,8 +11,8 @@ import { AppModule } from './app/app.module';
 
 import { FIELD_LABEL_KEY } from './commons/decorators/validation/field.metadata';
 import { SIS_MUSEU } from './commons/enum/sis-museu.enum';
-import { GlobalExceptionFilter } from './commons/excpetions/filter/global.filter';
-import { UnprocesseableEntityExceptionFilter } from './commons/excpetions/filter/unprocesseable.entity.filter';
+import { GlobalExceptionFilter } from './commons/exceptions/filter/global.filter';
+import { UnprocesseableEntityExceptionFilter } from './commons/exceptions/filter/unprocesseable.entity.filter';
 import { UsuarioResponse } from './module/usuario/dto/response/usuario.response';
 
 async function bootstrap() {

@@ -12,7 +12,7 @@ import {
   gerarMensagem,
   MENSAGEM_GENERICA,
 } from '../../../../commons/constants/mensagem.sistema';
-import { ApiException } from '../../../../commons/excpetions/error/api.exceptions';
+import { ApiException } from '../../../../commons/exceptions/error/api.exception';
 import { Roles } from '../../../access/entities/role.entity';
 import { Usuario } from '../../../usuario/entities/usuario.entity';
 import { Session } from '../../entities/session.entity';

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { NumberField } from '../../../../commons/decorators/validation/number.decorators';
-import { TextField } from '../../../../commons/decorators/validation/text.decorators';
+import { NumberField } from '../../../../commons/decorators/validation/number.decorator';
+import { TextField } from '../../../../commons/decorators/validation/text.decorator';
 import { ACCOUNT } from '../../constants/accounts.constants';
 
 export class AccountRequest {

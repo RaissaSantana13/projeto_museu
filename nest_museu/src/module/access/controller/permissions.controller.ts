@@ -21,9 +21,9 @@ import {
   ApiGetDoc,
   ApiPostDoc,
   ApiPutDoc,
-} from '../../../commons/decorators/swagger/swagger.decorators';
+} from '../../../commons/decorators/swagger/swagger.decorator';
 import { BaseController } from '../../../commons/entities/base.controller';
-import { Page } from '../../../commons/pagination/paginacao.sistema';
+import { Page } from '../../../commons/pagination/pagination.sistema';
 import { PaginationDto } from '../../../commons/pagination/pagination.dto';
 import { ApiResponse } from '../../../commons/response/api.response';
 import { ResponseBuilder } from '../../../commons/response/builder.response';
@@ -50,7 +50,7 @@ export class PermissionsController extends BaseController {
     const response = await this.permissionsService.listar(pagination);
     return ResponseBuilder.status<Page<PermissionsResponse>>(HttpStatus.OK)
       .path(req.path)
-      .message(PERMISSIONS.MENSAGEM.ENITDADE_LISTADA)
+      .message(PERMISSIONS.MENSAGEM.ENTIDADE_LISTADA)
       .data(response)
       .metodo(req.method)
       .links(this.getCollectionLinks(req, response))

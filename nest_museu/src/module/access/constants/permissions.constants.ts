@@ -32,7 +32,7 @@ export const PERMISSIONS = {
   SWAGGER: {
     ID_PERMISSIONS: `Código da ${ALIAS_NAME} de identificação único `,
     NOME_PERMISSIONS: `Nome da ${ALIAS_NAME}`,
-    ACTION: `utorização realizada no registro da ${ALIAS_NAME}`,
+    ACTION: `Autorização realizada no registro da ${ALIAS_NAME}`,
     POSSESSION: `Dono ou proprietário do registro da ${ALIAS_NAME}`,
     ROLE: `Autorização de acesso ao recurso`,
     RESOURCE: 'Recurso com autorização de acesso',
@@ -71,12 +71,12 @@ function getMensagem(ALIAS: string) {
       MENSAGEM_GENERICA.ENTIDADE_LOCALIZADA,
       ALIAS,
     ),
-    ENITDADE_LISTADA: gerarMensagem(MENSAGEM_GENERICA.ENTIDADE_LISTADA, ALIAS),
+    ENTIDADE_LISTADA: gerarMensagem(MENSAGEM_GENERICA.ENTIDADE_LISTADA, ALIAS),
     SERVER_ERROR: gerarMensagem(MENSAGEM_GENERICA.ERROR_SERVICE, ALIAS),
   };
 }
 
-export const fieldsPermissions = Object.values(PERMISSIONS.FIELDS);
+export const permissionFields = Object.values(PERMISSIONS.FIELDS);
 
 function getRotas(ENTITY: string): RotaRecurso {
   return gerarRotaRecurso(ENTITY);

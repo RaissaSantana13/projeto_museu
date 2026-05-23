@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsArray, IsOptional, ValidateNested } from 'class-validator';
-import { TextField } from '../../../../commons/decorators/validation/text.decorators';
-import { SCHOOL } from '../../constants/school.constantes';
+import { TextField } from '../../../../commons/decorators/validation/text.decorator';
+import { SCHOOL } from '../../constants/school.constants';
 
 class RepresentativeRequest {
   @TextField({ required: true, label: 'Nome do Representante', gender: 'm' })

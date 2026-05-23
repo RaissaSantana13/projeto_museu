@@ -22,18 +22,18 @@ import {
   ApiGetDoc,
   ApiPostDoc,
   ApiPutDoc,
-} from '../../../commons/decorators/swagger/swagger.decorators';
+} from '../../../commons/decorators/swagger/swagger.decorator';
 import { BaseController } from '../../../commons/entities/base.controller';
 import { GLOBAL_CRUD_OPTIONS } from '../../../commons/entities/crud.options';
 import { PAGINATION } from '../../../commons/enum/pagination.enum';
-import { Page } from '../../../commons/pagination/paginacao.sistema';
+import { Page } from '../../../commons/pagination/pagination.sistema';
 import { ApiResponse, Link } from '../../../commons/response/api.response';
 import { ResponseBuilder } from '../../../commons/response/builder.response';
-import { SCHOOL } from '../constants/school.constantes';
+import { SCHOOL } from '../constants/school.constants';
 import { SchoolRequest } from '../dto/request/school.request';
 import { SchoolResponse } from '../dto/response/school.response';
 import { School } from '../entities/school.entity';
-import { SchoolService } from '../service/school.service'; // Certifique-se de criar este Service
+import { SchoolService } from '../service/school.service';
 
 @Crud({
   model: { type: School },

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { Password } from '../../../../commons/decorators/validation/password.decorators';
-import { TextField } from '../../../../commons/decorators/validation/text.decorators';
+import { Password } from '../../../../commons/decorators/validation/password.decorator';
+import { TextField } from '../../../../commons/decorators/validation/text.decorator';
 import { USUARIO } from '../../../usuario/constants/usuario.constantes';
 
 export class ChangePasswordRequest {

@@ -5,7 +5,7 @@ import { RESOURCES } from '../../constants/resources.constants';
 export class ResourcesResponse {
   @ApiProperty({
     description: RESOURCES.SWAGGER.ID_RESOURCES,
-    example: '1',
+    example: 1,
   })
   @Expose()
   idResources!: number;

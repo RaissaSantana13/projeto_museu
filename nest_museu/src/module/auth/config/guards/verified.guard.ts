@@ -8,7 +8,7 @@ import {
   gerarMensagem,
   MENSAGEM_GENERICA,
 } from '../../../../commons/constants/mensagem.sistema';
-import { ApiException } from '../../../../commons/excpetions/error/api.exceptions';
+import { ApiException } from '../../../../commons/exceptions/error/api.exception';
 import { RequestWithUser } from './auth.guard';
 
 @Injectable()

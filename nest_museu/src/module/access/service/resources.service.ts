@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { GenericConverter } from '../../../commons/converter/converter.commons';
-import { EntityNotFoundException } from '../../../commons/excpetions/error/entityNotFound.exceptions';
-import { ServerErrorExceptions } from '../../../commons/excpetions/error/server.error.exceptions';
+import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
+import { ServerErrorExceptions } from '../../../commons/exceptions/error/server-error.exception';
 import { Pageable } from '../../../commons/pagination/page.response';
-import { Page } from '../../../commons/pagination/paginacao.sistema';
+import { Page } from '../../../commons/pagination/pagination.sistema';
 import { PaginationDto } from '../../../commons/pagination/pagination.dto';
-import { fieldResources, RESOURCES } from '../constants/resources.constants';
+import { resourceFields, RESOURCES } from '../constants/resources.constants';
 import { ResourcesRequest } from '../dto/request/resources.request';
 import { ResourcesResponse } from '../dto/response/resources.response';
 import { Resources } from '../entities/resources.entity';
@@ -31,7 +31,7 @@ export class ResourcesService {
       search,
     } = pagination;
 
-    const pageable = new Pageable(page, pageSize, field, order, fieldResources);
+    const pageable = new Pageable(page, pageSize, field, order, resourceFields);
     try {
       const query = this.resourcesRepository
         .createQueryBuilder(RESOURCES.ENTITY)
@@ -157,7 +157,7 @@ export class ResourcesService {
 
   async listarMatriz(pagination: PaginationDto, roleId: number) {
     const { page, pageSize, search, field, order } = pagination;
-    const pageable = new Pageable(page, pageSize, field, order, fieldResources);
+    const pageable = new Pageable(page, pageSize, field, order, resourceFields);
 
     // 1. Buscamos o nome da Role uma única vez (evita joins repetitivos em cada linha)
     const role = await this.rolesRepository.findOne({

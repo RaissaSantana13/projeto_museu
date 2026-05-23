@@ -6,7 +6,7 @@ export class RolesResponse {
   @Expose()
   @ApiProperty({
     description: ROLES.SWAGGER.ID_ROLE,
-    example: '1',
+    example: 1,
   })
   idRoles!: number;
   @Expose()

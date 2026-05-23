@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { PERMISSIONS } from '../../constants/permissions.constants';
-import { Permissions } from '../../entities/permissions.entitty';
+import { Permissions } from '../../entities/permissions.entity';
 import { ResourcesResponse } from './resources.response';
 import { RolesResponse } from './roles.response';
 
 export class PermissionsResponse {
   @ApiProperty({
     description: PERMISSIONS.SWAGGER.ID_PERMISSIONS,
-    example: '1',
+    example: 1,
   })
   @Expose()
   idPermissions!: number;
@@ -20,6 +20,7 @@ export class PermissionsResponse {
   @Expose()
   @Type(() => RolesResponse)
   role!: RolesResponse;
+
   @Expose()
   nomeRoles?: string;
 
@@ -33,6 +34,7 @@ export class PermissionsResponse {
 
   @Expose()
   nomeResources?: string;
+
   @ApiProperty({
     description: PERMISSIONS.SWAGGER.ACTION,
     example: 'leitura',

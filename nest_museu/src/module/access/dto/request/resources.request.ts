@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsOptional } from 'class-validator';
-import { TextField } from '../../../../commons/decorators/validation/text.decorators';
+import { TextField } from '../../../../commons/decorators/validation/text.decorator';
 import { RESOURCES } from '../../constants/resources.constants';
 
 export class ResourcesRequest {
   static entityName = RESOURCES.ALIAS.toLowerCase();
   @ApiProperty({
     description: RESOURCES.SWAGGER.ID_RESOURCES,
-    example: '1',
+    example: 1,
   })
   @Type(() => Number)
   @IsOptional()

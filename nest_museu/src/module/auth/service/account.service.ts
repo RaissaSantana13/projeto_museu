@@ -3,10 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
 import { GenericConverter } from '../../../commons/converter/converter.commons';
-import { EmailException } from '../../../commons/excpetions/error/email.exceptions';
-import { EntityNotFoundException } from '../../../commons/excpetions/error/entityNotFound.exceptions';
+import { EmailException } from '../../../commons/exceptions/error/email.exception';
+import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
 import { Pageable } from '../../../commons/pagination/page.response';
-import { Page } from '../../../commons/pagination/paginacao.sistema';
+import { Page } from '../../../commons/pagination/pagination.sistema';
 import { ACCOUNT, fieldsAccount } from '../constants/accounts.constants';
 import { AccountRequest } from '../dto/request/account.request';
 import { AccountResponse } from '../dto/response/account.response';

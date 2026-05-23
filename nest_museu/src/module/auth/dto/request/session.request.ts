@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsIP, IsOptional, IsString } from 'class-validator';
-import { NumberField } from '../../../../commons/decorators/validation/number.decorators';
+import { NumberField } from '../../../../commons/decorators/validation/number.decorator';
 import { SESSION } from '../../constants/session.constants';
 
 export class SessionRequest {

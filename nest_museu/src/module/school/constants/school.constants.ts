@@ -8,7 +8,7 @@ import {
   RotaRecurso,
 } from '../../../commons/constants/url.sistema';
 
-const ENTITY_NAME = 'schools';
+const ENTITY_NAME = 'school';
 const ALIAS_NAME = 'Escola';
 
 export const SCHOOL = {
@@ -76,4 +76,4 @@ function getRotas(ENTITY: string): RotaRecurso {
   return gerarRotaRecurso(ENTITY);
 }
 
-export const fieldsSchool = Object.values(SCHOOL.FIELDS);
+export const schoolFields = Object.values(SCHOOL.FIELDS);

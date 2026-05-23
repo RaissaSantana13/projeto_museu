@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsOptional } from 'class-validator';
-import { TextField } from '../../../../commons/decorators/validation/text.decorators';
+import { TextField } from '../../../../commons/decorators/validation/text.decorator';
 import { ROLES } from '../../constants/roles.constants';
 
 export class RolesRequest {
   static entityName = ROLES.ALIAS.toLowerCase();
   @ApiProperty({
     description: ROLES.SWAGGER.ID_ROLE,
-    example: '1',
+    example: 1,
   })
   @Type(() => Number)
   @IsOptional()
