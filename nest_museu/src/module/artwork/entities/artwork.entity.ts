@@ -1,6 +1,13 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ARTWORK } from '../constants/artwork.constants';
 import { ArtworkStatusEnum } from '../../../commons/enum/artwork-status.enum';
+import { ArtworkMedia } from '../../artwork-media/entities/artwork-media.entity';
 
 @Entity(ARTWORK.ENTITY)
 export class Artwork extends BaseEntity {
@@ -123,6 +130,12 @@ export class Artwork extends BaseEntity {
   location?: string;
 
   // Relações
+  // Uma obra pode ter muitas mídias vinculas
+  @OneToMany(() => ArtworkMedia, (media) => media.artwork, {
+    // Salvar mídias junto a obra, se necessário
+    cascade: true,
+  })
+  medias!: ArtworkMedia[];
 
   constructor(data: Partial<Artwork> = {}) {
     super();

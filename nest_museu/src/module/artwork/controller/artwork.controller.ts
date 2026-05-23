@@ -37,6 +37,10 @@ import { ArtworkRequest } from '../dto/request/artwork.request';
 
 @Crud({
   model: { type: Artwork },
+  dto: {
+    create: ArtworkRequest,
+    update: ArtworkRequest,
+  },
   ...GLOBAL_CRUD_OPTIONS,
 })
 @ApiTags(ARTWORK.ALIAS)

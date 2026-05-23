@@ -32,7 +32,7 @@ export class ArtworkService extends BaseService<Artwork> {
       const query = this.artworkRepository.createQueryBuilder(ARTWORK.ENTITY);
 
       if (search) {
-        // filtrar pelo campo selecionado
+        // Filtrar pelo campo selecionado
         query.andWhere(`${ARTWORK.ENTITY}.${field} LIKE :search`, {
           search: `%${search}%`,
         });
@@ -134,7 +134,7 @@ export class ArtworkService extends BaseService<Artwork> {
     try {
       return await this.artworkRepository
         .createQueryBuilder(ARTWORK.ENTITY)
-        // adicionar leftJoinSelect dps para mídia
+        .leftJoinAndSelect(`${ARTWORK.ENTITY}.medias`, 'medias')
         .where(`${ARTWORK.ENTITY}.idArtwork = :id`, { id })
         .getOne();
     } catch (error: any) {
