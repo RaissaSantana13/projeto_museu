@@ -50,15 +50,7 @@ export default tseslint.config(
       'prefer-const': 'error',
       '@typescript-eslint/no-redundant-type-constituents': 'off',
       'no-multiple-empty-lines': ['error', { max: 1 }],
-      'prettier/prettier': [
-        'error',
-        {
-          //singleQuote: true,
-          trailingComma: 'all',
-          endOfLine: 'lf',
-          semi: true,
-        },
-      ],
+      'prettier/prettier': 'error',
     },
   },
 );

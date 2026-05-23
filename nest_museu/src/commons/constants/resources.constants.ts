@@ -2,7 +2,7 @@ import { PERMISSIONS } from '../../module/access/constants/permissions.constants
 import { RESOURCES } from '../../module/access/constants/resources.constants';
 import { ROLES } from '../../module/access/constants/roles.constants';
 import { CONTACT } from '../../module/contact/constants/contact.constantes';
-import { EVENT } from '../../module/event/constants/event.constantes';
+import { EVENT } from '../../module/event/constants/event.constants';
 import { FOTO } from '../../module/imagem/constants/foto.constants';
 import { USUARIO } from '../../module/usuario/constants/usuario.constantes';
 

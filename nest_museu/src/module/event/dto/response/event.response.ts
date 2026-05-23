@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { EVENT } from '../../constants/event.constantes';
+import { EVENT } from '../../constants/event.constants';
 
 export class EventResponse {
   @ApiProperty({ description: EVENT.SWAGGER.ID_EVENT, example: '1' })

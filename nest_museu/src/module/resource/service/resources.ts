@@ -6,7 +6,7 @@ import { ACCOUNT } from '../../auth/constants/accounts.constants';
 import { AUTH } from '../../auth/constants/login.constants';
 import { SESSION } from '../../auth/constants/session.constants';
 import { CONTACT } from '../../contact/constants/contact.constantes';
-import { EVENT } from '../../event/constants/event.constantes';
+import { EVENT } from '../../event/constants/event.constants';
 import { FOTO } from '../../imagem/constants/foto.constants';
 import { USUARIO } from '../../usuario/constants/usuario.constantes';
 

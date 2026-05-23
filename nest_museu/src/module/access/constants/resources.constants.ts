@@ -68,7 +68,7 @@ function getMensagem(ALIAS: string) {
   };
 }
 
-export const resourceFields = Object.values(RESOURCES.FIELDS);
+export const fieldsResource = Object.values(RESOURCES.FIELDS);
 
 function getRotas(ENTITY: string): RotaRecurso {
   return gerarRotaRecurso(ENTITY);

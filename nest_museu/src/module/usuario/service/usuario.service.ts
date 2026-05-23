@@ -12,7 +12,7 @@ import * as bcrypt from 'bcrypt';
 import { DataSource, Repository } from 'typeorm';
 import { GenericConverter } from '../../../commons/converter/converter.commons';
 import { BaseService } from '../../../commons/entities/base.service';
-import PostgresErrorCode from '../../../commons/enum/postgre.code.enun';
+import PostgresErrorCode from '../../../commons/enum/postgres-error-code.enum';
 import { EmailException } from '../../../commons/exceptions/error/email.exception';
 import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
 import { ServerErrorExceptions } from '../../../commons/exceptions/error/server-error.exception';

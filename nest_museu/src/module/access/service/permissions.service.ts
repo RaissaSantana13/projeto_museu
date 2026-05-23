@@ -8,7 +8,7 @@ import { Pageable } from '../../../commons/pagination/page.response';
 import { Page } from '../../../commons/pagination/pagination.sistema';
 import { PaginationDto } from '../../../commons/pagination/pagination.dto';
 import {
-  permissionFields,
+  fieldsPermission,
   PERMISSIONS,
 } from '../constants/permissions.constants';
 import { PermissionsRequest } from '../dto/request/permissions.request';
@@ -36,7 +36,7 @@ export class PermissionsService {
       pageSize,
       field,
       order,
-      permissionFields,
+      fieldsPermission,
     );
     try {
       const query = this.permissionsRepository

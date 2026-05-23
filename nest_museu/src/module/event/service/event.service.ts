@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { GenericConverter } from '../../../commons/converter/converter.commons';
 import { EmailException } from '../../../commons/exceptions/error/email.exception';
 import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
-import { EVENT } from '../constants/event.constantes';
+import { EVENT } from '../constants/event.constants';
 import { EventRequest } from '../dto/request/event.request';
 import { EventResponse } from '../dto/response/event.response';
 import { Event } from '../entities/event.entity';

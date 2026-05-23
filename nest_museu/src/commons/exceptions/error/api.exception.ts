@@ -10,7 +10,7 @@ export class ApiException extends NegocioException {
     super({
       statusCode,
       message,
-      error: error ?? 'Erro de negócio ',
+      error: error ?? 'Erro de negócio',
     });
   }
 }

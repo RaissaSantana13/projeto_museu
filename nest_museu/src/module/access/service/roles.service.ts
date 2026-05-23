@@ -7,7 +7,7 @@ import { ServerErrorExceptions } from '../../../commons/exceptions/error/server-
 import { Pageable } from '../../../commons/pagination/page.response';
 import { Page } from '../../../commons/pagination/pagination.sistema';
 import { PaginationDto } from '../../../commons/pagination/pagination.dto';
-import { roleFields, ROLES } from '../constants/roles.constants';
+import { fieldsRole, ROLES } from '../constants/roles.constants';
 import { RolesRequest } from '../dto/request/roles.request';
 import { RolesResponse } from '../dto/response/roles.response';
 import { Roles } from '../entities/role.entity';
@@ -27,7 +27,7 @@ export class RolesService {
       order,
       search,
     } = pagination;
-    const pageable = new Pageable(page, pageSize, field, order, roleFields);
+    const pageable = new Pageable(page, pageSize, field, order, fieldsRole);
     try {
       const query = this.rolesRepository
         .createQueryBuilder(ROLES.ENTITY)

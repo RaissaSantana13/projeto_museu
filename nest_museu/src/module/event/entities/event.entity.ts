@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BaseEntity } from '../../../commons/entities/base.entity';
-import { EVENT } from '../constants/event.constantes';
+import { EVENT } from '../constants/event.constants';
 
 @Entity(EVENT.ENTITY)
 export class Event extends BaseEntity {

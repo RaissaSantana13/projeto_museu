@@ -3,7 +3,7 @@ import { Expose } from 'class-transformer';
 import { BooleanField } from '../../../../commons/decorators/validation/boolean.decorator';
 import { DateField } from '../../../../commons/decorators/validation/date.decorator';
 import { TextField } from '../../../../commons/decorators/validation/text.decorator';
-import { EVENT } from '../../constants/event.constantes';
+import { EVENT } from '../../constants/event.constants';
 
 export class EventRequest {
   static entityName = EVENT.ALIAS.toLowerCase();

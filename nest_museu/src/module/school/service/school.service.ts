@@ -2,7 +2,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { BaseService } from '../../../commons/entities/base.service';
-import PostgresErrorCode from '../../../commons/enum/postgre.code.enun';
+import PostgresErrorCode from '../../../commons/enum/postgres-error-code.enum';
 import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
 import { NegocioException } from '../../../commons/exceptions/error/negocio.exception';
 import { ServerErrorExceptions } from '../../../commons/exceptions/error/server-error.exception';

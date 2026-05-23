@@ -7,7 +7,7 @@ import { ServerErrorExceptions } from '../../../commons/exceptions/error/server-
 import { Pageable } from '../../../commons/pagination/page.response';
 import { Page } from '../../../commons/pagination/pagination.sistema';
 import { PaginationDto } from '../../../commons/pagination/pagination.dto';
-import { resourceFields, RESOURCES } from '../constants/resources.constants';
+import { fieldsResource, RESOURCES } from '../constants/resources.constants';
 import { ResourcesRequest } from '../dto/request/resources.request';
 import { ResourcesResponse } from '../dto/response/resources.response';
 import { Resources } from '../entities/resources.entity';
@@ -31,7 +31,7 @@ export class ResourcesService {
       search,
     } = pagination;
 
-    const pageable = new Pageable(page, pageSize, field, order, resourceFields);
+    const pageable = new Pageable(page, pageSize, field, order, fieldsResource);
     try {
       const query = this.resourcesRepository
         .createQueryBuilder(RESOURCES.ENTITY)
@@ -157,7 +157,7 @@ export class ResourcesService {
 
   async listarMatriz(pagination: PaginationDto, roleId: number) {
     const { page, pageSize, search, field, order } = pagination;
-    const pageable = new Pageable(page, pageSize, field, order, resourceFields);
+    const pageable = new Pageable(page, pageSize, field, order, fieldsResource);
 
     // 1. Buscamos o nome da Role uma única vez (evita joins repetitivos em cada linha)
     const role = await this.rolesRepository.findOne({

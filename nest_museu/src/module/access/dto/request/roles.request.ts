@@ -18,7 +18,7 @@ export class RolesRequest {
     description: ROLES.SWAGGER.NOME_ROLE,
     example: 'administrador',
   })
-  @TextField({ required: true, min: 8, max: 100, label: 'Nome', gender: 'f' })
+  @TextField({ required: true, min: 8, max: 100, label: 'Nome', gender: 'm' })
   nomeRoles!: string;
 
   constructor(data: Partial<RolesRequest> = {}) {

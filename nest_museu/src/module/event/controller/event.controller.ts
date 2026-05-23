@@ -22,7 +22,7 @@ import { HateoasHelper } from '../../../commons/helpers/hateoas.helpers';
 import { Page } from '../../../commons/pagination/pagination.sistema';
 import { ApiResponse, Link } from '../../../commons/response/api.response';
 import { ResponseBuilder } from '../../../commons/response/builder.response';
-import { EVENT } from '../constants/event.constantes';
+import { EVENT } from '../constants/event.constants';
 import { EventRequest } from '../dto/request/event.request';
 import { EventResponse } from '../dto/response/event.response';
 import { EventService } from '../service/event.service';
