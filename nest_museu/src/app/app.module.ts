@@ -13,8 +13,9 @@ import { EmailModule } from '../module/email/email.module';
 import { EventModule } from '../module/event/event.module';
 import { FotoModule } from '../module/imagem/foto.module';
 import { ResourceModule } from '../module/resource/resource.module';
-import { SchoolModule } from '../module/school/school.module';
 import { UsuarioModule } from '../module/usuario/usuario.module';
+import { SchoolModule } from '../module/school/school.module';
+import { ArtworkModule } from '../module/artwork/artwork.module';
 
 const modules = [
   DataBaseModule,
@@ -27,6 +28,7 @@ const modules = [
   EmailModule,
   SchoolModule,
   AcessoModule,
+  ArtworkModule,
 ];
 
 @Module({
