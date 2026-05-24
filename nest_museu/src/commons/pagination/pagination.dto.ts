@@ -1,32 +1,34 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsIn, IsInt, IsOptional, IsString, Min } from 'class-validator';
 import { PAGINATION } from './pagination.enum';
 
 export class PaginationDto {
   @ApiPropertyOptional({
-    example: 1,
-    description: 'Número da página',
+    example: PAGINATION.PAGE,
+    description: 'Número da página (maior ou igual a 1)',
     default: PAGINATION.PAGE,
   })
   @IsOptional()
   @Type(() => Number)
-  @IsNumber()
+  @IsInt()
+  @Min(1)
   page?: number = PAGINATION.PAGE;
 
   @ApiPropertyOptional({
-    example: 10,
-    description: 'Quantidade por página',
+    example: PAGINATION.PAGESIZE,
+    description: 'Quantidade de itens por página (maior ou igual a 1)',
     default: PAGINATION.PAGESIZE,
   })
   @IsOptional()
   @Type(() => Number)
-  @IsNumber()
+  @IsInt()
+  @Min(1)
   pageSize?: number = PAGINATION.PAGESIZE;
 
   @ApiPropertyOptional({
-    example: 'atributo da classe ',
-    description: 'Campo para ordenação',
+    example: 'id',
+    description: 'Atributo da classe/banco para ordenação',
   })
   @IsOptional()
   @IsString()
@@ -34,14 +36,18 @@ export class PaginationDto {
 
   @ApiPropertyOptional({
     example: 'ASC',
-    description: 'Ordem (ASC ou DESC)',
+    description: 'Ordem da paginação (ASC ou DESC)',
     default: PAGINATION.ASC,
   })
   @IsOptional()
   @IsString()
+  @IsIn([PAGINATION.ASC, PAGINATION.DESC])
   order?: string = PAGINATION.ASC;
 
-  @ApiPropertyOptional({ example: 'museu', description: 'Filtro de busca' })
+  @ApiPropertyOptional({
+    example: 'museu',
+    description: 'Termo para filtro de busca de texto',
+  })
   @IsOptional()
   @IsString()
   search?: string;

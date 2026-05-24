@@ -27,6 +27,7 @@ import {
   ApiPostDoc,
   ApiPutDoc,
   ApiDeleteDoc,
+  ApiGetByIdDoc,
 } from '../../../commons/decorators/swagger/swagger.decorator';
 import { PAGINATION } from '../../../commons/enum/pagination.enum';
 import { Page } from '../../../commons/pagination/pagination.sistema';
@@ -34,12 +35,25 @@ import { ResponseBuilder } from '../../../commons/response/builder.response';
 import { ArtworkMediaRequest } from '../dto/request/artwork-media.request';
 import { ArtworkMediaService } from '../service/artwork-media.service';
 import { Request } from 'express';
+import { PaginationDto } from '../../../commons/pagination/pagination.dto';
 
 @Crud({
   model: { type: ArtworkMedia },
   dto: {
     create: ArtworkMediaRequest,
     update: ArtworkMediaRequest,
+  },
+  routes: {
+    exclude: [
+      'getManyBase',
+      'getOneBase',
+      'createOneBase',
+      'updateOneBase',
+      'replaceOneBase',
+      'deleteOneBase',
+      'createManyBase',
+      'recoverOneBase',
+    ],
   },
   ...GLOBAL_CRUD_OPTIONS,
 })
@@ -55,29 +69,31 @@ export class ArtworkMediaController extends BaseController {
 
   @Get()
   @ApiGetDoc(ARTWORK_MEDIA.OPERACAO.LISTAR, ArtworkMediaResponse)
-  @ApiPaginationQuery()
   @ApiPaginatedResponse(ArtworkMediaResponse)
   async listar(
     @Req() req: Request,
-    @Query('page') page?: string,
-    @Query('pageSize') pageSize?: string,
-    @Query('field') field?: string,
-    @Query('order') order?: string,
-    @Query('search') search?: string,
+    @Query() pagination: PaginationDto,
   ): Promise<ApiResponse<Page<ArtworkMediaResponse>>> {
-    const pageController = Number(page) ? Number(page) : PAGINATION.PAGE;
-    const pageSizeController = Number(pageSize)
-      ? Number(pageSize)
+    const pageController = Number(pagination.page)
+      ? Number(pagination.page)
+      : PAGINATION.PAGE;
+    const pageSizeController = Number(pagination.pageSize)
+      ? Number(pagination.pageSize)
       : PAGINATION.PAGESIZE;
-    const fieldController = field ? field : ARTWORK_MEDIA.FIELDS.ID_MEDIA;
-    const orderController = order ? order : PAGINATION.ASC;
+    const fieldController = pagination.field
+      ? pagination.field
+      : ARTWORK_MEDIA.FIELDS.ID_MEDIA;
+    const orderController = pagination.order
+      ? pagination.order
+      : PAGINATION.ASC;
+    const searchController = pagination.search;
 
     const response = await this.artworkMediaService.listar(
       pageController,
       pageSizeController,
       fieldController,
       orderController,
-      search,
+      searchController,
     );
 
     return ResponseBuilder.status<Page<ArtworkMediaResponse>>(HttpStatus.OK)
@@ -90,7 +106,7 @@ export class ArtworkMediaController extends BaseController {
   }
 
   @Get(ARTWORK_MEDIA.ROTAS.ID)
-  @ApiGetDoc(ARTWORK_MEDIA.OPERACAO.PORID, ArtworkMediaResponse)
+  @ApiGetByIdDoc(ARTWORK_MEDIA.OPERACAO.PORID, ArtworkMediaResponse)
   async porId(@Param(PARAMS.ID, ParseIntPipe) id: number, @Req() req: Request) {
     const response = await this.artworkMediaService.porId(id);
 

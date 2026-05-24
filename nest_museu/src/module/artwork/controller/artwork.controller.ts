@@ -22,6 +22,7 @@ import { ArtworkResponse } from '../dto/response/artwork.response';
 import { ApiResponse, Link } from '../../../commons/response/api.response';
 import {
   ApiDeleteDoc,
+  ApiGetByIdDoc,
   ApiGetDoc,
   ApiPostDoc,
   ApiPutDoc,
@@ -34,12 +35,25 @@ import { ResponseBuilder } from '../../../commons/response/builder.response';
 import { Request } from 'express';
 import { PARAMS } from '../../../commons/constants/param.constants';
 import { ArtworkRequest } from '../dto/request/artwork.request';
+import { PaginationDto } from '../../../commons/pagination/pagination.dto';
 
 @Crud({
   model: { type: Artwork },
   dto: {
     create: ArtworkRequest,
     update: ArtworkRequest,
+  },
+  routes: {
+    exclude: [
+      'getManyBase',
+      'getOneBase',
+      'createOneBase',
+      'updateOneBase',
+      'replaceOneBase',
+      'deleteOneBase',
+      'createManyBase',
+      'recoverOneBase',
+    ],
   },
   ...GLOBAL_CRUD_OPTIONS,
 })
@@ -55,29 +69,31 @@ export class ArtworkController extends BaseController {
 
   @Get()
   @ApiGetDoc(ARTWORK.OPERACAO.LISTAR, ArtworkResponse)
-  @ApiPaginationQuery()
   @ApiPaginatedResponse(ArtworkResponse)
   async listar(
     @Req() req: Request,
-    @Query('page') page?: string,
-    @Query('pageSize') pageSize?: string,
-    @Query('field') field?: string,
-    @Query('order') order?: string,
-    @Query('search') search?: string,
+    @Query() pagination: PaginationDto, // Recebe o objeto de paginação unificado do commons
   ): Promise<ApiResponse<Page<ArtworkResponse>>> {
-    const pageController = Number(page) ? Number(page) : PAGINATION.PAGE;
-    const pageSizeController = Number(pageSize)
-      ? Number(pageSize)
+    const pageController = Number(pagination.page)
+      ? Number(pagination.page)
+      : PAGINATION.PAGE;
+    const pageSizeController = Number(pagination.pageSize)
+      ? Number(pagination.pageSize)
       : PAGINATION.PAGESIZE;
-    const fieldController = field ? field : ARTWORK.FIELDS.ID_ARTWORK;
-    const orderController = order ? order : PAGINATION.ASC;
+    const fieldController = pagination.field
+      ? pagination.field
+      : ARTWORK.FIELDS.ID_ARTWORK;
+    const orderController = pagination.order
+      ? pagination.order
+      : PAGINATION.ASC;
+    const searchController = pagination.search;
 
     const response = await this.artworkService.listar(
       pageController,
       pageSizeController,
       fieldController,
       orderController,
-      search,
+      searchController,
     );
 
     return ResponseBuilder.status<Page<ArtworkResponse>>(HttpStatus.OK)
@@ -90,7 +106,7 @@ export class ArtworkController extends BaseController {
   }
 
   @Get(ARTWORK.ROTAS.ID)
-  @ApiGetDoc(ARTWORK.OPERACAO.PORID, ArtworkResponse)
+  @ApiGetByIdDoc(ARTWORK.OPERACAO.PORID, ArtworkResponse)
   async porId(@Param(PARAMS.ID, ParseIntPipe) id: number, @Req() req: Request) {
     const response = await this.artworkService.porId(id);
 
