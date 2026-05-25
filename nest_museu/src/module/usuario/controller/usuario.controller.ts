@@ -29,7 +29,7 @@ import { PAGINATION } from '../../../commons/enum/pagination.enum';
 import { Page } from '../../../commons/pagination/pagination.sistema';
 import { ApiResponse, Link } from '../../../commons/response/api.response';
 import { ResponseBuilder } from '../../../commons/response/builder.response';
-import { USUARIO } from '../constants/usuario.constantes';
+import { USUARIO } from '../constants/usuario.constants';
 import { UsuarioRequest } from '../dto/request/usuario.request';
 import { UsuarioResponse } from '../dto/response/usuario.response';
 import { Usuario } from '../entities/usuario.entity';

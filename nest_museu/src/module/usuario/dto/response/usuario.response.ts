@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { RolesResponse } from '../../../access/dto/response/roles.response';
-import { USUARIO } from '../../constants/usuario.constantes';
+import { USUARIO } from '../../constants/usuario.constants';
 
 export class UsuarioResponse {
   @ApiProperty({ description: USUARIO.SWAGGER.ID_USUARIO, example: '1' })

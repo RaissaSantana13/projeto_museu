@@ -22,7 +22,7 @@ import { AUTH } from '../../auth/constants/login.constants';
 import { RegisterUsuarioRequest } from '../../auth/dto/request/register.usuario.request';
 import { Credentials } from '../../auth/entities/credentials.entity';
 import EmailService from '../../email/service/email.service';
-import { fieldsUsuario, USUARIO } from '../constants/usuario.constantes';
+import { fieldsUsuario, USUARIO } from '../constants/usuario.constants';
 import { UsuarioConverter } from '../dto/converter/usuario.converter';
 import { UsuarioRequest } from '../dto/request/usuario.request';
 import { UsuarioResponse } from '../dto/response/usuario.response';

@@ -3,7 +3,7 @@ import { Type } from 'class-transformer';
 import { IsArray, IsOptional } from 'class-validator';
 import { Password } from '../../../../commons/decorators/validation/password.decorator';
 import { TextField } from '../../../../commons/decorators/validation/text.decorator';
-import { USUARIO } from '../../constants/usuario.constantes';
+import { USUARIO } from '../../constants/usuario.constants';
 
 export class UsuarioRequest {
   static entityName = USUARIO.ALIAS.toLowerCase();

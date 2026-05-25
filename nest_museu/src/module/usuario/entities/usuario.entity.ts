@@ -12,7 +12,7 @@ import { Roles } from '../../access/entities/role.entity';
 import { Account } from '../../auth/entities/account.entity';
 import { Credentials } from '../../auth/entities/credentials.entity';
 import { Session } from '../../auth/entities/session.entity';
-import { USUARIO } from '../constants/usuario.constantes';
+import { USUARIO } from '../constants/usuario.constants';
 
 @Entity(USUARIO.ENTITY)
 export class Usuario extends BaseEntity {
