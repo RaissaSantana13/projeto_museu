@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { MatchField } from '../../../../commons/decorators/validation/match.decorator';
 import { Password } from '../../../../commons/decorators/validation/password.decorator';
 import { TextField } from '../../../../commons/decorators/validation/text.decorator';
-import { USUARIO } from '../../../usuario/constants/usuario.constantes';
+import { USUARIO } from '../../../usuario/constants/usuario.constants';
 
 export class RegisterUsuarioRequest {
   @ApiProperty({ description: USUARIO.SWAGGER.FIRSTNAME })

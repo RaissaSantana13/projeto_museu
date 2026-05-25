@@ -17,7 +17,7 @@ import { Request } from 'express';
 import { GenericConverter } from '../../../commons/converter/converter.commons';
 import { ApiResponse } from '../../../commons/response/api.response';
 import { ResponseBuilder } from '../../../commons/response/builder.response';
-import { USUARIO } from '../../usuario/constants/usuario.constantes';
+import { USUARIO } from '../../usuario/constants/usuario.constants';
 import { UsuarioResponse } from '../../usuario/dto/response/usuario.response';
 import { UsuarioService } from '../../usuario/service/usuario.service';
 import JwtAuthenticationGuard from '../config/guards/jwt-authentication.guard';

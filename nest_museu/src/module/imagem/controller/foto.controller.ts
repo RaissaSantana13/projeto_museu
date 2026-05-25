@@ -14,7 +14,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import { ApiResponse } from '../../../commons/response/api.response';
 import { ResponseBuilder } from '../../../commons/response/builder.response';
-import { USUARIO } from '../../usuario/constants/usuario.constantes';
+import { USUARIO } from '../../usuario/constants/usuario.constants';
 import { FOTO } from '../constants/foto.constants';
 import { FotoService } from '../service/foto.service';
 

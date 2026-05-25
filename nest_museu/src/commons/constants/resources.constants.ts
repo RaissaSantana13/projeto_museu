@@ -4,7 +4,7 @@ import { ROLES } from '../../module/access/constants/roles.constants';
 import { CONTACT } from '../../module/contact/constants/contact.constantes';
 import { EVENT } from '../../module/event/constants/event.constants';
 import { FOTO } from '../../module/imagem/constants/foto.constants';
-import { USUARIO } from '../../module/usuario/constants/usuario.constantes';
+import { USUARIO } from '../../module/usuario/constants/usuario.constants';
 
 export const RESOURCES_NAME = {
   DASHBORARD_COMPONENTE: 'Dashboards',

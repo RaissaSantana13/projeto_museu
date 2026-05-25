@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Password } from '../../../../commons/decorators/validation/password.decorator';
 import { TextField } from '../../../../commons/decorators/validation/text.decorator';
-import { USUARIO } from '../../../usuario/constants/usuario.constantes';
+import { USUARIO } from '../../../usuario/constants/usuario.constants';
 
 export class ResetPasswordRequest {
   @ApiProperty({ description: USUARIO.SWAGGER.EMAIL })
