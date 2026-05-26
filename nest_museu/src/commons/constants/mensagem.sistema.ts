@@ -12,6 +12,7 @@ export enum MENSAGEM_GENERICA {
   ENTIDADE_EXCLUIDA = 'ENTIDADE_EXCLUIDA',
   ENTIDADE_LOCALIZADA = 'ENTIDADE_LOCALIZADA',
   ENTIDADE_LISTADA = 'ENTIDADE_LISTADA',
+  ENTIDADE_RESTAURADA = 'ENTIDADE_RESTAURADA',
   CREDENCIAL_INVALIDA = 'CREDENCIAL_INVALIDA',
   LOGIN_EFETUADO = 'LOGIN_EFETUADO',
   ERROR_SERVICE = 'ERROR_SERVICE',
@@ -71,6 +72,8 @@ const MENSAGENS_GENERICAS: MensagensGenericas = {
     `${entidade} foi localizado(a) no sistema.`,
   [MENSAGEM_GENERICA.ENTIDADE_LISTADA]: (entidade: string) =>
     `Listagem de ${entidade} gerada com sucesso.`,
+  [MENSAGEM_GENERICA.ENTIDADE_RESTAURADA]: (entidade: string) =>
+    `${entidade} foi restaurado(a) no sistema.`,
   [MENSAGEM_GENERICA.EMAIL_NAO_CADASTRADO]: (entidade: string) =>
     `${entidade} não está cadastrada no sistema.`,
   [MENSAGEM_GENERICA.EMAIL_RECUPERACAO_ENVIADO]: (entidade: string) =>

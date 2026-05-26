@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from '../../../commons/entities/base.service';
 import { Artwork } from '../entities/artwork.entity';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 import { Page } from '../../../commons/pagination/pagination.sistema';
 import { ArtworkResponse } from '../dto/response/artwork.response';
 import { ARTWORK, fieldsArtwork } from '../constants/artwork.constants';
@@ -10,6 +10,7 @@ import { Pageable } from '../../../commons/pagination/page.response';
 import { ArtworkConverter } from '../dto/converter/artwork.converter';
 import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
 import { ArtworkRequest } from '../dto/request/artwork.request';
+import { ConflictException } from '@nestjs/common';
 
 export class ArtworkService extends BaseService<Artwork> {
   constructor(
@@ -126,6 +127,38 @@ export class ArtworkService extends BaseService<Artwork> {
       throw new ServerErrorExceptions(
         ARTWORK.MENSAGEM.SERVER_ERROR,
         error.message,
+      );
+    }
+  }
+
+  async restaurar(id: number): Promise<void> {
+    let resultado;
+    try {
+      resultado = await this.artworkRepository.restore({
+        idArtwork: id,
+        deletedAt: Not(IsNull()),
+      });
+    } catch (error: any) {
+      throw new ServerErrorExceptions(
+        ARTWORK.MENSAGEM.SERVER_ERROR,
+        error.message,
+      );
+    }
+    // Validar se realmente existia algo deletado com esse id
+    if (resultado.affected === 0) {
+      // Busca se o id existe, devolve true ou false
+      const existeAtivo = await this.artworkRepository.existsBy({
+        idArtwork: id,
+      });
+
+      if (existeAtivo) {
+        throw new ConflictException(
+          'Esta obra de arte já se encontra ativa no sistema.',
+        );
+      }
+
+      throw new EntityNotFoundException(
+        ARTWORK.MENSAGEM.ENTIDADE_NAO_ENCONTRADA,
       );
     }
   }

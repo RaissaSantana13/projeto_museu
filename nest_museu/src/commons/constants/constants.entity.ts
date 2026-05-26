@@ -29,5 +29,12 @@ export function criarMensagensOperacao(ENTITY_NAME: string) {
       SUCESSO: `A consulta dos cadastros de ${ENTITY_NAME} foi realizada com sucesso no sistema.`,
       ERRO: `Falha na consulta dos cadastros de ${ENTITY_NAME} no sistema.`,
     },
+    RESTAURAR: {
+      ACAO: `Restaurar o cadastro de ${ENTITY_NAME} por um identificador único no sistema.`,
+      SUCESSO: `O cadastro de ${ENTITY_NAME} foi restaurado com sucesso no sistema.`,
+      ERRO: `Falha na restauração do cadastro de ${ENTITY_NAME} no sistema.`,
+      NAO_LOCALIZADO: `O código informado do cadastro de ${ENTITY_NAME} não foi localizado no sistema.`,
+      EXISTE: `${ENTITY_NAME} já está cadastrado no sistema.`,
+    },
   };
 }

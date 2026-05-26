@@ -1,13 +1,8 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ARTWORK } from '../constants/artwork.constants';
 import { ArtworkStatusEnum } from '../../../commons/enum/artwork-status.enum';
 import { ArtworkMedia } from '../../artwork-media/entities/artwork-media.entity';
+import { BaseEntity } from '../../../commons/entities/base.entity';
 
 @Entity(ARTWORK.ENTITY)
 export class Artwork extends BaseEntity {

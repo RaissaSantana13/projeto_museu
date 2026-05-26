@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   Query,
@@ -26,8 +27,8 @@ import {
   ApiGetDoc,
   ApiPostDoc,
   ApiPutDoc,
+  ApiRestoreDoc,
 } from '../../../commons/decorators/swagger/swagger.decorator';
-import { ApiPaginationQuery } from '../../../commons/decorators/swagger/api-pagination-query.decorator';
 import { ApiPaginatedResponse } from '../../../commons/decorators/swagger/api-paginated-response.decorator';
 import { Page } from '../../../commons/pagination/pagination.sistema';
 import { PAGINATION } from '../../../commons/enum/pagination.enum';
@@ -161,6 +162,22 @@ export class ArtworkController extends BaseController {
 
     return ResponseBuilder.status<ArtworkResponse>(HttpStatus.OK)
       .message(ARTWORK.MENSAGEM.ENTIDADE_EXCLUIDA)
+      .path(req.path)
+      .metodo(req.method)
+      .links(this.getResourceLinks(id))
+      .build();
+  }
+
+  @Patch(`${ARTWORK.ROTAS.ID}/recover`)
+  @ApiRestoreDoc(ARTWORK.OPERACAO.RESTAURAR)
+  async restaurar(
+    @Param(PARAMS.ID, ParseIntPipe) id: number,
+    @Req() req: Request,
+  ) {
+    await this.artworkService.restaurar(id);
+
+    return ResponseBuilder.status<ArtworkResponse>(HttpStatus.OK)
+      .message(ARTWORK.MENSAGEM.ENTIDADE_RESTAURADA)
       .path(req.path)
       .metodo(req.method)
       .links(this.getResourceLinks(id))

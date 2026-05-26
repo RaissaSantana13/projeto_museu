@@ -105,6 +105,10 @@ function getMensagem(ALIAS: string) {
       ALIAS,
     ),
     ENTIDADE_LISTADA: gerarMensagem(MENSAGEM_GENERICA.ENTIDADE_LISTADA, ALIAS),
+    ENTIDADE_RESTAURADA: gerarMensagem(
+      MENSAGEM_GENERICA.ENTIDADE_RESTAURADA,
+      ALIAS,
+    ),
     SERVER_ERROR: gerarMensagem(MENSAGEM_GENERICA.ERROR_SERVICE, ALIAS),
   };
 }

@@ -55,6 +55,7 @@ export function ApiPutDoc(
 ) {
   return applyDecorators(
     ApiOperation({ summary: config.ACAO }),
+    ApiParam({ name: 'id', description: 'ID único do recurso.', type: Number }),
     ApiBody({ type: request }),
     ApiResponse({
       status: HttpStatus.OK,
@@ -161,6 +162,7 @@ export function ApiDeleteDoc(config: ApiOperationConfigProps) {
     ApiParam({
       name: 'id',
       description: 'ID único do recurso a ser excluído.',
+      type: Number,
     }),
     ApiResponse({
       status: HttpStatus.OK,
@@ -174,6 +176,39 @@ export function ApiDeleteDoc(config: ApiOperationConfigProps) {
     ApiResponse({
       status: HttpStatus.NOT_FOUND,
       description: config?.NAO_LOCALIZADO,
+    }),
+    ApiResponse({
+      status: HttpStatus.INTERNAL_SERVER_ERROR,
+      description: 'Erro interno no servidor.',
+    }),
+    ApiProduces(JSON_APPLICATION),
+  );
+}
+
+export function ApiRestoreDoc(config: ApiOperationConfigProps) {
+  return applyDecorators(
+    ApiOperation({ summary: config.ACAO }),
+    ApiParam({
+      name: 'id',
+      description: 'ID único do recurso a ser restaurado.',
+      type: Number,
+    }),
+    ApiResponse({
+      status: HttpStatus.OK,
+      description: config.SUCESSO,
+      type: Number,
+    }),
+    ApiResponse({
+      status: HttpStatus.BAD_REQUEST,
+      description: config.ERRO,
+    }),
+    ApiResponse({
+      status: HttpStatus.NOT_FOUND,
+      description: config?.NAO_LOCALIZADO,
+    }),
+    ApiResponse({
+      status: HttpStatus.CONFLICT,
+      description: config?.EXISTE,
     }),
     ApiResponse({
       status: HttpStatus.INTERNAL_SERVER_ERROR,

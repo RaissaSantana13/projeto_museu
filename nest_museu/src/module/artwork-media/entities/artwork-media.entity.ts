@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Column,
   Entity,
   JoinColumn,
@@ -8,6 +7,7 @@ import {
 } from 'typeorm';
 import { ARTWORK_MEDIA } from '../constants/artwork-media.constants';
 import { Artwork } from '../../artwork/entities/artwork.entity';
+import { BaseEntity } from '../../../commons/entities/base.entity';
 
 @Entity(ARTWORK_MEDIA.ENTITY)
 export class ArtworkMedia extends BaseEntity {

@@ -21,7 +21,6 @@ import {
 import { ARTWORK_MEDIA } from '../constants/artwork-media.constants';
 import { PARAMS } from '../../../commons/constants/param.constants';
 import { ApiPaginatedResponse } from '../../../commons/decorators/swagger/api-paginated-response.decorator';
-import { ApiPaginationQuery } from '../../../commons/decorators/swagger/api-pagination-query.decorator';
 import {
   ApiGetDoc,
   ApiPostDoc,
