@@ -61,20 +61,19 @@ export class ResponseBuilder<T> {
       status: this.response.status!,
       timestamp: this.response.timestamp!,
       mensagem: this.response.mensagem,
-      erro: this.response.erro,
       path: this.response.path,
       metodo: this.response.metodo,
     };
 
-    if (this.response._links !== undefined && this.response._links !== null) {
+    if (this.response._links != null) {
       response._links = this.response._links;
     }
 
-    if (this.response.dados !== undefined && this.response.dados !== null) {
+    if (this.response.dados != null) {
       response.dados = this.response.dados;
     }
 
-    if (this.response.erro) {
+    if (this.response.erro != null) {
       response.erro = this.response.erro;
     }
 
