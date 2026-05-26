@@ -10,7 +10,7 @@ import { Pageable } from '../../../commons/pagination/page.response';
 import { ArtworkConverter } from '../dto/converter/artwork.converter';
 import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
 import { ArtworkRequest } from '../dto/request/artwork.request';
-import { ConflictException } from '@nestjs/common';
+import { ConflictException } from '../../../commons/exceptions/error/conflict.exception';
 
 export class ArtworkService extends BaseService<Artwork> {
   constructor(
@@ -152,9 +152,7 @@ export class ArtworkService extends BaseService<Artwork> {
       });
 
       if (existeAtivo) {
-        throw new ConflictException(
-          'Esta obra de arte já se encontra ativa no sistema.',
-        );
+        throw new ConflictException(ARTWORK.MENSAGEM.ENTIDADE_JA_ATIVA);
       }
 
       throw new EntityNotFoundException(
