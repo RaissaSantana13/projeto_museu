@@ -55,6 +55,10 @@ export const ARTWORK_MEDIA = {
 
 function getMensagem(ALIAS: string) {
   return {
+    ENTIDADE_JA_ATIVA: gerarMensagem(
+      MENSAGEM_GENERICA.ENTIDADE_JA_ATIVA,
+      ALIAS,
+    ),
     ENTIDADE_CADASTRADA: gerarMensagem(
       MENSAGEM_GENERICA.ENTIDADE_CADASTRADA,
       ALIAS,
@@ -73,6 +77,10 @@ function getMensagem(ALIAS: string) {
     ),
     ENTIDADE_LOCALIZADA: gerarMensagem(
       MENSAGEM_GENERICA.ENTIDADE_LOCALIZADA,
+      ALIAS,
+    ),
+    ENTIDADE_RESTAURADA: gerarMensagem(
+      MENSAGEM_GENERICA.ENTIDADE_RESTAURADA,
       ALIAS,
     ),
     ENTIDADE_LISTADA: gerarMensagem(MENSAGEM_GENERICA.ENTIDADE_LISTADA, ALIAS),

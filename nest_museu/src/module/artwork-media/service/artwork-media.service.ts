@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 import { BaseService } from '../../../commons/entities/base.service';
 import { ArtworkMedia } from '../entities/artwork-media.entity';
 import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
@@ -13,6 +13,7 @@ import {
 import { ArtworkMediaConverter } from '../dto/converter/artwork-media.converter';
 import { ArtworkMediaRequest } from '../dto/request/artwork-media.request';
 import { ArtworkMediaResponse } from '../dto/response/artwork-media.response';
+import { ConflictException } from '../../../commons/exceptions/error/conflict.exception';
 
 export class ArtworkMediaService extends BaseService<ArtworkMedia> {
   constructor(
@@ -85,6 +86,13 @@ export class ArtworkMediaService extends BaseService<ArtworkMedia> {
     artworkMediaRequest: ArtworkMediaRequest,
   ): Promise<ArtworkMediaResponse> {
     try {
+      const artworkExistente = await this.artworkMediaRepository.findOne({
+        where: { idMedia: artworkMediaRequest.idMedia },
+      });
+
+      if (artworkExistente) {
+        throw new ConflictException(ARTWORK_MEDIA.MENSAGEM.ENTIDADE_JA_ATIVA);
+      }
       const novaMedia =
         ArtworkMediaConverter.toArtworkMedia(artworkMediaRequest);
       const mediaSalva = await this.artworkMediaRepository.save(novaMedia);
@@ -157,6 +165,35 @@ export class ArtworkMediaService extends BaseService<ArtworkMedia> {
       throw new ServerErrorExceptions(
         ARTWORK_MEDIA.MENSAGEM.SERVER_ERROR,
         error.message,
+      );
+    }
+  }
+  async restaurar(id: number): Promise<void> {
+    let resultado;
+    try {
+      resultado = await this.artworkMediaRepository.restore({
+        idMedia: id,
+        deletedAt: Not(IsNull()),
+      });
+    } catch (error: any) {
+      throw new ServerErrorExceptions(
+        ARTWORK_MEDIA.MENSAGEM.SERVER_ERROR,
+        error.message,
+      );
+    }
+    // Validar se realmente existia algo deletado com esse id
+    if (resultado.affected === 0) {
+      // Busca se o id existe, devolve true ou false
+      const existeAtivo = await this.artworkMediaRepository.existsBy({
+        idMedia: id,
+      });
+
+      if (existeAtivo) {
+        throw new ConflictException(ARTWORK_MEDIA.MENSAGEM.ENTIDADE_JA_ATIVA);
+      }
+
+      throw new EntityNotFoundException(
+        ARTWORK_MEDIA.MENSAGEM.ENTIDADE_NAO_ENCONTRADA,
       );
     }
   }

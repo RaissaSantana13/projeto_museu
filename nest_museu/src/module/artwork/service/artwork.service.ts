@@ -72,6 +72,14 @@ export class ArtworkService extends BaseService<Artwork> {
 
   async salvar(artworkRequest: ArtworkRequest): Promise<ArtworkResponse> {
     try {
+      const artworkExistente = await this.artworkRepository.findOne({
+        where: { idArtwork: artworkRequest.idArtwork },
+      });
+
+      if (artworkExistente) {
+        throw new ConflictException(ARTWORK.MENSAGEM.ENTIDADE_JA_ATIVA);
+      }
+
       const novaArtwork = ArtworkConverter.toArtwork(artworkRequest);
       const artworkSalva = await this.artworkRepository.save(novaArtwork);
 

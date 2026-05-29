@@ -13,6 +13,7 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   Query,
@@ -27,6 +28,7 @@ import {
   ApiPutDoc,
   ApiDeleteDoc,
   ApiGetByIdDoc,
+  ApiRestoreDoc,
 } from '../../../commons/decorators/swagger/swagger.decorator';
 import { PAGINATION } from '../../../commons/enum/pagination.enum';
 import { Page } from '../../../commons/pagination/pagination.sistema';
@@ -174,6 +176,22 @@ export class ArtworkMediaController extends BaseController {
 
     return ResponseBuilder.status<any>(HttpStatus.OK)
       .message(ARTWORK_MEDIA.MENSAGEM.ENTIDADE_EXCLUIDA)
+      .path(req.path)
+      .metodo(req.method)
+      .links(this.getResourceLinks(id))
+      .build();
+  }
+
+  @Patch(ARTWORK_MEDIA.ROTAS.ID)
+  @ApiRestoreDoc(ARTWORK_MEDIA.OPERACAO.RESTAURAR)
+  async restaurar(
+    @Param(PARAMS.ID, ParseIntPipe) id: number,
+    @Req() req: Request,
+  ) {
+    await this.artworkMediaService.restaurar(id);
+
+    return ResponseBuilder.status<any>(HttpStatus.OK)
+      .message(ARTWORK_MEDIA.MENSAGEM.ENTIDADE_RESTAURADA)
       .path(req.path)
       .metodo(req.method)
       .links(this.getResourceLinks(id))
