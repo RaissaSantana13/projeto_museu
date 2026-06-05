@@ -26,6 +26,13 @@ export function Navbar() {
               Acervo
             </Link>
             <Link
+              href="/tour-virtual"
+              className="hover:text-primary transition-colors"
+            >
+              Tour Virtual
+            </Link>
+
+            <Link
               href="#pesquisa"
               className="hover:text-primary transition-colors"
             >
