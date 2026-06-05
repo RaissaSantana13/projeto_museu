@@ -5,9 +5,9 @@ import { Footer } from '@/components/shared/landing/footer';
 export default function AcervoPage() {
   return (
     <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <ArtworkCollection />
-        <Footer />
+      <Navbar />
+      <ArtworkCollection />
+      <Footer />
     </div>
   );
 }
