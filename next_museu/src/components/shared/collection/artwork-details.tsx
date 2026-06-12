@@ -27,7 +27,7 @@ const OBRAS_DATABASE: Record<string, ObraDetalhes> = {
       'Prêmio comemorativo institucional em formato de locomotiva sobre base metálica',
     fullDescription:
       "Um troféu ou placa de homenagem institucional intitulado 'Locomotiva de Prata', concedido à Agatha Dafine Velani pelo Real Seguros (agência 123-8 - São Caetano / Sucursal Santo André). A peça traz a inscrição 'Nossa Maior Conquista: Ação do Vida', celebrando metas ou conquistas alcançadas em julho de 2006. Apresenta uma miniatura detalhada de uma locomotiva a vapor sobre trilhos, fixada em uma base retangular robusta, inteiramente com acabamento prateado.",
-    img: '/images/metal_train.jpg',
+    img: '/images/train.jpg',
     categories: [
       'Premiações',
       'Memorabilia Corporativa',
@@ -171,12 +171,12 @@ export function ArtworkDetails({ obraId }: { obraId: string }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
           {/* Imagem da obra */}
           <div className="flex items-start">
-            <div className="w-full h-[500px] relative rounded-lg overflow-hidden shadow-lg">
+            <div className="w-full h-[500px] relative rounded-xl overflow-hidden shadow-md bg-black/5 flex items-center justify-center p-4">
               <Image
                 src={obra.img}
                 alt={obra.title}
                 fill
-                className="object-cover"
+                className="object-contain p-4 drop-shadow-sm"
                 priority
               />
             </div>

@@ -23,7 +23,7 @@ const OBRAS: Obra[] = [
     title: 'Troféu Locomotiva de Bronze',
     description:
       'Prêmio comemorativo institucional em formato de locomotiva sobre base metálica.',
-    img: '/images/metal_train.jpg',
+    img: '/images/train.jpg',
     format: 'rectangular',
   },
   {
@@ -154,15 +154,18 @@ export function ArtworkCollection() {
                   <Link
                     href={`/acervo/${obra.id}/detalhes`}
                     key={obra.id}
-                    className={`${colSpan} h-[380px] relative overflow-hidden group cursor-pointer block`}
+                    className={`${colSpan} h-[380px] relative overflow-hidden group cursor-pointer block bg-black/5 rounded-lg`}
                   >
-                    {/* Background Image */}
+                    {/* Background Image - Changed to object-contain */}
                     <Image
                       src={obra.img}
                       alt={obra.title}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="object-contain p-4 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm"
                     />
+
+                    {/* Dark Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent rounded-lg" />
 
                     {/* Dark Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
