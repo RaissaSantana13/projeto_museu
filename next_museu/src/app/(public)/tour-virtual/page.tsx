@@ -3,7 +3,7 @@ import { Navbar } from '@/components/shared/landing/nav-bar';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function AcervoPage() {
+export default function TourVirtualpage() {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
