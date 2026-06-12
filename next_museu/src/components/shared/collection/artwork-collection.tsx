@@ -1,9 +1,9 @@
 'use client';
 
+import { Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { Search } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 type ScreenSize = 'small' | 'medium' | 'large';
 
@@ -20,90 +20,42 @@ interface Obra {
 const OBRAS: Obra[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440000',
-    title: 'Bússola Antiga',
+    title: 'Troféu Locomotiva de Bronze',
     description:
-      'Uma rara bússola marítima utilizada por navegadores europeus durante o final do século XIX em grandes expedições oceânicas.',
-    img: 'https://images.unsplash.com/photo-1524499982521-1ffd58dd89ea?auto=format&fit=crop&w=1200&q=80',
+      'Prêmio comemorativo institucional em formato de locomotiva sobre base metálica.',
+    img: '/images/metal_train.jpg',
     format: 'rectangular',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440001',
-    title: 'Máquina de Escrever',
+    title: 'Microfone Condensador Behringer B-1',
     description:
-      'Equipamento histórico utilizado em escritórios e redações no início do século XX.',
-    img: 'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=1200&q=80',
+      'Microfone de estúdio condensador de grande diafragma com padrão polar cardioide.',
+    img: '/images/microphone.png',
     format: 'square',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440002',
-    title: 'Relógio de Bolso',
-    description:
-      'Peça sofisticada produzida artesanalmente com acabamento em ouro e mecanismos internos de alta precisão.',
-    img: 'https://images.unsplash.com/photo-1518544801976-3e159e50e5bb?auto=format&fit=crop&w=1200&q=80',
-    format: 'square',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440003',
-    title: 'Lanterna Vintage',
-    description:
-      'Lanterna de latão utilizada em expedições noturnas durante o século XIX.',
-    img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80',
-    format: 'rectangular',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440004',
-    title: 'Óculos Antigos',
+    title: 'Cálice de Madeira Indígena',
     description:
-      'Óculos de armação dourada da época vitoriana, exemplo de artesanato óptico.',
-    img: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=1200&q=80',
+      'Cálice artesanal esculpido em madeira nobre com acabamento polido, de origem indígena.',
+    img: '/images/cup.jpg',
     format: 'square',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440005',
-    title: 'Mapa Antigo',
+    title: 'Telefone de Parede Antigo',
     description:
-      'Mapa do século XVII mostrando as rotas comerciais entre Europa e Ásia durante a Era dos Descobrimentos.',
-    img: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80',
+      'Telefone de parede vintage em madeira e metal com sistema de manivela magnética do início do século XX.',
+    img: '/images/old_telephone.jpg',
     format: 'rectangular',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440006',
-    title: 'Lente de Aumento',
+    title: 'Jarro de Terracota',
     description:
-      'Lente de aumento ornamentada com cabo em madeira nobre, usada por cientistas e antiquários.',
-    img: 'https://images.unsplash.com/photo-1578021735025-c23f0a00b281?auto=format&fit=crop&w=1200&q=80',
-    format: 'square',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440007',
-    title: 'Tinteiro Chinês',
-    description:
-      'Tinteiro de porcelana chinesa com motivos florais, utilizado na caligrafia tradicional.',
-    img: 'https://images.unsplash.com/photo-1578021735025-c23f0a00b281?auto=format&fit=crop&w=1200&q=80',
-    format: 'rectangular',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440008',
-    title: 'Câmera Fotográfica',
-    description:
-      'Câmera de vidro e metal dos anos 1920, marca de precursora da fotografia moderna.',
-    img: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1200&q=80',
-    format: 'square',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440009',
-    title: 'Globo Terrestre',
-    description:
-      'Globo terrestre em madeira e papel com representação das rotas navegáveis do século XVII.',
-    img: 'https://images.unsplash.com/photo-1569163139394-de4798aa62b3?auto=format&fit=crop&w=1200&q=80',
-    format: 'rectangular',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440010',
-    title: 'Compasso Antigo',
-    description:
-      'Compasso de bronze utilizado em navegação e cartografia durante o século XIX.',
-    img: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1200&q=80',
+      'Jarro de terracota artesanal, com acabamento único e detalhes handcrafted.',
+    img: '/images/terracota_jug.jpg',
     format: 'square',
   },
 ];
@@ -151,9 +103,10 @@ export function ArtworkCollection() {
     return format === 'rectangular' ? 'col-span-2' : 'col-span-1';
   };
 
-  const filteredObras = OBRAS.filter((obra) =>
-    obra.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    obra.description.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredObras = OBRAS.filter(
+    (obra) =>
+      obra.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      obra.description.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -182,7 +135,8 @@ export function ArtworkCollection() {
 
           {/* Results count */}
           <p className="text-gray-400 text-sm mt-4">
-            {filteredObras.length} {filteredObras.length === 1 ? 'obra' : 'obras'} encontrada
+            {filteredObras.length}{' '}
+            {filteredObras.length === 1 ? 'obra' : 'obras'} encontrada
             {filteredObras.length !== 1 ? 's' : ''}
           </p>
         </div>
@@ -231,7 +185,9 @@ export function ArtworkCollection() {
             </div>
           ) : (
             <div className="text-center py-16">
-              <p className="text-gray-400 text-lg">Nenhuma obra encontrada para sua busca.</p>
+              <p className="text-gray-400 text-lg">
+                Nenhuma obra encontrada para sua busca.
+              </p>
             </div>
           )}
         </div>

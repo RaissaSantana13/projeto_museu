@@ -20,7 +20,7 @@ interface ObraDestaque {
 const OBRAS_DESTAQUE: ObraDestaque[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440000',
-    title: 'Troféu Locomotiva de Prata',
+    title: 'Troféu Locomotiva de Bronze',
     description:
       'Prêmio comemorativo institucional em formato de locomotiva sobre base metálica.',
     img: '/images/metal_train.jpg',
@@ -45,6 +45,13 @@ const OBRAS_DESTAQUE: ObraDestaque[] = [
     description:
       'Telefone de parede vintage em madeira e metal com sistema de manivela magnética do início do século XX.',
     img: '/images/old_telephone.jpg',
+  },
+  {
+    id: '550e8400-e29b-41d4-a716-446655440006',
+    title: 'Jarro de Terracota',
+    description:
+      'Jarro de terracota artesanal, com acabamento único e detalhes handcrafted.',
+    img: '/images/terracota_jug.jpg',
   },
 ];
 

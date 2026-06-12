@@ -1,6 +1,7 @@
-import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
-import Link from "next/link";
+import { Badge } from '@/components/ui/badge';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ModelViewer } from '../landing/models-3d';
 
 interface ObraDetalhes {
   id: string;
@@ -12,21 +13,34 @@ interface ObraDetalhes {
   year?: string;
   artist?: string;
   material?: string;
+  model3dFileName?: string;
+  model3dScale?: number;
+  model3dCameraDistance?: number;
+  model3dRotation?: [number, number, number];
 }
 
 const OBRAS_DATABASE: Record<string, ObraDetalhes> = {
   '550e8400-e29b-41d4-a716-446655440000': {
     id: '550e8400-e29b-41d4-a716-446655440000',
-    title: 'Troféu Locomotiva de Prata',
+    title: 'Troféu Locomotiva de Bronze',
     description:
       'Prêmio comemorativo institucional em formato de locomotiva sobre base metálica',
     fullDescription:
       "Um troféu ou placa de homenagem institucional intitulado 'Locomotiva de Prata', concedido à Agatha Dafine Velani pelo Real Seguros (agência 123-8 - São Caetano / Sucursal Santo André). A peça traz a inscrição 'Nossa Maior Conquista: Ação do Vida', celebrando metas ou conquistas alcançadas em julho de 2006. Apresenta uma miniatura detalhada de uma locomotiva a vapor sobre trilhos, fixada em uma base retangular robusta, inteiramente com acabamento prateado.",
     img: '/images/metal_train.jpg',
-    categories: ['Premiações', 'Memorabilia Corporativa', 'Anos 2000', 'Ferromodelismo'],
+    categories: [
+      'Premiações',
+      'Memorabilia Corporativa',
+      'Anos 2000',
+      'Ferromodelismo',
+    ],
     year: '2006',
     artist: 'Real Seguros (Institucional)',
     material: 'Metal com acabamento prateado',
+    model3dFileName: 'trem.glb',
+    model3dScale: 3.5,
+    model3dCameraDistance: 4.5,
+    model3dRotation: [-Math.PI / 4, -Math.PI / 8, 0.2],
   },
   '550e8400-e29b-41d4-a716-446655440001': {
     id: '550e8400-e29b-41d4-a716-446655440001',
@@ -40,6 +54,10 @@ const OBRAS_DATABASE: Record<string, ObraDetalhes> = {
     year: '2000-Presente',
     artist: 'Behringer',
     material: 'Metal niquelado e componentes eletrônicos',
+    model3dFileName: 'microfone.glb',
+    model3dScale: 1.8,
+    model3dCameraDistance: 3.5,
+    model3dRotation: [0, 0, 0],
   },
   '550e8400-e29b-41d4-a716-446655440004': {
     id: '550e8400-e29b-41d4-a716-446655440004',
@@ -49,10 +67,19 @@ const OBRAS_DATABASE: Record<string, ObraDetalhes> = {
     fullDescription:
       'Um cálice utilitário ou ritualístico, confeccionado artesanalmente a partir de um único bloco de madeira de lei. A peça apresenta linhas orgânicas e elegantes, uma copa ogival profunda e uma base circular de sustentação bem definida. O trabalho de tornearia ou escultura manual destaca os veios naturais escuros da madeira, recebendo um polimento fino que confere um aspecto acetinado e sofisticado ao objeto.',
     img: '/images/cup.jpg',
-    categories: ['Arte Indígena', 'Artesanato', 'Utensílios de Madeira', 'Arte Sacra e Ritualistica'],
+    categories: [
+      'Arte Indígena',
+      'Artesanato',
+      'Utensílios de Madeira',
+      'Arte Sacra e Ritualistica',
+    ],
     year: '1600-1800',
     artist: 'Artesão Indígena Desconhecido',
     material: 'Madeira maciça',
+    model3dFileName: 'caliceindigena.glb',
+    model3dScale: 12.0,
+    model3dCameraDistance: 4.0,
+    model3dRotation: [Math.PI / 2, 0, 0],
   },
   '550e8400-e29b-41d4-a716-446655440005': {
     id: '550e8400-e29b-41d4-a716-446655440005',
@@ -66,6 +93,32 @@ const OBRAS_DATABASE: Record<string, ObraDetalhes> = {
     year: '1890-1920',
     artist: 'LM Ericsson & Co.',
     material: 'Madeira, ferro e latão',
+    model3dFileName: 'telefone.glb',
+    model3dScale: 2.4,
+    model3dCameraDistance: 4.0,
+    model3dRotation: [0, 0, 0],
+  },
+  '550e8400-e29b-41d4-a716-446655440006': {
+    id: '550e8400-e29b-41d4-a716-446655440006',
+    title: 'Jarro de Terracota',
+    description:
+      'Jarro de terracota artesanal, com acabamento único e detalhes handcrafted.',
+    fullDescription:
+      'Este recipiente de terracota, marcado pelo tempo e com o bocal quebrado, era utilizado pelos primeiros habitantes de Birigui-SP para armazenar e refrescar água. Hoje, a peça é um importante registro histórico que simboliza o trabalho, a simplicidade e a resiliência dos pioneiros no interior paulista.',
+    img: '/images/terracota_jug.jpg',
+    categories: [
+      'Arte Indígena',
+      'Artesanato',
+      'Utensílios de Argila',
+      'Arte Sacra e Ritualistica',
+    ],
+    year: '1901-2000',
+    artist: 'Artesão Indígena Desconhecido',
+    material: 'Argila cozida',
+    model3dFileName: 'vazo.glb',
+    model3dScale: 4.5,
+    model3dCameraDistance: 3.5,
+    model3dRotation: [0, 0, 0],
   },
 };
 
@@ -191,44 +244,57 @@ export function ArtworkDetails({ obraId }: { obraId: string }) {
 
         {/* Descrição completa */}
         <div className="mb-16 border-t pt-12">
-          <h2 className="text-3xl font-bold mb-6 font-serif">Sobre esta obra</h2>
+          <h2 className="text-3xl font-bold mb-6 font-serif">
+            Sobre esta obra
+          </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
             {obra.fullDescription}
           </p>
         </div>
 
-        {/* Seção de visualização 3D - Placeholder */}
+        {/* Seção de visualização 3D */}
         <div className="border-t pt-12">
-          <div className="rounded-lg border-2 border-dashed border-muted-foreground/30 p-16 text-center bg-muted/20">
-            <div className="max-w-2xl mx-auto">
-              <div className="mb-4">
-                <svg
-                  className="w-16 h-16 mx-auto text-muted-foreground/50"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
-                </svg>
+          {obra.model3dFileName ? (
+            <ModelViewer
+              fileName={obra.model3dFileName}
+              scale={obra.model3dScale}
+              cameraDistance={obra.model3dCameraDistance}
+              rotation={obra.model3dRotation}
+            />
+          ) : (
+            <div className="rounded-lg border-2 border-dashed border-muted-foreground/30 p-16 text-center bg-muted/20">
+              <div className="max-w-2xl mx-auto">
+                <div className="mb-4">
+                  <svg
+                    className="w-16 h-16 mx-auto text-muted-foreground/50"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold mb-2">
+                  Visualização 3D em Desenvolvimento
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  Estamos preparando uma experiência interativa em 3D para esta
+                  obra. Em breve, você poderá visualizar e explorar todos os
+                  detalhes desta peça sob diferentes ângulos e com zoom
+                  avançado.
+                </p>
+                <p className="text-sm text-muted-foreground italic">
+                  Esta seção será preenchida com tecnologia 3D de última
+                  geração.
+                </p>
               </div>
-              <h3 className="text-2xl font-bold mb-2">
-                Visualização 3D em Desenvolvimento
-              </h3>
-              <p className="text-muted-foreground mb-4">
-                Estamos preparando uma experiência interativa em 3D para esta obra.
-                Em breve, você poderá visualizar e explorar todos os detalhes desta
-                peça sob diferentes ângulos e com zoom avançado.
-              </p>
-              <p className="text-sm text-muted-foreground italic">
-                Esta seção será preenchida com tecnologia 3D de última geração.
-              </p>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </main>
