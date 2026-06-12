@@ -1,12 +1,13 @@
 'use client';
 
 import {
+  Archive,
   CalendarCheck,
   ChevronRight,
   LayoutDashboard,
   Settings2,
 } from 'lucide-react';
-import dynamic from 'next/dynamic'; // Importação para o carregamento dinâmico
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -61,8 +62,6 @@ export function Sidebar({ dictionary }: { dictionary: DictionaryType }) {
 
   if (settings.layout === 'horizontal' && !isMobile) return null;
 
-  /*  const labelStyle =
-    'text-sm font-bold uppercase tracking-wider mb-2 px-2 flex items-center gap-2'; */
   const itemStyle =
     'text-[15px] font-semibold hover:text-accent-foreground transition-colors';
   const subItemStyle = 'text-[14px] font-medium';
@@ -92,10 +91,7 @@ export function Sidebar({ dictionary }: { dictionary: DictionaryType }) {
 
         {/* --- ADIÇÃO DO COMMAND MENU --- */}
         <div className="px-3">
-          {/*  <CommandMenu
-            dictionary={dictionary}
-            buttonClassName="w-full border-2"
-          /> */}
+          {/* <CommandMenu dictionary={dictionary} buttonClassName="w-full border-2" /> */}
         </div>
       </SidebarHeader>
 
@@ -129,10 +125,6 @@ export function Sidebar({ dictionary }: { dictionary: DictionaryType }) {
 
           {/* SEÇÃO: USUÁRIO */}
           <SidebarGroup>
-            {/*             <SidebarGroupLabel className={labelStyle}>
-              <User className="size-5" />
-              <span className="ml-2.5">{nav.usuario?.usuario}</span>
-            </SidebarGroupLabel> */}
             <SidebarGroupContent>
               <SidebarMenu className="gap-1">
                 <Collapsible className="group/collapsible w-full">
@@ -270,6 +262,8 @@ export function Sidebar({ dictionary }: { dictionary: DictionaryType }) {
                             </Link>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
+
+                        {/* Contatos */}
                         <SidebarMenuSubItem>
                           <SidebarMenuSubButton
                             asChild
@@ -292,12 +286,116 @@ export function Sidebar({ dictionary }: { dictionary: DictionaryType }) {
             </SidebarGroupContent>
           </SidebarGroup>
 
+          {/* ======================================= */}
+          {/* SEÇÃO: GESTÃO DE ACERVO                 */}
+          {/* ======================================= */}
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarMenu className="gap-1">
+                <Collapsible className="group/collapsible w-full">
+                  <SidebarMenuItem>
+                    <CollapsibleTrigger asChild>
+                      <SidebarMenuButton
+                        tooltip="Gestão de Acervo"
+                        className={itemStyle}
+                      >
+                        <Archive className="size-5" />
+                        <span>Gestão de Acervo</span>
+                        <ChevronRight className="ml-auto size-5 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                      </SidebarMenuButton>
+                    </CollapsibleTrigger>
+
+                    <CollapsibleContent>
+                      <SidebarMenuSub className="border-l-2 border-primary/30 ml-4 px-2">
+                        <SidebarMenuSubItem>
+                          <SidebarMenuSubButton
+                            asChild
+                            isActive={pathname === '/dashboard/acervo/obra'}
+                            className={subItemStyle}
+                          >
+                            <Link
+                              href="/dashboard/acervo/obra"
+                              onClick={() => isMobile && setOpenMobile(false)}
+                            >
+                              <span>Cadastrar Obra</span>
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+
+                        <SidebarMenuSubItem>
+                          <SidebarMenuSubButton
+                            asChild
+                            isActive={
+                              pathname === '/dashboard/acervo/obradestaque'
+                            }
+                            className={subItemStyle}
+                          >
+                            <Link
+                              href="/dashboard/acervo/obradestaque"
+                              onClick={() => isMobile && setOpenMobile(false)}
+                            >
+                              <span>Cadastro de Obras em Destaque</span>
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+
+                        <SidebarMenuSubItem>
+                          <SidebarMenuSubButton
+                            asChild
+                            isActive={
+                              pathname === '/dashboard/acervo/documento'
+                            }
+                            className={subItemStyle}
+                          >
+                            <Link
+                              href="/dashboard/acervo/documento"
+                              onClick={() => isMobile && setOpenMobile(false)}
+                            >
+                              <span>Cadastro de Documentos</span>
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+
+                        <SidebarMenuSubItem>
+                          <SidebarMenuSubButton
+                            asChild
+                            isActive={pathname === '/dashboard/acervo/foto'}
+                            className={subItemStyle}
+                          >
+                            <Link
+                              href="/dashboard/acervo/foto"
+                              onClick={() => isMobile && setOpenMobile(false)}
+                            >
+                              <span>Cadastro de Fotos</span>
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+
+                        {/* AQUI ESTÁ O CADASTRO 360 DENTRO DE ACERVO */}
+                        <SidebarMenuSubItem>
+                          <SidebarMenuSubButton
+                            asChild
+                            isActive={pathname === '/dashboard/acervo/obra-360'}
+                            className={subItemStyle}
+                          >
+                            <Link
+                              href="/dashboard/acervo/obra-360"
+                              onClick={() => isMobile && setOpenMobile(false)}
+                            >
+                              <span>Cadastro de Obras 360°</span>
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      </SidebarMenuSub>
+                    </CollapsibleContent>
+                  </SidebarMenuItem>
+                </Collapsible>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
           {/* SEÇÃO: EVENTOS */}
           <SidebarGroup>
-            {/*             <SidebarGroupLabel className={labelStyle}>
-              <CalendarDays className="size-5" />
-              <span className="ml-2.5">{nav.eventos}</span>
-            </SidebarGroupLabel> */}
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem>
