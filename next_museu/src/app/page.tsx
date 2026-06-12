@@ -1,5 +1,5 @@
-import { RotatingArtworks } from '@/components/shared/landing/rotating-artworks';
 import { FeaturedArtworks } from '@/components/shared/landing/featured-artworks';
+import { RotatingArtworks } from '@/components/shared/landing/rotating-artworks';
 import { HighlightCarousel } from '../components/shared/landing/carrossel';
 import { Faqs } from '../components/shared/landing/faq';
 import { Footer } from '../components/shared/landing/footer';
@@ -17,8 +17,6 @@ export default function Home() {
         <HighlightCarousel />
         {hasHighlightedArtworks && <FeaturedArtworks />}
         <RotatingArtworks />
-        {/* <SearchSection /> */}
-        {/* <Events /> */}
         <Faqs />
       </main>
       <Footer />

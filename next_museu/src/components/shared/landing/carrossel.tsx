@@ -1,3 +1,5 @@
+'use client';
+
 import { Card, CardContent } from '@/components/ui/card';
 import {
   Carousel,
@@ -9,9 +11,11 @@ import {
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const PECAS = [
   {
+    id: '743836ab-e940-4c71-828f-b0223d72549c',
     title: 'O solo vira arte',
     description:
       'Venha explorar as cores e texturas naturais do solo como matéria-prima artistica.',
@@ -21,6 +25,7 @@ const PECAS = [
     img: '/images/expo_solo.png',
   },
   {
+    id: 'ae68d180-e62f-4ab2-bf07-8e4f8b4f533a',
     title: 'O mundo em grafite',
     description:
       'A exposição "O Mundo em Grafite" apresenta uma coleção impressionante de obras de arte criadas exclusivamente com grafite, revelando a versatilidade e a expressividade desse material aparentemente simples. Desde retratos detalhados até paisagens surreais, cada peça é uma demonstração do talento e da criatividade dos artistas que transformam o grafite em verdadeiras obras-primas visuais.',
@@ -30,6 +35,7 @@ const PECAS = [
     img: '/images/expo_grafite.png',
   },
   {
+    id: 'a1514b35-3ff3-4642-81fe-1803ea95acd9',
     title: 'Tipografia urbana',
     description:
       'A exposição "Tipografia Urbana" mergulha no fascinante mundo das letras e fontes que compõem a paisagem urbana. Apresentando uma coleção diversificada de tipografias encontradas em fachadas, placas de rua, grafites e anúncios publicitários, esta exposição celebra a arte da tipografia como um elemento essencial da identidade visual das cidades. Desde estilos clássicos até designs contemporâneos, os visitantes serão convidados a explorar a riqueza e a criatividade presentes nas letras que moldam o ambiente urbano.',
@@ -41,6 +47,12 @@ const PECAS = [
 ];
 
 export function HighlightCarousel() {
+  const router = useRouter();
+
+  const handleEventClick = (id: string) => {
+    router.push(`/eventos/${id}/detalhes`);
+  };
+
   return (
     <section
       id="exposicoes"
@@ -65,14 +77,20 @@ export function HighlightCarousel() {
           </Link>
         </div>
 
-        <Carousel opts={{ align: 'start', loop: false }} className="w-full [&>div]:overflow-visible">
+        <Carousel
+          opts={{ align: 'start', loop: false }}
+          className="w-full [&>div]:overflow-visible"
+        >
           <CarouselContent className="-ml-6">
             {PECAS.map((peca, i) => (
               <CarouselItem
                 key={i}
                 className="pl-6 basis-[70%] sm:basis-[50%] md:basis-[38%] lg:basis-[30%] xl:basis-[24%]"
               >
-                <Card className="overflow-hidden border-0 pt-0 pb-5 rounded-3xl group cursor-pointer bg-white shadow-[0_8px_40px_rgba(0,0,0,0.5)] h-full">
+                <Card
+                  onClick={() => handleEventClick(peca.id)}
+                  className="overflow-hidden border-0 pt-0 pb-5 rounded-3xl group cursor-pointer bg-white shadow-[0_8px_40px_rgba(0,0,0,0.5)] h-full"
+                >
                   <CardContent className="p-0 m-0 h-full flex flex-col gap-0">
                     {/* IMAGEM */}
                     <div className="relative w-full h-[320px] overflow-hidden m-0">
