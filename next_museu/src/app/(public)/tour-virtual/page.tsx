@@ -45,7 +45,7 @@ export default function TourVirtualpage() {
             cada item do acervo.
           </p>
           <Link
-            href="#pagina360"
+            href="/virtual-tour-360"
             className="bg-amber-800 hover:bg-amber-900 transition-colors text-white font-bold tracking-widest py-4 px-14 rounded-full uppercase"
           >
             Tour Virtual
