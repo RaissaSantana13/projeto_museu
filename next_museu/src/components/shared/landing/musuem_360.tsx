@@ -10,14 +10,16 @@ export function Museum360() {
   const viewerRef = useRef<any>(null);
 
   useEffect(() => {
-    let viewer: any;
+    let viewer: any = null;
+    let isMounted = true;
 
     const loadPannellum = async () => {
       await import('pannellum');
-
       const lib = (window as any).pannellum;
 
-      if (lib && viewerRef.current) {
+      if (isMounted && lib && viewerRef.current) {
+        viewerRef.current.innerHTML = '';
+
         viewer = lib.viewer(viewerRef.current, {
           default: {
             firstScene: 'imagem1',
@@ -347,6 +349,8 @@ export function Museum360() {
     loadPannellum();
 
     return () => {
+      isMounted = false;
+
       if (viewer) {
         viewer.destroy();
       }
