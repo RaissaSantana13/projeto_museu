@@ -1,4 +1,3 @@
-import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ModelViewer } from '../landing/models-3d';
@@ -162,9 +161,7 @@ export function ArtworkDetails({ obraId }: { obraId: string }) {
             </svg>
             Voltar ao Acervo
           </Link>
-          <h1 className="text-3xl md:text-4xl font-bold font-serif">
-            Detalhes da Obra:
-          </h1>
+          <h1 className="text-2xl font-bold font-serif">Detalhes da Obra:</h1>
         </div>
 
         {/* Seção principal com imagem e informações */}
@@ -190,15 +187,14 @@ export function ArtworkDetails({ obraId }: { obraId: string }) {
               </h1>
 
               {/* Categorias */}
-              <div className="flex flex-wrap gap-2 mb-6">
+              <div className="flex flex-wrap gap-2 mb-6 mt-6">
                 {obra.categories.map((category) => (
-                  <Badge
+                  <span
                     key={category}
-                    variant="secondary"
-                    className="text-xs md:text-sm"
+                    className={`px-3 py-1 rounded text-sm font-medium border bg-orange-400/50`}
                   >
                     {category}
-                  </Badge>
+                  </span>
                 ))}
               </div>
 
@@ -213,29 +209,29 @@ export function ArtworkDetails({ obraId }: { obraId: string }) {
               {obra.year && (
                 <div className="grid grid-cols-3 gap-4">
                   <div>
-                    <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+                    <p className="text-sm text-muted-foreground uppercase tracking-wide">
                       Período
                     </p>
-                    <p className="text-lg font-medium">{obra.year}</p>
+                    <p className="text-base font-medium">{obra.year}</p>
                   </div>
                 </div>
               )}
 
               {obra.artist && (
                 <div>
-                  <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+                  <p className="text-sm text-muted-foreground uppercase tracking-wide">
                     Artista / Fabricante
                   </p>
-                  <p className="text-lg font-medium">{obra.artist}</p>
+                  <p className="text-base font-medium">{obra.artist}</p>
                 </div>
               )}
 
               {obra.material && (
                 <div>
-                  <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+                  <p className="text-sm text-muted-foreground uppercase tracking-wide">
                     Material
                   </p>
-                  <p className="text-lg font-medium">{obra.material}</p>
+                  <p className="text-base font-medium">{obra.material}</p>
                 </div>
               )}
             </div>
@@ -244,7 +240,7 @@ export function ArtworkDetails({ obraId }: { obraId: string }) {
 
         {/* Descrição completa */}
         <div className="mb-16 border-t pt-12">
-          <h2 className="text-3xl font-bold mb-6 font-serif">
+          <h2 className="text-2xl font-bold mb-6 font-serif">
             Sobre esta obra
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">

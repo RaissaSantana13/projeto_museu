@@ -33,27 +33,11 @@ function getIndicativeRatingColor(rating: string): string {
 }
 
 const EVENTOS_DATABASE: Record<string, EventoDetalhes> = {
-  'fc54b356-5e99-45c7-80c6-ad8e3ee160cd': {
-    id: 'fc54b356-5e99-45c7-80c6-ad8e3ee160cd',
-    title: 'Um dia muito especial',
-    description:
-      'Não perca a chance de ver essa adaptação emocionante de um clássico do cinema, com uma interpretação única de Reynaldo Gianecchini e Maria Casadevall. Garanta seu ingresso agora e vivencie essa história de amizade, amor e transformação que irá tocar o seu coração.',
-    fullDescription:
-      'A peça se passa em Roma, 1938, durante uma época turbulenta marcada pela ascensão do fascismo. Antonietta, uma dona de casa e mãe de seis filhos, e Gabriele, um homem demitido da rádio por ser homossexual, se encontram por acaso e, juntos, exploram questões sobre aceitação, amor e as forças que unem ou separam as pessoas.',
-    img: '/images/evento_1.jpg',
-    categories: ['Gratuito', 'Teatro'],
-    indicativeRating: '12',
-    dates: [
-      { date: '10/05', day: 'Quarta', time: '19h' },
-      { date: '11/05', day: 'Quinta', time: '19h' },
-      { date: '12/05', day: 'Sexta', time: '19h' },
-    ],
-    available: true,
-  },
   '743836ab-e940-4c71-828f-b0223d72549c': {
     id: '743836ab-e940-4c71-828f-b0223d72549c',
-    title: 'Coleção de Fotografia Contemporânea',
-    description: 'Retratos e paisagens que contam histórias',
+    title: 'O solo vira arte',
+    description:
+      'Venha explorar as cores e texturas naturais do solo como matéria-prima artistica.',
     fullDescription:
       'Uma seleção impressionante de fotografias contemporâneas que documentam a vida urbana e rural no Brasil. Os fotógrafos utilizaram técnicas inovadoras para capturar momentos únicos que refletem a diversidade cultural do país.',
     img: '/images/expo_solo.png',
@@ -67,10 +51,10 @@ const EVENTOS_DATABASE: Record<string, EventoDetalhes> = {
   },
   'ae68d180-e62f-4ab2-bf07-8e4f8b4f533a': {
     id: 'ae68d180-e62f-4ab2-bf07-8e4f8b4f533a',
-    title: 'Escultura Clássica e Moderna',
-    description: 'Do Renascimento ao século XXI',
+    title: 'O mundo em grafite',
+    description: 'O mundo em grafite',
     fullDescription:
-      'Esta coleção demonstra a evolução da escultura ao longo dos séculos, desde peças clássicas greco-romanas até trabalhos contemporâneos. Cada obra foi selecionada para ilustrar diferentes técnicas, materiais e filosofias artísticas.',
+      'A exposição "O Mundo em Grafite" apresenta uma coleção impressionante de obras de arte criadas exclusivamente com grafite, revelando a versatilidade e a expressividade desse material aparentemente simples. Desde retratos detalhados até paisagens surreais, cada peça é uma demonstração do talento e da criatividade dos artistas que transformam o grafite em verdadeiras obras-primas visuais.',
     img: '/images/expo_grafite.png',
     categories: ['Escultura', 'Clássico', 'Moderno'],
     indicativeRating: '12',
@@ -82,10 +66,10 @@ const EVENTOS_DATABASE: Record<string, EventoDetalhes> = {
   },
   'a1514b35-3ff3-4642-81fe-1803ea95acd9': {
     id: 'a1514b35-3ff3-4642-81fe-1803ea95acd9',
-    title: 'Instalações Interativas',
-    description: 'Arte que você pode tocar e experienciar',
+    title: 'Tipografia urbana',
+    description: 'Tipografia urbana',
     fullDescription:
-      'Nesta mostra especial, artistas contemporâneos convidam você a participar ativamente das obras. As instalações interativas estimulam os sentidos e permitem uma conexão profunda entre o espectador e a arte, criando experiências memoráveis e únicas para cada visitante.',
+      'A exposição "Tipografia Urbana" mergulha no fascinante mundo das letras e fontes que compõem a paisagem urbana. Apresentando uma coleção diversificada de tipografias encontradas em fachadas, placas de rua, grafites e anúncios publicitários, esta exposição celebra a arte da tipografia como um elemento essencial da identidade visual das cidades. Desde estilos clássicos até designs contemporâneos, os visitantes serão convidados a explorar a riqueza e a criatividade presentes nas letras que moldam o ambiente urbano.',
     img: '/images/expo_tipografia.png',
     categories: ['Arte Digital', 'Interativa', 'Contemporânea'],
     indicativeRating: '14',
@@ -138,9 +122,7 @@ export function EventDetails({ eventId }: { eventId: string }) {
             </svg>
             Voltar aos Eventos
           </Link>
-          <h1 className="text-3xl md:text-4xl font-bold font-serif">
-            Detalhes do Evento:
-          </h1>
+          <h1 className="text-2xl font-bold font-serif">Detalhes do Evento:</h1>
         </div>
 
         {/* Seção principal com imagem e informações */}
@@ -166,10 +148,10 @@ export function EventDetails({ eventId }: { eventId: string }) {
                 {evento.title}
               </h1>
 
-              <div className="flex flex-wrap items-center gap-4 mb-6">
+              <div className="flex flex-wrap items-center gap-4 mb-6 mt-6">
                 {/* Classificação Indicativa */}
                 <div
-                  className={`w-12 h-12 flex items-center justify-center rounded text-lg font-bold ${getIndicativeRatingColor(
+                  className={`w-8 h-8 flex items-center justify-center rounded text-sm font-bold ${getIndicativeRatingColor(
                     evento.indicativeRating,
                   )}`}
                 >
@@ -181,7 +163,7 @@ export function EventDetails({ eventId }: { eventId: string }) {
                   {evento.categories.map((category) => (
                     <span
                       key={category}
-                      className={`px-3 py-1 rounded text-xs font-medium`}
+                      className={`px-3 py-1 rounded text-sm font-medium border bg-gray-100/20`}
                     >
                       {category}
                     </span>
@@ -231,7 +213,7 @@ export function EventDetails({ eventId }: { eventId: string }) {
 
         {/* Descrição completa */}
         <div className="mb-16 border-t pt-12">
-          <h2 className="text-3xl font-bold mb-6 font-serif">
+          <h2 className="text-2xl font-bold mb-6 font-serif">
             Sobre este evento
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
