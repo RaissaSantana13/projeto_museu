@@ -121,6 +121,7 @@ CREATE TABLE events (
     deleted_at TIMESTAMPTZ
 );
 
+--remover
 CREATE TABLE visitors (
     id_visitor SERIAL PRIMARY KEY,
     firstname VARCHAR(150) NOT NULL,
