@@ -4,13 +4,10 @@ import {
   BeforeUpdate,
   Column,
   Entity,
-  JoinTable,
-  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BaseEntity } from '../../../commons/entities/base.entity';
 import { EVENT } from '../constants/event.constants';
-import { Colaborator } from './colaborators.entity';
 //import { EventSpotlight } from './event-spotlight.entity';
 //import { EventBooking } from './eventbooking.entity';
 @Entity(EVENT.ENTITY)
@@ -54,6 +51,7 @@ export class Event extends BaseEntity {
   @Column({ name: 'max_capacity', type: 'integer', nullable: true })
   maxCapacity!: number;
 
+  /*
   @ManyToMany(
     () => Colaborator,
     (colaborator: Colaborator) => colaborator.events,
@@ -67,6 +65,7 @@ export class Event extends BaseEntity {
     },
   })
   colaborators!: Colaborator[];
+  */
 
   // @OneToMany(() => EventBooking, (booking: EventBooking) => booking.event)
   // bookings!: EventBooking[];

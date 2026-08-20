@@ -1,11 +1,5 @@
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity } from '../../../commons/entities/base.entity';
 import { EventBooking } from './eventbooking.entity';
 
 @Entity('visitors')
@@ -27,9 +21,6 @@ export class Visitor extends BaseEntity {
 
   @Column({ type: 'varchar', length: 20, nullable: true })
   phone?: string;
-
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt!: Date;
 
   @OneToMany(() => EventBooking, (booking: EventBooking) => booking.visitor)
   bookings!: EventBooking[];
