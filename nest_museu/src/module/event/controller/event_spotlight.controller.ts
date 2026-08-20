@@ -17,8 +17,8 @@ import { HateoasHelper } from '../../../commons/helpers/hateoas.helpers';
 import { ApiResponse, Link } from '../../../commons/response/api.response';
 import { ResponseBuilder } from '../../../commons/response/builder.response';
 import { EVENT_SPOTLIGHT } from '../constants/event_spotlight.constants';
-import { EventSpotlightRequest } from '../dto/events/request/event_spotlight.request';
-import { EventSpotlightResponse } from '../dto/events/response/event_spotlight.response';
+import { EventSpotlightRequest } from '../dto/event_spotlight/request/event_spotlight.request';
+import { EventSpotlightResponse } from '../dto/event_spotlight/response/event_spotlight.response';
 import { EventSpotlightService } from '../service/event_spotlight.service';
 
 @ApiTags(EVENT_SPOTLIGHT.ALIAS)
