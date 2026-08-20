@@ -5,13 +5,11 @@ import { GenericConverter } from '../../../commons/converter/converter.commons';
 import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
 import { EVENT } from '../constants/event.constants';
 import { EventRequest } from '../dto/events/request/event.request';
-import {
-  AddColaboratorToEventRequest,
-  RemoveColaboratorFromEventRequest,
-} from '../dto/events/request/remove-colaborator-from-event.request';
+import { RemoveColaboratorFromEventRequest } from '../dto/events/request/remove-colaborator-from-event.request';
 import { EventResponse } from '../dto/events/response/event.response';
 import { Colaborator } from '../entities/colaborators.entity';
 import { Event } from '../entities/event.entity';
+import { AddColaboratorToEventRequest } from '../dto/events/request/add-colaborator-to-event.request';
 
 @Injectable()
 export class EventService {
