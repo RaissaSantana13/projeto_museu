@@ -49,8 +49,8 @@ CREATE TABLE session (
 );
 
 CREATE TABLE roles (
-    id_roles SERIAL PRIMARY KEY,
-    nome_roles VARCHAR(50) UNIQUE NOT NULL,
+    id_role SERIAL PRIMARY KEY,
+    nome_role VARCHAR(50) UNIQUE NOT NULL,
     created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT now() NOT NULL,
     deleted_at TIMESTAMPTZ
