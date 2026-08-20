@@ -23,7 +23,9 @@ import { Page } from '../../../commons/pagination/pagination.sistema';
 import { ApiResponse, Link } from '../../../commons/response/api.response';
 import { ResponseBuilder } from '../../../commons/response/builder.response';
 import { EVENT } from '../constants/event.constants';
+import { AddColaboratorToEventRequest } from '../dto/events/request/add-colaborator-to-event.request';
 import { EventRequest } from '../dto/events/request/event.request';
+import { RemoveColaboratorFromEventRequest } from '../dto/events/request/remove-colaborator-from-event.request';
 import { EventResponse } from '../dto/events/response/event.response';
 import { EventService } from '../service/event.service';
 
@@ -60,7 +62,7 @@ export class EventController {
       .path(req.path)
       .data(response)
       .metodo(req.method)
-      .links(this.eventLinks(response?.idEvent))
+      .links(this.eventLinks())
       .build();
   }
 
@@ -69,6 +71,48 @@ export class EventController {
     const response = await this.eventService.salvar(eventRequest);
     return ResponseBuilder.status<EventResponse>(HttpStatus.OK)
       .message(EVENT.MENSAGEM.ENTIDADE_CADASTRADA)
+      .path(req.path)
+      .data(response)
+      .metodo(req.method)
+      .links(this.eventLinks())
+      .build();
+  }
+
+  @Post(':eventId/colaborators/:colaboratorId')
+  async adicionarColaborador(
+    @Param('eventId', ParseIntPipe) eventId: number,
+    @Param('colaboratorId', ParseIntPipe) colaboratorId: number,
+    @Req() req: Request,
+  ) {
+    const request = new AddColaboratorToEventRequest({
+      id_event: eventId,
+      id_colaborator: colaboratorId,
+    });
+    const response = await this.eventService.adicionarColaborador(request);
+
+    return ResponseBuilder.status<EventResponse>(HttpStatus.OK)
+      .message(EVENT.MENSAGEM.ENTIDADE_ALTERADA)
+      .path(req.path)
+      .data(response)
+      .metodo(req.method)
+      .links(this.eventLinks())
+      .build();
+  }
+
+  @Delete(':eventId/colaborators/:colaboratorId')
+  async removerColaborador(
+    @Param('eventId', ParseIntPipe) eventId: number,
+    @Param('colaboratorId', ParseIntPipe) colaboratorId: number,
+    @Req() req: Request,
+  ) {
+    const request = new RemoveColaboratorFromEventRequest({
+      id_event: eventId,
+      id_colaborator: colaboratorId,
+    });
+    const response = await this.eventService.removerColaborador(request);
+
+    return ResponseBuilder.status<EventResponse>(HttpStatus.OK)
+      .message(EVENT.MENSAGEM.ENTIDADE_ALTERADA)
       .path(req.path)
       .data(response)
       .metodo(req.method)
@@ -88,13 +132,16 @@ export class EventController {
       .path(req.path)
       .data(response)
       .metodo(req.method)
-      .links(this.eventLinks(response?.idEvent))
+      .links(this.eventLinks())
       .build();
   }
 
   @Delete(EVENT.ROTAS.ID)
-  excluir(@Param(PARAMS.ID, ParseIntPipe) id: number, @Req() req: Request) {
-    this.eventService.excluir(id);
+  async excluir(
+    @Param(PARAMS.ID, ParseIntPipe) id: number,
+    @Req() req: Request,
+  ) {
+    await this.eventService.excluir(id);
 
     return ResponseBuilder.status<EventResponse>(HttpStatus.OK)
       .message(EVENT.MENSAGEM.ENTIDADE_EXCLUIDA)
@@ -104,7 +151,7 @@ export class EventController {
       .build();
   }
 
-  private eventLinks(id?: number): Record<string, Link> {
+  private eventLinks(): Record<string, Link> {
     const resourceLinks = HateoasHelper.generateResourceLinks(this.path);
     return resourceLinks;
   }

@@ -58,7 +58,10 @@ export class Event extends BaseEntity {
   )
   @JoinTable({
     name: 'event_colaborator_relation',
-    joinColumn: { name: 'id_event', referencedColumnName: 'idEvent' },
+    joinColumn: {
+      name: 'id_event',
+      referencedColumnName: 'idEvent',
+    },
     inverseJoinColumn: {
       name: 'id_colaborator',
       referencedColumnName: 'idColaborator',
