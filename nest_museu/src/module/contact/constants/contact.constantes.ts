@@ -24,7 +24,6 @@ export const CONTACT = {
     EMAIL: 'email',
     MESSAGE: 'message',
     AGREED_TO_PRIVACY: 'agreed_to_privacy',
-    STATUS: 'status',
   },
 
   FIELDS: {
@@ -35,7 +34,6 @@ export const CONTACT = {
     EMAIL: 'email',
     MESSAGE: 'message',
     AGREED_TO_PRIVACY: 'agreed_to_privacy',
-    STATUS: 'status',
   },
 
   SEARCH: {
