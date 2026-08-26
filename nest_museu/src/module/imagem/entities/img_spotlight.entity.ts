@@ -1,12 +1,29 @@
-//import { Image } from './image.entity'; // Confirme se o caminho está correto no seu projeto
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Image } from './image.entity';
 
+@Entity('img_spotlight')
 export class ImgSpotlight {
-  id_img_spotlight?: number; // Opcional (?) porque o banco gera automático
+  @PrimaryGeneratedColumn({ name: 'id_img_spotlight' })
+  id_img_spotlight!: number;
+
+  @Column({ name: 'id_img', type: 'integer' })
   id_img!: number;
-  start_date!: Date;
-  end_date!: Date;
-  
-  //image?: Image; // O relacionamento com a tabela principal
+
+  @Column({ name: 'start_date', type: 'timestamptz', nullable: true })
+  start_date?: Date;
+
+  @Column({ name: 'end_date', type: 'timestamptz', nullable: true })
+  end_date?: Date;
+
+  @ManyToOne(() => Image, (image) => image.spotlights, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'id_img' })
+  image?: Image;
 
   constructor(partial?: Partial<ImgSpotlight>) {
     Object.assign(this, partial);

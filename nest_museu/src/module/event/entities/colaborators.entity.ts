@@ -1,6 +1,5 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from '../../../commons/entities/base.entity';
-import { Event } from './event.entity';
 
 @Entity('colaborators')
 export class Colaborator extends BaseEntity {
@@ -12,7 +11,8 @@ export class Colaborator extends BaseEntity {
 
   @Column({ name: 'logo_url', type: 'text', nullable: true })
   logoUrl?: string;
-
+  /*
   @ManyToMany(() => Event, (event: Event) => event.colaborators)
   events!: Event[];
+  */
 }

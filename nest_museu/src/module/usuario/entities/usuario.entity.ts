@@ -14,138 +14,87 @@ import { Credentials } from '../../auth/entities/credentials.entity';
 import { Session } from '../../auth/entities/session.entity';
 import { USUARIO } from '../constants/usuario.constants';
 
-@Entity(USUARIO.ENTITY)
+@Entity(USUARIO.ENTITY || 'user')
 export class Usuario extends BaseEntity {
-  @PrimaryGeneratedColumn({ name: USUARIO.TABLE_FIELDS.ID_USUARIO })
+  @PrimaryGeneratedColumn({
+    name: USUARIO.TABLE_FIELDS?.ID_USUARIO || 'id_user',
+  })
   idUsuario!: number;
 
-  @Column({ name: USUARIO.TABLE_FIELDS.FIRSTNAME, length: 100 })
+  @Column({ name: USUARIO.TABLE_FIELDS?.FIRSTNAME || 'firstname', length: 150 })
   firstName!: string;
 
-  @Column({ name: USUARIO.TABLE_FIELDS.LASTNAME, length: 100 })
+  @Column({ name: USUARIO.TABLE_FIELDS?.LASTNAME || 'lastname', length: 150 })
   lastName!: string;
 
-  @Column({ name: USUARIO.TABLE_FIELDS.USERNAME, length: 100 })
+  @Column({
+    name: USUARIO.TABLE_FIELDS?.USERNAME || 'username',
+    length: 150,
+    unique: true,
+  })
   username!: string;
 
-  @Column({
-    name: USUARIO.TABLE_FIELDS.EMAIL_VERIFIED,
-    default: false,
-  })
-  emailVerified!: boolean;
+  @Column({ name: 'phone', length: 20, nullable: true })
+  phone?: string;
 
-  @Column({ name: USUARIO.TABLE_FIELDS.ACTIVE, default: false })
+  @Column({ name: USUARIO.TABLE_FIELDS?.ACTIVE || 'active', default: false })
   active: boolean = false;
 
-  // Caminho da foto processada pelo serviço de upload que criamos
   @Column({
-    name: USUARIO.TABLE_FIELDS.IMAGE_PATH,
+    name: USUARIO.TABLE_FIELDS?.IMAGE_PATH || 'image_path',
     length: 255,
     nullable: true,
   })
-  imagePath!: string;
+  imagePath?: string;
 
-  // Relações
+  @Column({
+    name: USUARIO.TABLE_FIELDS?.EMAIL_VERIFIED || 'emailverified',
+    default: false,
+    nullable: true,
+  })
+  emailVerified?: boolean;
+
+  @Column({
+    name: 'istwofactorauthenticationenabled',
+    default: false,
+    nullable: true,
+  })
+  isTwoFactorAuthenticationEnabled?: boolean;
+
+  @Column({
+    name: 'currenthashedrefreshtoken',
+    length: 255,
+    nullable: true,
+  })
+  currentHashedRefreshToken?: string;
+
+  @Column({ name: 'mfa_code', type: 'text', nullable: true })
+  mfaCode?: string;
+
+  @Column({ name: 'mfa_expires_at', type: 'timestamp', nullable: true })
+  mfaExpiresAt?: Date;
+
+  // --- Relacionamentos ---
+
   @OneToMany(() => Session, (session) => session.usuario)
-  sessions!: Session[];
+  sessions?: Session[];
 
   @OneToMany(() => Account, (account) => account.usuario)
-  accounts!: Account[];
+  accounts?: Account[];
 
-  @OneToOne(() => Credentials, (cred: Credentials) => cred.usuario, {
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
-  credentials!: Credentials;
+  @OneToOne(() => Credentials, (cred: Credentials) => cred.usuario)
+  credentials?: Credentials;
 
   @ManyToMany(() => Roles, (roles) => roles.usuario, { onDelete: 'CASCADE' })
   @JoinTable({
-    name: 'USUARIO_ROLES', // Nome da tabela de junção criada no SQL
-    joinColumn: { name: 'USUARIO_ID', referencedColumnName: 'idUsuario' },
-    inverseJoinColumn: { name: 'ROLE_ID', referencedColumnName: 'idRoles' },
+    name: 'user_roles',
+    joinColumn: { name: 'id_user', referencedColumnName: 'idUsuario' },
+    inverseJoinColumn: { name: 'id_role', referencedColumnName: 'idRoles' },
   })
-  role!: Roles[];
-
-  @Column({ name: 'twofactorauthenticationsecret', nullable: true })
-  twoFactorAuthenticationSecret?: string;
-
-  @Column({ name: 'istwofactorauthenticationenabled', default: false })
-  isTwoFactorAuthenticationEnabled!: boolean;
-
-  @Column({ name: 'currenthashedrefreshtoken', nullable: true })
-  currentHashedRefreshToken?: string;
-
-  @Column({ type: 'text', nullable: true })
-  mfaCode!: string;
-
-  @Column({ type: 'timestamp', nullable: true })
-  mfaExpiresAt!: Date;
+  role?: Roles[];
 
   constructor(data: Partial<Usuario> = {}) {
     super();
     Object.assign(this, data);
   }
 }
-
-/* 
-CREATE TABLE usuario (
-    id_usuario SERIAL PRIMARY KEY,
-    nome_usuario VARCHAR(100) NOT NULL,
-    email_usuario VARCHAR(100) NOT NULL UNIQUE,
-    senha_usuario VARCHAR(100), -- nullable conforme sua entidade
-    emailVerified BOOLEAN DEFAULT FALSE,
-    ativo_usuario BOOLEAN DEFAULT FALSE,
-    image_usuario VARCHAR(255),
-    twoFactorAuthenticationSecret VARCHAR(255),
-    isTwoFactorAuthenticationEnabled BOOLEAN DEFAULT FALSE,
-    currentHashedRefreshToken VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP NULL
-)
-
-@Entity('usuario')
-export class Usuario {
-
-  @PrimaryGeneratedColumn({ name: 'id_usuario' })
-  idUsuario: number;
-
-  @Column({ name: 'nome_usuario', length: 150 })
-  nomeUsuario: string;
-
-  @Column({ unique: true, length: 150 })
-  email: string;
-
-  @Column({ length: 255 })
-  senha: string;
-
-  @Column({ default: false })
-  ativo: boolean;
-}
-
-npm install @nestjs/typeorm typeorm mysql2
-
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Usuario } from './usuario/usuario.entity';
-import { TABELA_USUARIO } from '../service/tabela.usuario';
-
-@Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'senha',
-      database: 'meubanco',
-      entities: [Usuario],
-	      
-      synchronize: true,
-    }),
-
-    TypeOrmModule.forFeature([Usuario]),
-  ],
-})
-export class AppModule {}
- */

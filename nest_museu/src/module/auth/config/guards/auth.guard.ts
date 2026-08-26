@@ -67,11 +67,11 @@ export class AuthGuard implements CanActivate {
 
     request.user = {
       id: usuario.idUsuario.toString(),
-      email: usuario.credentials.email,
+      email: usuario.credentials?.email ?? '',
       name: usuario.firstName,
-      role: usuario.role,
+      role: usuario.role ?? [],
       permissions: effectivePermissions,
-      isVerified: usuario.emailVerified,
+      isVerified: usuario.emailVerified ?? false,
     };
     request.session = session;
 

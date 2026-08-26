@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { randomInt } from 'crypto';
 import { Usuario } from '../../usuario/entities/usuario.entity';
 import { UsuarioService } from '../../usuario/service/usuario.service';
-import { randomInt } from 'crypto';
 
 @Injectable()
 export class TwoFactorAuthenticationService {
@@ -24,15 +24,14 @@ export class TwoFactorAuthenticationService {
     };
   }
 
-  public async isTwoFactorAuthenticationCodeValid(
+  public isTwoFactorAuthenticationCodeValid(
     twoFactorAuthenticationCode: string,
     user: Usuario,
   ) {
     const agora = new Date();
 
-    const isCodeMatch =
-      user.twoFactorAuthenticationSecret === twoFactorAuthenticationCode;
-    const isNotExpired = agora < user.mfaExpiresAt;
+    const isCodeMatch = user.mfaCode === twoFactorAuthenticationCode;
+    const isNotExpired = user.mfaExpiresAt ? agora < user.mfaExpiresAt : false;
 
     return isCodeMatch && isNotExpired;
   }

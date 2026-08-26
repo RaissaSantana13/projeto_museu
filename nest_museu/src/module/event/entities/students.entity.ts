@@ -1,6 +1,5 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from '../../../commons/entities/base.entity';
-import { EventBooking } from './eventbooking.entity';
 
 @Entity('students')
 export class Student extends BaseEntity {
@@ -15,7 +14,8 @@ export class Student extends BaseEntity {
 
   @Column({ default: false })
   attended!: boolean; // Marcado pelo funcionário no dia do evento
-
+  /*
   @ManyToOne(() => EventBooking, (booking: EventBooking) => booking.students)
   booking!: EventBooking;
+  */
 }
