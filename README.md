@@ -65,7 +65,7 @@
 <h3>6. Paleta de Cores do Projeto</h3>
 <div align="center">
   <!-- Substitua o caminho abaixo pelo caminho ou URL da sua imagem -->
-  <img src="./caminho/para/sua-imagem-paleta.png" alt="Paleta de Cores do Museu Virtual de Birigui" width="100%" />
+  <img src="ImagemReadme/WhatsApp Image 2026-08-27 at 16.09.18.jpeg" width="50%" />
 </div>
 
 <hr />
