@@ -38,14 +38,17 @@ export class ContactResponse {
 
   @ApiProperty({
     description: CONTACT.SWAGGER.AGREED_TO_PRIVACY,
-    example: 'termo de concordância sim ou não',
+    example: true,
   })
   @Expose()
   agreedToPrivacy!: boolean;
 
-  @ApiProperty({ description: CONTACT.SWAGGER.STATUS, example: 'Aberto' })
+  @ApiProperty({
+    description: 'Data e hora de criação do registro',
+    example: '2026-08-26T10:30:00Z',
+  })
   @Expose()
-  status!: number;
+  createdAt!: Date;
 
   constructor(data: Partial<ContactResponse> = {}) {
     Object.assign(this, data);

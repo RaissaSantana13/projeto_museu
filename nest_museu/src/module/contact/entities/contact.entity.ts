@@ -22,7 +22,11 @@ export class Contact extends BaseEntity {
   @Column({ name: CONTACT.TABLE_FIELDS.MESSAGE, type: 'text' })
   message!: string;
 
-  @Column({ name: CONTACT.TABLE_FIELDS.AGREED_TO_PRIVACY, type: 'boolean' })
+  @Column({
+    name: CONTACT.TABLE_FIELDS.AGREED_TO_PRIVACY,
+    type: 'boolean',
+    default: false,
+  })
   agreedToPrivacy!: boolean;
 
   @Column({ name: CONTACT.TABLE_FIELDS.STATUS })

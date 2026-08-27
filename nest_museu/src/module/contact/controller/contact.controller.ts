@@ -108,8 +108,11 @@ export class ContactController {
   }
 
   @Delete(CONTACT.ROTAS.ID)
-  excluir(@Param(PARAMS.ID, ParseIntPipe) id: number, @Req() req: Request) {
-    this.contactService.excluir(id);
+  async excluir(
+    @Param(PARAMS.ID, ParseIntPipe) id: number,
+    @Req() req: Request,
+  ) {
+    await this.contactService.excluir(id);
 
     return ResponseBuilder.status<ContactResponse>(HttpStatus.OK)
       .message(CONTACT.MENSAGEM.ENTIDADE_EXCLUIDA)

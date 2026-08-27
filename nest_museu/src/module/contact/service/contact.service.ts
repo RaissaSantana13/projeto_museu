@@ -1,7 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { EmailException } from '../../../commons/exceptions/error/email.exception';
 import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
 import { Pageable } from '../../../commons/pagination/page.response';
 import { Page } from '../../../commons/pagination/pagination.sistema';
@@ -67,18 +66,13 @@ export class ContactService {
 
       // 2. IMPORTANTE: Criptografe a senha antes de salvar!
       // Se você usa bcrypt: novoContact.senha = await bcrypt.hash(contactRequest.senha, 10);
-      //novoContact.senha = await bcrypt.hash(contactRequest.senha, 10);; // Substitua pelo seu método de hash
 
       const contactSalvo = await this.contactRepository.save(novoContact);
 
       return ContactConverter.toContactResponse(contactSalvo);
     } catch (error: any) {
-      // Tratativa para e-mail duplicado (Postgres 23505)
-      if (error.code === '23505') {
-        throw new EmailException(CONTACT.MENSAGEM.EMAIL_CADASTRADO);
-      }
       throw new InternalServerErrorException(
-        `Erro ao criar usuário: ${error.message}`,
+        `Erro ao salvar contato: ${error.message}`,
       );
     }
   }
@@ -103,10 +97,6 @@ export class ContactService {
 
       return ContactConverter.toContactResponse(contactExistente);
     } catch (error: any) {
-      if (error.code === '23505') {
-        throw new EmailException(CONTACT.MENSAGEM.EMAIL_CADASTRADO);
-      }
-
       throw new InternalServerErrorException(
         `Erro ao processar: ${error.message}`,
       );

@@ -3,6 +3,7 @@ import { Type } from 'class-transformer';
 import { IsOptional } from 'class-validator';
 import { TextField } from '../../../../commons/decorators/validation/text.decorator';
 import { CONTACT } from '../../constants/contact.constantes';
+import { BooleanField } from '../../../../commons/decorators/validation/boolean.decorator';
 
 export class ContactRequest {
   static entityName = CONTACT.ALIAS.toLowerCase();
@@ -12,11 +13,11 @@ export class ContactRequest {
   idContact!: number;
 
   @ApiProperty({ description: CONTACT.SWAGGER.FIRST_NAME, example: 'Antônio ' })
-  @TextField({ required: true, min: 6, max: 100, label: 'Nome', gender: 'm' })
+  @TextField({ required: true, min: 2, max: 100, label: 'Nome', gender: 'm' })
   firstName!: string;
 
   @ApiProperty({ description: CONTACT.SWAGGER.LAST_NAME, example: 'Silva' })
-  @TextField({ required: true, min: 6, max: 100, label: 'Nome', gender: 'm' })
+  @TextField({ required: true, min: 2, max: 100, label: 'Nome', gender: 'm' })
   lastName!: string;
 
   @ApiProperty({
@@ -37,13 +38,14 @@ export class ContactRequest {
     description: CONTACT.SWAGGER.MESSAGE,
     example: 'texto referente a mensagem ',
   })
-  @TextField({ required: true, min: 6, max: 100, label: 'Nome', gender: 'm' })
+  @TextField({ required: true, min: 6, max: 500, label: 'Nome', gender: 'm' })
   message!: string;
 
   @ApiProperty({
     description: CONTACT.SWAGGER.AGREED_TO_PRIVACY,
     example: 'termo de concordância sim ou não',
   })
+  @BooleanField({ required: true, label: 'Aceita o termo de concordância?' })
   agreedToPrivacy!: boolean;
 
   constructor(data: Partial<ContactRequest> = {}) {
