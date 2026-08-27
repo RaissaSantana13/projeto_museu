@@ -1,26 +1,41 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { SchoolController } from './controller/school.controller';
-import { SchoolRepresentative } from './entities/school-representative.entity';
-import { School } from './entities/school.entity';
-import { SchoolService } from './service/school.service';
+import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { SchoolController } from "./controller/school.controller";
+import { SchoolGroupController } from "./controller/school-group.controller";
+import { StudentController } from "./controller/student.controller";
+import { SchoolRepresentative } from "./entities/school-representative.entity";
+import { School } from "./entities/school.entity";
+import { Student } from "./entities/student.entity";
+import { SchoolGroup } from "./entities/school-group.entity";
+import { StudentsInGroup } from "./entities/students-in-group.entity";
+import { SchoolService } from "./service/school.service";
+import { SchoolGroupService } from "./service/school-group.service";
+import { StudentService } from "./service/student.service";
 
 @Module({
   imports: [
-    // Registra as entidades do módulo para que o TypeORM possa injetar os repositórios
-    TypeOrmModule.forFeature([School, SchoolRepresentative]),
+    TypeOrmModule.forFeature([
+      School,
+      SchoolRepresentative,
+      Student,
+      SchoolGroup,
+      StudentsInGroup,
+    ]),
   ],
   controllers: [
-    // Registra o controlador que lida com as rotas HTTP de e scola
     SchoolController,
+    SchoolGroupController,
+    StudentController,
   ],
   providers: [
-    // Registra o serviço que contém a lógica de negócio
     SchoolService,
+    SchoolGroupService,
+    StudentService,
   ],
   exports: [
-    // Exporta o SchoolService caso outros módulos precisem consultar dados de escolas
     SchoolService,
+    SchoolGroupService,
+    StudentService,
   ],
 })
 export class SchoolModule {}
