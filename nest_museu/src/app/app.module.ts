@@ -16,6 +16,8 @@ import { ResourceModule } from '../module/resource/resource.module';
 import { UsuarioModule } from '../module/usuario/usuario.module';
 import { SchoolModule } from '../module/school/school.module';
 import { ArtworkModule } from '../module/artwork/artwork.module';
+import { PrintModule } from '../module/print/print.module';
+import { DocumentModule } from '../module/document/document.module';
 import { ArtworkMediaModule } from '../module/artwork-media/artwork-media.module';
 
 const modules = [
@@ -31,6 +33,8 @@ const modules = [
   AcessoModule,
   ArtworkModule,
   ArtworkMediaModule,
+  PrintModule,
+  DocumentModule,
 ];
 
 @Module({
