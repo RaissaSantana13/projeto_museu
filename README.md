@@ -120,6 +120,12 @@
   <li><strong>Interação:</strong> Gerencia o engajamento do público, armazenando favoritos, comentários (avaliações) e a estrutura completa de eventos e inscrições.</li>
 </ul>
 
+<h3>6. Modelagem do banco</h3>
+<div align="center">
+  <!-- Substitua o caminho abaixo pelo caminho ou URL da sua imagem -->
+  <img src="ImagemReadme/WhatsApp Image 2026-08-27 at 16.09.18.jpeg" width="50%" />
+</div>
+
 <!-- 
   DICA: Se você tiver a imagem exportada do seu diagrama de banco de dados, 
   descomente a tag abaixo e substitua o link pelo caminho da sua imagem no repositório.
