@@ -123,7 +123,7 @@
 <h3>6. Modelagem do banco</h3>
 <div align="center">
   <!-- Substitua o caminho abaixo pelo caminho ou URL da sua imagem -->
-  <img src="ImagemReadme/WhatsApp Image 2026-08-27 at 16.09.18.jpeg" width="50%" />
+  <img src="ImagemReadme/WhatsApp Image 2026-08-27 at 16.42.28.jpeg" width="100%" />
 </div>
 
 <!-- 
