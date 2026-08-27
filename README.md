@@ -68,10 +68,6 @@
   <img src="ImagemReadme/WhatsApp Image 2026-08-27 at 16.09.18.jpeg" width="50%" />
 </div>
 
-<hr />
-<div align="center">
-  <sub>Museu Virtual de Birigui • Preservação Cultural e Tecnologia</sub>
-</div>
 
 
 <div align="center">
@@ -124,6 +120,10 @@
 <div align="center">
   <!-- Substitua o caminho abaixo pelo caminho ou URL da sua imagem -->
   <img src="ImagemReadme/WhatsApp Image 2026-08-27 at 16.42.28.jpeg" width="100%" />
+</div>
+<hr />
+<div align="center">
+  <sub>Museu Virtual de Birigui • Preservação Cultural e Tecnologia</sub>
 </div>
 
 <!-- 
