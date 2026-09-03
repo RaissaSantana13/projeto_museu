@@ -5,14 +5,19 @@ import { GenericConverter } from '../../../commons/converter/converter.commons';
 import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
 import { EVENT } from '../constants/event.constants';
 import { EventRequest } from '../dto/events/request/event.request';
+import { RemoveColaboratorFromEventRequest } from '../dto/events/request/remove-colaborator-from-event.request';
 import { EventResponse } from '../dto/events/response/event.response';
+import { Colaborator } from '../entities/colaborators.entity';
 import { Event } from '../entities/event.entity';
+import { AddColaboratorToEventRequest } from '../dto/events/request/add-colaborator-to-event.request';
 
 @Injectable()
 export class EventService {
   constructor(
     @InjectRepository(Event)
     private eventRepository: Repository<Event>,
+    @InjectRepository(Colaborator)
+    private colaboratorRepository: Repository<Colaborator>,
   ) {}
 
   async listar(
@@ -141,5 +146,62 @@ export class EventService {
     } catch (error: any) {
       throw new InternalServerErrorException(error.message);
     }
+  }
+
+  async adicionarColaborador(
+    request: AddColaboratorToEventRequest,
+  ): Promise<EventResponse> {
+    const event = await this.buscarEventoComColaboradores(request.id_event);
+    const colaborator = await this.colaboratorRepository.findOne({
+      where: { idColaborator: request.id_colaborator },
+    });
+
+    if (!colaborator) {
+      throw new EntityNotFoundException('Colaborador não encontrado');
+    }
+
+    const alreadyRelated = event.colaborators.some(
+      (item) => item.idColaborator === colaborator.idColaborator,
+    );
+
+    if (!alreadyRelated) {
+      event.colaborators.push(colaborator);
+      await this.eventRepository.save(event);
+    }
+
+    return GenericConverter.toResponse(EventResponse, event);
+  }
+
+  async removerColaborador(
+    request: RemoveColaboratorFromEventRequest,
+  ): Promise<EventResponse> {
+    const event = await this.buscarEventoComColaboradores(request.id_event);
+    const colaborator = await this.colaboratorRepository.findOne({
+      where: { idColaborator: request.id_colaborator },
+    });
+
+    if (!colaborator) {
+      throw new EntityNotFoundException('Colaborador não encontrado');
+    }
+
+    event.colaborators = event.colaborators.filter(
+      (item) => item.idColaborator !== colaborator.idColaborator,
+    );
+    await this.eventRepository.save(event);
+
+    return GenericConverter.toResponse(EventResponse, event);
+  }
+
+  private async buscarEventoComColaboradores(id: number): Promise<Event> {
+    const event = await this.eventRepository.findOne({
+      where: { idEvent: id },
+      relations: ['colaborators'],
+    });
+
+    if (!event) {
+      throw new EntityNotFoundException(EVENT.MENSAGEM.ENTIDADE_NAO_ENCONTRADA);
+    }
+
+    return event;
   }
 }

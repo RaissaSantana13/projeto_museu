@@ -1,71 +1,67 @@
-import { addMinutes, format, parse } from 'date-fns';
 import {
   BeforeInsert,
   BeforeUpdate,
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BaseEntity } from '../../../commons/entities/base.entity';
 import { EVENT } from '../constants/event.constants';
+import { Colaborator } from './colaborators.entity';
 //import { EventSpotlight } from './event-spotlight.entity';
 //import { EventBooking } from './eventbooking.entity';
 @Entity(EVENT.ENTITY)
 export class Event extends BaseEntity {
   @PrimaryGeneratedColumn({ name: EVENT.TABLE_FIELDS.ID_EVENT })
   idEvent!: number;
+
   @Column({ name: EVENT.TABLE_FIELDS.TITLE, type: 'text' })
   title!: string;
+
   @Column({ name: EVENT.TABLE_FIELDS.DESCRIPTION, type: 'text' })
   description!: string;
+
   @Column({
     name: EVENT.TABLE_FIELDS.START_DATE,
     type: 'timestamptz',
     default: () => 'CURRENT_DATE',
   })
   start_date!: Date;
-  @Column({
-    name: EVENT.TABLE_FIELDS.START_TIME,
-    type: 'time',
-    default: '09:00:00',
-  })
-  startTime!: string;
-  @Column({
-    name: EVENT.TABLE_FIELDS.DURATION_MINUTES,
-    type: 'integer',
-    default: 60,
-  })
-  durationMinutes!: number;
+
   @Column({
     name: EVENT.TABLE_FIELDS.END_DATE,
     type: 'timestamptz',
     default: () => 'CURRENT_DATE',
   })
   end_date!: Date;
-  @Column({ name: EVENT.TABLE_FIELDS.ALLDAY })
-  allDay!: boolean;
+
   @Column({ name: EVENT.TABLE_FIELDS.LOCATION, length: 100 })
   location!: string;
-  @Column({ name: EVENT.TABLE_FIELDS.COLOR, length: 30 })
-  color!: string;
+
   @Column({ name: 'max_capacity', type: 'integer', nullable: true })
   maxCapacity!: number;
 
-  /*
+  @Column({ name: EVENT.TABLE_FIELDS.COLOR, length: 30 })
+  color!: string;
+
   @ManyToMany(
     () => Colaborator,
     (colaborator: Colaborator) => colaborator.events,
   )
   @JoinTable({
     name: 'event_colaborator_relation',
-    joinColumn: { name: 'id_event', referencedColumnName: 'idEvent' },
+    joinColumn: {
+      name: 'id_event',
+      referencedColumnName: 'idEvent',
+    },
     inverseJoinColumn: {
       name: 'id_colaborator',
       referencedColumnName: 'idColaborator',
     },
   })
   colaborators!: Colaborator[];
-  */
 
   // @OneToMany(() => EventBooking, (booking: EventBooking) => booking.event)
   // bookings!: EventBooking[];
@@ -78,19 +74,18 @@ export class Event extends BaseEntity {
   @BeforeInsert()
   @BeforeUpdate()
   calculateDates() {
-    const base = new Date(this.start_date);
-
-    const onlyDate = format(base, 'yyyy-MM-dd');
-
-    const fullStartDate = parse(
-      `${onlyDate} ${this.startTime}`,
-      'yyyy-MM-dd HH:mm:ss',
-      new Date(),
-    );
-
-    this.start_date = fullStartDate;
-
-    this.end_date = addMinutes(fullStartDate, this.durationMinutes || 60);
+    // ATENÇÃO: FOI COMENTADO POIS OS CAMPOS NÃO EXISTEM NO BANCO E FORAM REMOVIDOS DO CODIGO
+    // TALVEZ ESSE MÉTODO NEM FAÇA MAIS SENTIDO EXSITIR.
+    //
+    // const base = new Date(this.start_date);
+    // const onlyDate = format(base, 'yyyy-MM-dd');
+    // const fullStartDate = parse(
+    //   `${onlyDate}`,
+    //   'yyyy-MM-dd HH:mm:ss',
+    //   new Date(),
+    // );
+    // this.start_date = fullStartDate;
+    // this.end_date = addMinutes(fullStartDate, this.durationMinutes || 60);
   }
 
   // getAvailableSlots(): number {
