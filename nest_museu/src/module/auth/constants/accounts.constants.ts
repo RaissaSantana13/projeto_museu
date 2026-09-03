@@ -18,12 +18,12 @@ export const ACCOUNT = {
 
   SEARCH: {
     POR_ID_ACCOUNT: `${ENTITY_NAME}.id_account`,
-    POR_ID_USUARIO: `${ENTITY_NAME}.id_usuario`,
+    POR_ID_USUARIO: `${ENTITY_NAME}.id_user`,
   },
 
   TABLE_FIELDS: {
     ID_ACCOUNT: 'id_account',
-    ID_USUARIO: 'id_usuario',
+    ID_USUARIO: 'id_user',
     ACCOUNT_ID: 'account_id',
     PROVIDER_ID: 'provider_id',
     ACCESS_TOKEN: 'access_token',
