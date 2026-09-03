@@ -15,7 +15,7 @@ export const AUTH = {
 
   TABLE_FIELDS: {
     ID_LOGIN: 'id_login',
-    ID_USUARIO: 'id_usuario',
+    ID_USUARIO: 'id_user',
     EMAIL: 'email',
     PASSWORD: 'password',
   },

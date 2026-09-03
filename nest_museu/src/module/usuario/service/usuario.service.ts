@@ -55,10 +55,10 @@ export class UsuarioService extends BaseService<Usuario> {
     try {
       const query = this.usuarioRepository
         .createQueryBuilder(USUARIO.ENTITY)
-        .innerJoin('usuario.credentials', 'cred')
-        .select('usuario.id_usuario', 'idUsuario')
+        .innerJoin('user.credentials', 'cred')
+        .select('user.id_user', 'idUsuario')
         .addSelect('cred.email', 'email')
-        .where('usuario.deleted_at IS NULL')
+        .where('user.deleted_at IS NULL')
         .andWhere('cred.deleted_at IS NULL');
 
       if (search) {
@@ -209,9 +209,9 @@ export class UsuarioService extends BaseService<Usuario> {
   async buscarPorId(id: number): Promise<Usuario> {
     try {
       const usuario = await this.usuarioRepository
-        .createQueryBuilder('usuario') // Nome da entidade
-        .leftJoinAndSelect('usuario.roles', 'roles') // Carrega as roles atuais
-        .where('usuario.idUsuario = :id', { id })
+        .createQueryBuilder('user') // Nome da entidade
+        .leftJoinAndSelect('user.roles', 'roles') // Carrega as roles atuais
+        .where('user.idUsuario = :id', { id })
         .getOne();
 
       if (!usuario) {
@@ -237,7 +237,7 @@ export class UsuarioService extends BaseService<Usuario> {
       if (typeof payload === 'object' && 'email' in payload) {
         const credentials = await this.credentialsRepository.findOne({
           where: { email: payload.email },
-          relations: ['usuario'],
+          relations: ['user'],
         });
 
         if (!credentials) {

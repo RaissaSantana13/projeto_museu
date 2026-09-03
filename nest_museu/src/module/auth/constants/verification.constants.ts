@@ -18,7 +18,7 @@ export const VERIFICATION = {
 
   TABLE_FIELDS: {
     ID: 'id_account',
-    IDENTIFIER: 'id_usuario',
+    IDENTIFIER: 'id_user',
     VALUE: 'account_id',
     EXPIRES_AT: 'access_token_expires_at',
   },

@@ -19,7 +19,7 @@ export const USUARIO = {
   REGISTER: '/register',
 
   TABLE_FIELDS: {
-    ID_USUARIO: 'id_usuario',
+    ID_USUARIO: 'id_user',
     FIRSTNAME: 'firstname',
     LASTNAME: 'lastname',
     USERNAME: 'username',
