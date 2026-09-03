@@ -1,16 +1,16 @@
-import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { SchoolController } from "./controller/school.controller";
-import { SchoolGroupController } from "./controller/school-group.controller";
-import { StudentController } from "./controller/student.controller";
-import { SchoolRepresentative } from "./entities/school-representative.entity";
-import { School } from "./entities/school.entity";
-import { Student } from "./entities/student.entity";
-import { SchoolGroup } from "./entities/school-group.entity";
-import { StudentsInGroup } from "./entities/students-in-group.entity";
-import { SchoolService } from "./service/school.service";
-import { SchoolGroupService } from "./service/school-group.service";
-import { StudentService } from "./service/student.service";
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { SchoolController } from './controller/school.controller';
+//import { SchoolGroupController } from './controller/school-group.controller';
+import { StudentController } from './controller/student.controller';
+import { SchoolRepresentative } from './entities/school-representative.entity';
+import { School } from './entities/school.entity';
+import { Student } from './entities/student.entity';
+import { SchoolGroup } from './entities/school-group.entity';
+import { StudentsInGroup } from './entities/students-in-group.entity';
+import { SchoolService } from './service/school.service';
+//import { SchoolGroupService } from './service/school-group.service';
+import { StudentService } from './service/student.service';
 
 @Module({
   imports: [
@@ -22,20 +22,8 @@ import { StudentService } from "./service/student.service";
       StudentsInGroup,
     ]),
   ],
-  controllers: [
-    SchoolController,
-    SchoolGroupController,
-    StudentController,
-  ],
-  providers: [
-    SchoolService,
-    SchoolGroupService,
-    StudentService,
-  ],
-  exports: [
-    SchoolService,
-    SchoolGroupService,
-    StudentService,
-  ],
+  controllers: [SchoolController, StudentController],
+  providers: [SchoolService, StudentService],
+  exports: [SchoolService, StudentService],
 })
 export class SchoolModule {}

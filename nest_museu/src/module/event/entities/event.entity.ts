@@ -45,11 +45,11 @@ export class Event extends BaseEntity {
 
   @Column({ name: EVENT.TABLE_FIELDS.COLOR, length: 30 })
   color!: string;
-
+  /*
   @ManyToMany(
     () => Colaborator,
     (colaborator: Colaborator) => colaborator.events,
-  )
+  )*/
   @JoinTable({
     name: 'event_colaborator_relation',
     joinColumn: {

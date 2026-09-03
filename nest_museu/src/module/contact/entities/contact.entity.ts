@@ -28,10 +28,10 @@ export class Contact extends BaseEntity {
     default: false,
   })
   agreedToPrivacy!: boolean;
-
+  /*
   @Column({ name: CONTACT.TABLE_FIELDS.STATUS })
   status!: number;
-
+  */
   constructor(data: Partial<Contact> = {}) {
     super();
     Object.assign(this, data);
