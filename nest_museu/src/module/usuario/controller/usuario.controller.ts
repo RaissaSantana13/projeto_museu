@@ -34,9 +34,22 @@ import { UsuarioRequest } from '../dto/request/usuario.request';
 import { UsuarioResponse } from '../dto/response/usuario.response';
 import { Usuario } from '../entities/usuario.entity';
 import { UsuarioService } from '../service/usuario.service';
+import { PaginationDto } from '../../../commons/pagination/pagination.dto';
 
 @Crud({
   model: { type: Usuario },
+  routes: {
+    exclude: [
+      'getManyBase',
+      'getOneBase',
+      'createOneBase',
+      'updateOneBase',
+      'replaceOneBase',
+      'deleteOneBase',
+      'createManyBase',
+      'recoverOneBase',
+    ],
+  },
   ...GLOBAL_CRUD_OPTIONS,
 })
 @ApiTags(USUARIO.ALIAS)
@@ -53,24 +66,27 @@ export class UsuarioController extends BaseController {
   @ApiPaginatedResponse(UsuarioResponse)
   async listar(
     @Req() req: Request,
-    @Query('page') page?: string,
-    @Query('pageSize') pageSize?: string,
-    @Query('field') field?: string,
-    @Query('order') order?: string,
-    @Query('search') search?: string,
+    @Query() pagination: PaginationDto,
   ): Promise<ApiResponse<Page<UsuarioResponse>>> {
-    const pageControler = Number(page) ? Number(page) : PAGINATION.PAGE;
-    const pageSizeController = Number(pageSize)
-      ? Number(pageSize)
+    const pageControler = Number(pagination.page)
+      ? Number(pagination.page)
+      : PAGINATION.PAGE;
+    const pageSizeController = Number(pagination.pageSize)
+      ? Number(pagination.pageSize)
       : PAGINATION.PAGESIZE;
-    const fieldController = field ? field : USUARIO.FIELDS.ID_USUARIO;
-    const orderController = order ? order : PAGINATION.ASC;
+    const fieldController = pagination.field
+      ? pagination.field
+      : USUARIO.FIELDS.ID_USUARIO;
+    const orderController = pagination.order
+      ? pagination.order
+      : PAGINATION.ASC;
+    const searchController = pagination.search;
     const response = await this.usuarioService.listar(
       pageControler,
       pageSizeController,
       fieldController,
       orderController,
-      search,
+      searchController,
     );
 
     return ResponseBuilder.status<Page<UsuarioResponse>>(HttpStatus.OK)

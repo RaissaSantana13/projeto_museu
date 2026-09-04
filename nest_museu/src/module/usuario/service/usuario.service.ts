@@ -111,7 +111,7 @@ export class UsuarioService extends BaseService<Usuario> {
           lastName: usuarioRequest.lastName,
           username: usuarioRequest.username,
           imagePath: usuarioRequest.imagePath,
-          emailConfirmado: false, // Inicializa como não confirmado
+          emailVerified: false, // Inicializa como não confirmado
         });
         if (usuarioRequest.roleIds?.length > 0) {
           novoUsuario.role = usuarioRequest.roleIds.map((id) => ({
@@ -123,7 +123,7 @@ export class UsuarioService extends BaseService<Usuario> {
         const credentials = manager.create(Credentials, {
           email: usuarioRequest.email,
           password: passwordHash,
-          usuarioId: usuarioSalvo.idUsuario,
+          idUsuario: usuarioSalvo.idUsuario,
         });
 
         await manager.save(Credentials, credentials);
