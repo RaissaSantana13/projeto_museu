@@ -29,6 +29,7 @@ CREATE TABLE credentials (
 CREATE TABLE account (
     id_account UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     id_user INTEGER NOT NULL REFERENCES "user"(id_user) ON DELETE CASCADE,
+    account_id TEXT,
     provider_id VARCHAR(50) NOT NULL, -- ex: 'google', 'github'
     access_token TEXT,
     refresh_token TEXT,
@@ -36,7 +37,8 @@ CREATE TABLE account (
     refresh_token_expires_at TIMESTAMP,
     scope VARCHAR(255),
     created_at TIMESTAMPTZ DEFAULT now(),
-    updated_at TIMESTAMPTZ DEFAULT now()
+    updated_at TIMESTAMPTZ DEFAULT now(),
+    deleted_at TIMESTAMPTZ
 );
 
 CREATE TABLE session (
@@ -66,13 +68,13 @@ CREATE TABLE resources (
 
 CREATE TABLE user_roles (
     id_user INTEGER REFERENCES "user"(id_user) ON DELETE CASCADE,
-    id_role INTEGER REFERENCES roles(id_roles) ON DELETE CASCADE,
+    id_role INTEGER REFERENCES roles(id_role) ON DELETE CASCADE,
     PRIMARY KEY (id_user, id_role)
 );
 
 CREATE TABLE permissions (
     id_permission SERIAL PRIMARY KEY,
-    id_role INTEGER NOT NULL REFERENCES roles(id_roles) ON DELETE CASCADE,
+    id_role INTEGER NOT NULL REFERENCES roles(id_role) ON DELETE CASCADE,
     id_recurso INTEGER NOT NULL REFERENCES resources(id_recurso) ON DELETE CASCADE,
     action VARCHAR(20) NOT NULL, 
     possession VARCHAR(10) DEFAULT 'any',
@@ -166,7 +168,7 @@ CREATE TABLE event_bookings (
 CREATE TABLE event_booking_groups (
     id_booking INTEGER NOT NULL REFERENCES event_bookings(id_booking) ON DELETE CASCADE,
     id_group INTEGER NOT NULL REFERENCES school_groups(id_group) ON DELETE CASCADE,
-    attending_students JSONB NOT NULL DEFAULT '[]'::jsonb
+    attending_students JSONB NOT NULL DEFAULT '[]'::jsonb,
     PRIMARY KEY (id_booking, id_group)
 );
 
