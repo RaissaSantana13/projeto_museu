@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray, IsOptional } from 'class-validator';
+import { IsArray, IsBoolean, IsOptional, IsString } from 'class-validator';
 import { Password } from '../../../../commons/decorators/validation/password.decorator';
 import { TextField } from '../../../../commons/decorators/validation/text.decorator';
 import { USUARIO } from '../../constants/usuario.constants';
@@ -18,7 +18,7 @@ export class UsuarioRequest {
   })
   @TextField({
     required: true,
-    min: 6,
+    min: 1,
     max: 100,
     label: 'Primeiro Nome',
     gender: 'm',
@@ -31,7 +31,7 @@ export class UsuarioRequest {
   })
   @TextField({
     required: true,
-    min: 6,
+    min: 1,
     max: 100,
     label: 'Último Nome',
     gender: 'm',
@@ -60,14 +60,14 @@ export class UsuarioRequest {
   email!: string;
   @ApiProperty({
     description: USUARIO.SWAGGER.PASSWORD,
-    example: '***************',
+    example: 'Teste123!',
   })
   @TextField({ required: true, min: 6, max: 20, label: 'Senha', gender: 'f' })
   @Password()
   password!: string;
   @ApiProperty({
     description: USUARIO.SWAGGER.CONFIRM_PASSWORD,
-    example: '**************',
+    example: 'Teste123!',
   })
   @TextField({
     required: true,
@@ -87,9 +87,12 @@ export class UsuarioRequest {
   roleIds!: number[];
 
   @ApiProperty({ description: USUARIO.SWAGGER.IMAGE_PATH })
+  @IsOptional()
+  @IsString()
   imagePath?: string;
 
   @ApiProperty({ description: USUARIO.SWAGGER.ACTIVE })
+  @IsBoolean()
   active: boolean = false;
 
   constructor(data: Partial<UsuarioRequest> = {}) {
