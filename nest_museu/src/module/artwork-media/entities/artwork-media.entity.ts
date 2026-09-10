@@ -46,7 +46,7 @@ export class ArtworkMedia extends BaseEntity {
 
   // Relações
   // Muitas mídias pertencem a uma obra
-  @ManyToOne(() => Artwork, (artwork) => artwork.idArtwork, {
+  @ManyToOne(() => Artwork, (artwork) => artwork.medias, {
     // Deletar as mídias automaticamente caso a obra for deletada
     onDelete: 'CASCADE',
   })

@@ -1,9 +1,9 @@
-import { IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjsx/crud/lib/crud';
-import { DOCUMENT } from '../../constants/document.constants';
 import { Type } from 'class-transformer';
-import { TextField } from '../../../../commons/decorators/validation/text.decorator';
+import { IsOptional } from 'class-validator';
 import { NumberField } from '../../../../commons/decorators/validation/number.decorator';
+import { TextField } from '../../../../commons/decorators/validation/text.decorator';
+import { DOCUMENT } from '../../constants/document.constants';
 
 export class DocumentRequest {
   static entityName = DOCUMENT.ALIAS.toLowerCase();
@@ -78,7 +78,10 @@ export class DocumentRequest {
   })
   type?: string;
 
-  @ApiProperty({ description: DOCUMENT.SWAGGER.CATEGORY, example: 'Institucional' })
+  @ApiProperty({
+    description: DOCUMENT.SWAGGER.CATEGORY,
+    example: 'Institucional',
+  })
   @TextField({
     required: false,
     min: 1,
@@ -88,7 +91,10 @@ export class DocumentRequest {
   })
   category?: string;
 
-  @ApiProperty({ description: DOCUMENT.SWAGGER.LOCATION, example: 'Sala de Arquivos' })
+  @ApiProperty({
+    description: DOCUMENT.SWAGGER.LOCATION,
+    example: 'Sala de Arquivos',
+  })
   @TextField({
     required: false,
     min: 1,

@@ -1,8 +1,8 @@
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ArtworkMedia } from './entities/artwork-media.entity';
-import { ArtworkMediaController } from './controller/artwork-media.controller';
-import { ArtworkMediaService } from './service/artwork-media.service';
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ArtworkMediaController } from './controller/artwork-media.controller';
+import { ArtworkMedia } from './entities/artwork-media.entity';
+import { ArtworkMediaService } from './service/artwork-media.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ArtworkMedia])],

@@ -1,10 +1,3 @@
-import { Crud } from '@nestjsx/crud';
-import { BaseController } from '../../../commons/entities/base.controller';
-import { GLOBAL_CRUD_OPTIONS } from '../../../commons/entities/crud.options';
-import { ArtworkMedia } from '../entities/artwork-media.entity';
-import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
-import { ArtworkMediaResponse } from '../dto/response/artwork-media.response';
-import { ApiResponse, Link } from '../../../commons/response/api.response';
 import {
   Body,
   Controller,
@@ -18,25 +11,36 @@ import {
   Put,
   Query,
   Req,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ARTWORK_MEDIA } from '../constants/artwork-media.constants';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
+import { Crud } from '@nestjsx/crud';
+import { Request } from 'express';
+import { memoryStorage } from 'multer';
 import { PARAMS } from '../../../commons/constants/param.constants';
 import { ApiPaginatedResponse } from '../../../commons/decorators/swagger/api-paginated-response.decorator';
 import {
+  ApiDeleteDoc,
+  ApiGetByIdDoc,
   ApiGetDoc,
   ApiPostDoc,
   ApiPutDoc,
-  ApiDeleteDoc,
-  ApiGetByIdDoc,
   ApiRestoreDoc,
 } from '../../../commons/decorators/swagger/swagger.decorator';
+import { BaseController } from '../../../commons/entities/base.controller';
+import { GLOBAL_CRUD_OPTIONS } from '../../../commons/entities/crud.options';
 import { PAGINATION } from '../../../commons/enum/pagination.enum';
-import { Page } from '../../../commons/pagination/pagination.sistema';
-import { ResponseBuilder } from '../../../commons/response/builder.response';
-import { ArtworkMediaRequest } from '../dto/request/artwork-media.request';
-import { ArtworkMediaService } from '../service/artwork-media.service';
-import { Request } from 'express';
 import { PaginationDto } from '../../../commons/pagination/pagination.dto';
+import { Page } from '../../../commons/pagination/pagination.sistema';
+import { ApiResponse, Link } from '../../../commons/response/api.response';
+import { ResponseBuilder } from '../../../commons/response/builder.response';
+import { ARTWORK_MEDIA } from '../constants/artwork-media.constants';
+import { ArtworkMediaRequest } from '../dto/request/artwork-media.request';
+import { ArtworkMediaResponse } from '../dto/response/artwork-media.response';
+import { ArtworkMedia } from '../entities/artwork-media.entity';
+import { ArtworkMediaService } from '../service/artwork-media.service';
 
 @Crud({
   model: { type: ArtworkMedia },
@@ -120,6 +124,34 @@ export class ArtworkMediaController extends BaseController {
       .build();
   }
 
+  @Post('upload')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: memoryStorage(),
+    }),
+  )
+  async upload(
+    @UploadedFile() file: Express.Multer.File,
+    @Query('idArtwork', ParseIntPipe) idArtwork: number,
+    @Query('mediaType') mediaType: string,
+    @Query('isMain') isMain: string,
+    @Req() req: Request,
+  ) {
+    const response = await this.artworkMediaService.upload(
+      file,
+      idArtwork,
+      mediaType,
+      isMain === 'true',
+    );
+
+    return ResponseBuilder.status<ArtworkMediaResponse>(HttpStatus.OK)
+      .message(ARTWORK_MEDIA.MENSAGEM.ENTIDADE_CADASTRADA)
+      .path(req.path)
+      .data(response)
+      .metodo(req.method)
+      .links(this.getResourceLinks(response?.idMedia))
+      .build();
+  }
   @Post()
   @ApiPostDoc(
     ARTWORK_MEDIA.OPERACAO.SALVAR,
