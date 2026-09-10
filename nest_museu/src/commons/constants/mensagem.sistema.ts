@@ -1,5 +1,6 @@
 export enum MENSAGEM_GENERICA {
   ENTIDADE_NAO_ENCONTRADA = 'ENTIDADE_NAO_ENCONTRADA',
+  USERNAME_CADASTRADO = 'USERNAME_CADASTRADO',
   EMAIL_CADASTRADO = 'EMAIL_CADASTRADO',
   EMAIL_NAO_CADASTRADO = 'EMAIL_NAO_CADASTRADO',
   EMAIL_RECUPERACAO_ENVIADO = 'EMAIL_RECUPERACAO_ENVIADO',
@@ -16,6 +17,7 @@ export enum MENSAGEM_GENERICA {
   ENTIDADE_JA_ATIVA = 'ENTIDADE_JA_ATIVA',
   CREDENCIAL_INVALIDA = 'CREDENCIAL_INVALIDA',
   LOGIN_EFETUADO = 'LOGIN_EFETUADO',
+  DADOS_DUPLICADOS = 'DADOS_DUPLICADOS',
   ERROR_SERVICE = 'ERROR_SERVICE',
   CREDENTIALS_UPDATE_SUCCESS = 'CREDENTIALS_UPDATE_SUCCESS',
   TOKEN_INVALIDO_EXPIRADO = 'TOKEN_INVALIDO_EXPIRADO',
@@ -61,6 +63,8 @@ type MensagensGenericas = {
 const MENSAGENS_GENERICAS: MensagensGenericas = {
   [MENSAGEM_GENERICA.ENTIDADE_NAO_ENCONTRADA]: (entidade: string) =>
     `${entidade} não localizado(a) no sistema.`,
+  [MENSAGEM_GENERICA.USERNAME_CADASTRADO]: (entidade: string) =>
+    `Este nome de ${entidade} já está cadastrado.`,
   [MENSAGEM_GENERICA.ENTIDADE_CADASTRADA]: (entidade: string) =>
     `${entidade} foi cadastrado(a) no sistema.`,
   [MENSAGEM_GENERICA.ENTIDADE_ALTERADA]: (entidade: string) =>
@@ -93,6 +97,8 @@ const MENSAGENS_GENERICAS: MensagensGenericas = {
     `As credenciais de acesso estão inválidas.`,
   [MENSAGEM_GENERICA.LOGIN_EFETUADO]: (entidade: string) =>
     `${entidade} efetuado com sucesso.`,
+  [MENSAGEM_GENERICA.DADOS_DUPLICADOS]: () =>
+    `Já existe um cadastro com os dados únicos informados.`,
   [MENSAGEM_GENERICA.ERROR_SERVICE]: () => `Erro de processamento no servidor.`,
   [MENSAGEM_GENERICA.CREDENTIALS_UPDATE_SUCCESS]: () =>
     `Credenciais atualizadas com sucesso.`,

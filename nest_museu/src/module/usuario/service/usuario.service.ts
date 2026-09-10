@@ -27,6 +27,7 @@ import { UsuarioConverter } from '../dto/converter/usuario.converter';
 import { UsuarioRequest } from '../dto/request/usuario.request';
 import { UsuarioResponse } from '../dto/response/usuario.response';
 import { Usuario } from '../entities/usuario.entity';
+import { ConflictException } from '../../../commons/exceptions/error/conflict.exception';
 
 @Injectable()
 export class UsuarioService extends BaseService<Usuario> {
@@ -130,9 +131,7 @@ export class UsuarioService extends BaseService<Usuario> {
         return GenericConverter.toResponse(UsuarioResponse, usuarioSalvo);
       });
     } catch (error: any) {
-      if (error?.code === PostgresErrorCode.UniqueViolation) {
-        throw new EmailException(USUARIO.MENSAGEM.EMAIL_CADASTRADO);
-      }
+      this.tratarDuplicidade(error);
       throw new ServerErrorExceptions(USUARIO.MENSAGEM.SERVER_ERROR);
     }
   }
@@ -173,9 +172,7 @@ export class UsuarioService extends BaseService<Usuario> {
 
         return GenericConverter.toResponse(UsuarioResponse, usuarioAtualizado);
       } catch (error: any) {
-        if (error.code === PostgresErrorCode.UniqueViolation) {
-          throw new EmailException(USUARIO.MENSAGEM.EMAIL_CADASTRADO);
-        }
+        this.tratarDuplicidade(error);
         throw new ServerErrorExceptions(
           USUARIO.MENSAGEM.SERVER_ERROR,
           error.message,
@@ -371,14 +368,53 @@ export class UsuarioService extends BaseService<Usuario> {
 
       return usuarioSalvoResponse;
     } catch (error: any) {
-      if (error?.code === PostgresErrorCode.UniqueViolation) {
-        throw new EmailException(USUARIO.MENSAGEM.EMAIL_CADASTRADO);
-      }
+      this.tratarDuplicidade(error);
 
       throw new ServerErrorExceptions(
         USUARIO.MENSAGEM.SERVER_ERROR,
         error.message,
       );
     }
+  }
+
+  private tratarDuplicidade(
+    error: { code?: string; constraint?: string } | null,
+  ): void {
+    if (error?.code !== PostgresErrorCode.UniqueViolation) return;
+
+    const fields = [
+      {
+        metadata: this.usuarioRepository.metadata,
+        property: 'username',
+        message: USUARIO.MENSAGEM.USERNAME_CADASTRADO,
+      },
+      {
+        metadata: this.credentialsRepository.metadata,
+        property: 'email',
+        message: USUARIO.MENSAGEM.EMAIL_CADASTRADO,
+      },
+    ];
+
+    for (const { metadata, property, message } of fields) {
+      const column = metadata.findColumnWithPropertyName(property);
+      if (!column) continue;
+
+      // Aceita os nomes do SQL original e os gerados pelo TypeORM
+      const constraints = [
+        `${metadata.tableName}_${column.databaseName}_key`,
+        ...metadata.uniques
+          .filter(
+            (unique) =>
+              unique.columns.length === 1 && unique.columns[0] === column,
+          )
+          .map((unique) => unique.name),
+      ];
+
+      if (error.constraint && constraints.includes(error.constraint)) {
+        throw new ConflictException(message);
+      }
+    }
+
+    throw new ConflictException(USUARIO.MENSAGEM.DADOS_DUPLICADOS);
   }
 }
