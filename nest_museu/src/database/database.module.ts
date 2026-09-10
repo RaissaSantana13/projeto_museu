@@ -18,6 +18,7 @@ import DatabaseLogger from './database.logger';
         username: config.getOrThrow<string>('DB_USER'),
         password: config.getOrThrow<string>('DB_PASS'),
         database: config.getOrThrow<string>('DB_NAME'),
+        schema: config.getOrThrow<string>('DB_SCHEMA'),
         //entities: [join(__dirname, '**', '*.entity.{ts,js}')],
         autoLoadEntities: true,
         synchronize: false,

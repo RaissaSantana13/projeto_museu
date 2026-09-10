@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjsx/crud/lib/crud';
-import { DOCUMENT } from '../../constants/document.constants';
 import { Expose } from 'class-transformer';
+import { DOCUMENT } from '../../constants/document.constants';
 
 export class DocumentResponse {
   @ApiProperty({ description: DOCUMENT.SWAGGER.ID_DOC, example: 1 })
@@ -40,11 +40,17 @@ export class DocumentResponse {
   @Expose()
   type?: string;
 
-  @ApiProperty({ description: DOCUMENT.SWAGGER.CATEGORY, example: 'Institucional' })
+  @ApiProperty({
+    description: DOCUMENT.SWAGGER.CATEGORY,
+    example: 'Institucional',
+  })
   @Expose()
   category?: string;
 
-  @ApiProperty({ description: DOCUMENT.SWAGGER.LOCATION, example: 'Sala de Arquivos' })
+  @ApiProperty({
+    description: DOCUMENT.SWAGGER.LOCATION,
+    example: 'Sala de Arquivos',
+  })
   @Expose()
   location?: string;
 

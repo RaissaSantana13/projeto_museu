@@ -8,7 +8,7 @@ import {
   RotaRecurso,
 } from '../../../commons/constants/url.sistema';
 
-const ENTITY_NAME = 'artworks';
+const ENTITY_NAME = 'works';
 const ALIAS_NAME = 'Obra de Arte';
 
 export const ARTWORK = {

@@ -1,19 +1,23 @@
+import { BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { promises as fs } from 'fs';
+import * as path from 'path';
 import { IsNull, Not, Repository } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 import { BaseService } from '../../../commons/entities/base.service';
-import { ArtworkMedia } from '../entities/artwork-media.entity';
+import { ConflictException } from '../../../commons/exceptions/error/conflict.exception';
 import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
 import { ServerErrorExceptions } from '../../../commons/exceptions/error/server-error.exception';
 import { Pageable } from '../../../commons/pagination/page.response';
 import { Page } from '../../../commons/pagination/pagination.sistema';
 import {
-  fieldsArtworkMedia,
   ARTWORK_MEDIA,
+  fieldsArtworkMedia,
 } from '../constants/artwork-media.constants';
 import { ArtworkMediaConverter } from '../dto/converter/artwork-media.converter';
 import { ArtworkMediaRequest } from '../dto/request/artwork-media.request';
 import { ArtworkMediaResponse } from '../dto/response/artwork-media.response';
-import { ConflictException } from '../../../commons/exceptions/error/conflict.exception';
+import { ArtworkMedia } from '../entities/artwork-media.entity';
 
 export class ArtworkMediaService extends BaseService<ArtworkMedia> {
   constructor(
@@ -196,5 +200,49 @@ export class ArtworkMediaService extends BaseService<ArtworkMedia> {
         ARTWORK_MEDIA.MENSAGEM.ENTIDADE_NAO_ENCONTRADA,
       );
     }
+  }
+  async upload(
+    file: Express.Multer.File,
+    idArtwork: number,
+    mediaType: string,
+    isMain: boolean,
+  ): Promise<ArtworkMediaResponse> {
+    // 1. Validar arquivo
+    if (!file) {
+      throw new BadRequestException('Arquivo não enviado.');
+    }
+
+    // 2. Criar nome único
+    const extensao = path.extname(file.originalname);
+    const nomeArquivo = `${uuidv4()}${extensao}`;
+
+    // 3. Definir pasta onde os arquivos serão salvos
+    const pastaUpload = path.resolve('uploads', 'artworks');
+
+    // Criar pasta caso não exista
+    await fs.mkdir(pastaUpload, { recursive: true });
+
+    // Caminho completo do arquivo
+    const caminhoArquivo = path.join(pastaUpload, nomeArquivo);
+
+    // Salvar arquivo
+    await fs.writeFile(caminhoArquivo, file.buffer);
+
+    // URL que será armazenada no banco
+    const url = `/uploads/artworks/${nomeArquivo}`;
+
+    // 4. Criar registro ArtworkMedia
+    const novaMedia = new ArtworkMedia({
+      idArtwork,
+      mediaType,
+      url,
+      isMain,
+    });
+
+    // 5. Salvar no banco
+    const mediaSalva = await this.artworkMediaRepository.save(novaMedia);
+
+    // 6. Retornar response
+    return ArtworkMediaConverter.toArtworkMediaResponse(mediaSalva);
   }
 }

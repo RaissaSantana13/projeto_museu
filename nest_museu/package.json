@@ -67,7 +67,7 @@
     "swagger-ui-express": "^5.0.1",
     "typeorm": "^0.3.28",
     "typeorm-naming-strategies": "^4.1.0",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
