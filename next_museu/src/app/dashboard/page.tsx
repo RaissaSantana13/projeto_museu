@@ -74,11 +74,11 @@ export default function DashboardPage() {
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between text-sm">
                   <span>Sincronização API:</span>
-                  <span className="text-green-600 font-bold">Online</span>
+                  <span className="text-[#3A2F25] font-bold">Online</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span>Banco de Dados:</span>
-                  <span className="text-green-600 font-bold">Conectado</span>
+                  <span className="text-[#3A2F25] font-bold">Conectado</span>
                 </div>
               </div>
             </CardContent>

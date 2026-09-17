@@ -190,10 +190,10 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
       borderClass: 'border-rose-400 data-[state=checked]:border-rose-400',
     },
     {
-      value: 'emerald',
-      label: 'Emerald',
-      bgClass: 'bg-emerald-400 data-[state=checked]:bg-emerald-400',
-      borderClass: 'border-emerald-400 data-[state=checked]:border-emerald-400',
+      value: 'brown',
+      label: 'Marrom',
+      bgClass: 'bg-[#3A2F25] data-[state=checked]:bg-[#3A2F25]',
+      borderClass: 'border-[#3A2F25] data-[state=checked]:border-[#3A2F25]',
     },
     {
       value: 'orange',

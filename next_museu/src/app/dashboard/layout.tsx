@@ -1,4 +1,6 @@
 import { Metadata } from 'next';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { Footer } from '../../components/layout/footer';
 import { Sidebar } from '../../components/layout/sidebar';
 import { SiteHeader } from '../../components/layout/site-header';
@@ -16,6 +18,11 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const role = (await cookies()).get('museu_demo_role')?.value;
+  if (role !== 'admin') {
+    redirect('/login');
+  }
+
   const { locale, dict } = await getClientDictionary();
   return (
     <Providers locale={locale} dictionary={dict}>

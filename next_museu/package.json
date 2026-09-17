@@ -39,6 +39,7 @@
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
+    "js-cookie": "^3.0.8",
     "label": "^0.2.2",
     "lucide-react": "^0.577.0",
     "negotiator": "^1.0.0",
@@ -72,6 +73,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/js-cookie": "^3.0.6",
     "@types/negotiator": "^0.6.4",
     "@types/node": "^25",
     "@types/react": "^19",

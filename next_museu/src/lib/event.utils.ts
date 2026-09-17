@@ -16,8 +16,8 @@ export function getEventColorClasses(color?: EventColor | string): string {
       return 'bg-violet-200/50 hover:bg-violet-200/40 text-violet-950/80 dark:bg-violet-400/25 dark:hover:bg-violet-400/20 dark:text-violet-200 shadow-violet-700/8';
     case 'rose':
       return 'bg-rose-200/50 hover:bg-rose-200/40 text-rose-950/80 dark:bg-rose-400/25 dark:hover:bg-rose-400/20 dark:text-rose-200 shadow-rose-700/8';
-    case 'emerald':
-      return 'bg-emerald-200/50 hover:bg-emerald-200/40 text-emerald-950/80 dark:bg-emerald-400/25 dark:hover:bg-emerald-400/20 dark:text-emerald-200 shadow-emerald-700/8';
+    case 'brown':
+      return 'bg-[#3A2F25]/10 hover:bg-[#3A2F25]/15 text-[#3A2F25] dark:bg-[#3A2F25]/30 dark:hover:bg-[#3A2F25]/40 dark:text-[#F4EFE6] shadow-[#3A2F25]/10';
     case 'orange':
       return 'bg-orange-200/50 hover:bg-orange-200/40 text-orange-950/80 dark:bg-orange-400/25 dark:hover:bg-orange-400/20 dark:text-orange-200 shadow-orange-700/8';
     default:

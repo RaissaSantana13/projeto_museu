@@ -95,7 +95,7 @@ export const getResourcesColumns = (
                 <Link
                   href={`/dashboard/resources/${resources.idResources}/editar`}
                 >
-                  <Edit className="h-4 w-4 text-emerald-950" />
+                  <Edit className="h-4 w-4 text-[#3A2F25]" />
                 </Link>
               </Button>
             )}

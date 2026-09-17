@@ -257,7 +257,7 @@ export default function PermissionMatrixForm({
         <span>{dict.permissions.management.message_permissions}</span>
         <div className="flex gap-4">
           <div className="flex items-center gap-1">
-            <Check className="h-3 w-3 text-green-500" />{' '}
+            <Check className="h-3 w-3 text-[#3A2F25]" />{' '}
             {dict.permissions.management.matrix_allowed}
           </div>
           <div className="flex items-center gap-1">
