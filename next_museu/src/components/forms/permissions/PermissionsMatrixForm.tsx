@@ -1,5 +1,6 @@
 'use client';
 
+import { atualizarPermissionsMatrizAction } from '@/actions/permissions/atualizar-matriz-permissions-actions';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -27,7 +28,7 @@ import {
 } from 'lucide-react';
 import React from 'react';
 import { toast } from 'sonner';
-import { atualizarPermissionsAction } from '../../../actions/permissions/atualizar-matriz-permissions-actions';
+
 import {
   PermissionsMatrizCreate,
   PermissionsResponse
@@ -81,7 +82,7 @@ export default function PermissionMatrixForm({
   ];
 
   const [state, action, isPending] = React.useActionState(
-    atualizarPermissionsAction,
+    atualizarPermissionsMatrizAction,
     initialState,
   );
 
