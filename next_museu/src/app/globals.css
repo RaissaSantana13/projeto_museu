@@ -120,8 +120,8 @@ html {
   --popover: oklch(0.98 0.01 85);
   --popover-foreground: oklch(0.25 0.03 70);
 
-  /* Verde institucional museológico */
-  --primary: oklch(0.45 0.08 140);
+  /* Marrom institucional museológico */
+  --primary: oklch(0.25 0.03 70);
   --primary-foreground: oklch(0.98 0.01 85);
 
   /* Terracota histórica */
@@ -138,18 +138,18 @@ html {
   --sidebar: oklch(0.3 0.04 70);
   --sidebar-foreground: oklch(0.98 0.01 85);
 
-  --sidebar-primary: oklch(0.45 0.08 140);
+  --sidebar-primary: oklch(0.25 0.03 70);
   --sidebar-primary-foreground: oklch(0.98 0.01 85);
 
   --sidebar-accent: oklch(0.38 0.04 70);
   --sidebar-accent-foreground: oklch(0.98 0.01 85);
 
   --sidebar-border: oklch(0.35 0.03 70);
-  --sidebar-ring: oklch(0.45 0.08 140);
+  --sidebar-ring: oklch(0.25 0.03 70);
 
   --border: oklch(0.85 0.02 85);
   --input: oklch(0.85 0.02 85);
-  --ring: oklch(0.45 0.08 140);
+  --ring: oklch(0.25 0.03 70);
 }
 
 .theme-birigui {
@@ -163,8 +163,8 @@ html {
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.12 0.01 0);
 
-  /* Verde da Bandeira - Cor Institucional */
-  --primary: oklch(0.42 0.18 145);
+  /* Marrom institucional do Museu */
+  --primary: oklch(0.25 0.03 70);
   --primary-foreground: oklch(0.98 0.02 95);
 
   /* Amarelo da Bandeira - Destaques e Suportes */
@@ -178,17 +178,17 @@ html {
   --muted: oklch(0.93 0.03 95);
   --muted-foreground: oklch(0.4 0.05 95);
 
-  /* Sidebar: Verde Profundo para contraste "Tom sobre Tom" */
-  --sidebar: oklch(0.25 0.1 145);
+  /* Sidebar: Marrom profundo para contraste "Tom sobre Tom" */
+  --sidebar: oklch(0.25 0.03 70);
   --sidebar-foreground: oklch(0.98 0.02 95);
-  --sidebar-primary: oklch(0.42 0.18 145);
-  --sidebar-accent: oklch(0.3 0.12 145);
-  --sidebar-border: oklch(0.2 0.08 145);
-  --sidebar-ring: oklch(0.42 0.18 145);
+  --sidebar-primary: oklch(0.25 0.03 70);
+  --sidebar-accent: oklch(0.3 0.04 70);
+  --sidebar-border: oklch(0.2 0.03 70);
+  --sidebar-ring: oklch(0.25 0.03 70);
 
   --border: oklch(0.88 0.03 95);
   --input: oklch(0.88 0.03 95);
-  --ring: oklch(0.42 0.18 145);
+  --ring: oklch(0.25 0.03 70);
 
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(0.98 0.02 95);

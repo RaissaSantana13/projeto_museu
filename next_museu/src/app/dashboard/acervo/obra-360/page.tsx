@@ -86,7 +86,7 @@ export default function CadastrarObra360() {
           <div>
             <p className="leading-7">
               <span className="text-2xl font-bold tracking-tight flex items-center gap-2">
-                <Box className="size-6 text-green-800" />
+                <Box className="size-6 text-[#3A2F25]" />
                 Cadastro de Modelos 3D (.glb)
               </span>
               <br />
@@ -272,7 +272,7 @@ export default function CadastrarObra360() {
             </Button>
             <Button
               type="submit"
-              className="flex-1 bg-green-800 hover:bg-green-900 text-white font-bold"
+              className="flex-1 bg-[#3A2F25] hover:bg-[#2A211A] text-white font-bold"
             >
               Salvar Modelo no Acervo
             </Button>
@@ -285,7 +285,7 @@ export default function CadastrarObra360() {
             <div className="bg-card rounded-xl border shadow-sm overflow-hidden h-[450px] flex flex-col">
               {/* Barra de Título do Visor */}
               <div className="bg-muted/50 px-4 py-3 border-b flex items-center gap-2">
-                <MonitorPlay className="size-4 text-green-800" />
+                <MonitorPlay className="size-4 text-[#3A2F25]" />
                 <h3 className="text-sm font-bold tracking-wide uppercase text-muted-foreground">
                   Motor de Renderização 3D
                 </h3>

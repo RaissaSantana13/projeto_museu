@@ -82,7 +82,7 @@ export default function CadastrarFotos() {
         <div className="col-span-12">
           <p className="leading-7">
             <span className="text-2xl font-bold tracking-tight flex items-center gap-2">
-              <Camera className="size-6 text-green-800" />
+              <Camera className="size-6 text-[#3A2F25]" />
               Cadastro de Fotos Históricas
             </span>
             <br />
@@ -317,7 +317,7 @@ export default function CadastrarFotos() {
           </Button>
           <Button
             type="submit"
-            className="flex-1 bg-green-800 hover:bg-green-900 text-white font-bold"
+            className="flex-1 bg-[#3A2F25] hover:bg-[#2A211A] text-white font-bold"
           >
             Cadastrar Foto no Acervo
           </Button>

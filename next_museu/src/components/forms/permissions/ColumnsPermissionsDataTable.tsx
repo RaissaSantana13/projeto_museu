@@ -117,7 +117,7 @@ export const getPermissionsColumns = (
                 <Link
                   href={`/dashboard/permissions/${permissions.idPermissions}/editar`}
                 >
-                  <Edit className="h-4 w-4 text-emerald-950" />
+                  <Edit className="h-4 w-4 text-[#3A2F25]" />
                 </Link>
               </Button>
             )}

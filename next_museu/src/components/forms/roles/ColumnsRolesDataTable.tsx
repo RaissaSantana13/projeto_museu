@@ -91,7 +91,7 @@ export const getRolesColumns = (
                 aria-label={dict.roles.management.action_edit}
               >
                 <Link href={`/dashboard/roles/${roles.idRoles}/editar`}>
-                  <Edit className="h-4 w-4 text-emerald-950" />
+                  <Edit className="h-4 w-4 text-[#3A2F25]" />
                 </Link>
               </Button>
             )}

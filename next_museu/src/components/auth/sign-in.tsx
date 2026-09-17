@@ -14,13 +14,14 @@ export function SignIn() {
   const dict = useDictionary();
   return (
     <section aria-labelledby="sigin-heading">
-      {' '}
       <Auth>
         <AuthHeader>
           <AuthTitle headingId="sigin-heading">
-            {dict.auth.login.title}
+            'Entrar no Museu Digital'
           </AuthTitle>
-          <AuthDescription>{dict.auth.login.description}</AuthDescription>
+          <AuthDescription>
+            Informe seus dados para acessar sua área.
+          </AuthDescription>
         </AuthHeader>
         <AuthForm>
           <SignInForm />

@@ -100,7 +100,7 @@ export default function CadastrarDocumentos() {
         <div className="col-span-12">
           <p className="leading-7">
             <span className="text-2xl font-bold tracking-tight flex items-center gap-2">
-              <FileText className="size-6 text-green-800" />
+              <FileText className="size-6 text-[#3A2F25]" />
               Cadastro e Indexação de Documentos
             </span>
             <br />
@@ -249,7 +249,7 @@ export default function CadastrarDocumentos() {
               className="col-span-12 flex flex-col gap-2"
               data-invalid={fieldState.invalid}
             >
-              <FieldLabel className="font-semibold flex items-center gap-1.5 text-green-800 dark:text-green-400">
+              <FieldLabel className="font-semibold flex items-center gap-1.5 text-[#3A2F25]">
                 <Tag className="size-4" />
                 Palavras-chave para Busca Rápida (Tags de Indexação)
               </FieldLabel>
@@ -300,7 +300,7 @@ export default function CadastrarDocumentos() {
 
                 {fileName ? (
                   <div className="flex items-center gap-3 z-20 bg-muted/60 px-4 py-2 rounded-lg border">
-                    <FileText className="size-8 text-green-800 animate-bounce" />
+                    <FileText className="size-8 text-[#3A2F25] animate-bounce" />
                     <div className="text-left">
                       <p className="text-sm font-semibold max-w-xs truncate">
                         {fileName}
@@ -380,7 +380,7 @@ export default function CadastrarDocumentos() {
           </Button>
           <Button
             type="submit"
-            className="flex-1 bg-green-800 hover:bg-green-900 text-white font-bold"
+            className="flex-1 bg-[#3A2F25] hover:bg-[#2A211A] text-white font-bold"
           >
             Indexar e Salvar Documento
           </Button>

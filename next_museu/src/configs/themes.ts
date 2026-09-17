@@ -65,12 +65,12 @@ export const themes = {
       foreground: "60 9.1% 97.8%",
     },
   },
-  green: {
-    label: "Green",
+  brown: {
+    label: "Brown",
     activeColor: {
-      light: "142.1 76.2% 36.3%",
-      dark: "142.1 70.6% 45.3%",
-      foreground: "355.7 100% 97.3%",
+      light: "30 24% 19%",
+      dark: "30 20% 28%",
+      foreground: "35 30% 96%",
     },
   },
   blue: {

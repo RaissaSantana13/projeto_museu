@@ -205,7 +205,7 @@ export default function DestaqueObras() {
           </Button>
           <Button
             type="submit"
-            className="flex-1 bg-green-800 hover:bg-green-900 text-white font-bold"
+            className="flex-1 bg-[#3A2F25] hover:bg-[#2A211A] text-white font-bold"
           >
             Confirmar Destaque
           </Button>

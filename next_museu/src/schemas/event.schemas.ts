@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const EventColorSchema = z.enum(['sky', 'amber', 'violet', 'rose', 'emerald', 'orange']);
+const EventColorSchema = z.enum(['sky', 'amber', 'violet', 'rose', 'brown', 'orange']);
 
 export const CalendarEventSchema = z
   .object({
