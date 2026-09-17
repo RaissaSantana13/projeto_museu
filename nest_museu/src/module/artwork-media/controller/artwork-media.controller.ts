@@ -15,7 +15,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiConsumes,
+  ApiExtraModels,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Crud } from '@nestjsx/crud';
 import { Request } from 'express';
 import { memoryStorage } from 'multer';
@@ -125,6 +131,30 @@ export class ArtworkMediaController extends BaseController {
   }
 
   @Post('upload')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    required: true,
+    schema: {
+      type: 'object',
+      required: ['file'],
+      properties: {
+        file: { type: 'string', format: 'binary' },
+      },
+    },
+  })
+  @ApiQuery({
+    name: 'idArtwork',
+    type: Number,
+    required: true,
+    description: 'ID de uma obra existente',
+  })
+  @ApiQuery({
+    name: 'mediaType',
+    type: String,
+    required: true,
+    example: 'imagem',
+  })
+  @ApiQuery({ name: 'isMain', type: Boolean, required: false, example: false })
   @UseInterceptors(
     FileInterceptor('file', {
       storage: memoryStorage(),
