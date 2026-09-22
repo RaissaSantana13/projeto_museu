@@ -112,6 +112,7 @@ export class UsuarioService extends BaseService<Usuario> {
           lastName: usuarioRequest.lastName,
           username: usuarioRequest.username,
           imagePath: usuarioRequest.imagePath,
+          active: usuarioRequest.active,
           emailVerified: false, // Inicializa como não confirmado
         });
         if (usuarioRequest.roleIds?.length > 0) {
@@ -140,7 +141,7 @@ export class UsuarioService extends BaseService<Usuario> {
     id: number,
     usuarioRequest: UsuarioRequest,
   ): Promise<UsuarioResponse | null> {
-    const usuarioCadastrado = await this.porId(id);
+    const usuarioCadastrado = await this.buscarPorId(id);
 
     if (!usuarioCadastrado) {
       throw new EntityNotFoundException(
@@ -154,7 +155,7 @@ export class UsuarioService extends BaseService<Usuario> {
         Object.assign(usuarioCadastrado, dadosNovos);
 
         if (usuarioRequest.roleIds) {
-          usuarioCadastrado.roles = usuarioRequest.roleIds.map((roleId) => ({
+          usuarioCadastrado.role = usuarioRequest.roleIds.map((roleId) => ({
             idRoles: roleId,
           })) as any;
         }
@@ -166,7 +167,7 @@ export class UsuarioService extends BaseService<Usuario> {
 
         await manager.update(
           Credentials,
-          { usuarioId: id },
+          { idUsuario: id },
           { email: usuarioRequest.email },
         );
 
@@ -206,8 +207,8 @@ export class UsuarioService extends BaseService<Usuario> {
   async buscarPorId(id: number): Promise<Usuario> {
     try {
       const usuario = await this.usuarioRepository
-        .createQueryBuilder('user') // Nome da entidade
-        .leftJoinAndSelect('user.roles', 'roles') // Carrega as roles atuais
+        .createQueryBuilder('usuario') // Nome da entidade
+        .leftJoinAndSelect('user.role', 'roles') // Carrega as roles atuais
         .where('user.idUsuario = :id', { id })
         .getOne();
 
@@ -234,7 +235,7 @@ export class UsuarioService extends BaseService<Usuario> {
       if (typeof payload === 'object' && 'email' in payload) {
         const credentials = await this.credentialsRepository.findOne({
           where: { email: payload.email },
-          relations: ['user'],
+          relations: ['usuario'],
         });
 
         if (!credentials) {
@@ -344,8 +345,8 @@ export class UsuarioService extends BaseService<Usuario> {
 
           const credentials = manager.create(Credentials, {
             email: registerUsuarioRequest.email,
-            passwordHash,
-            usuarioId: usuarioSalvo.idUsuario,
+            password: passwordHash,
+            idUsuario: usuarioSalvo.idUsuario,
           });
 
           await manager.save(Credentials, credentials);

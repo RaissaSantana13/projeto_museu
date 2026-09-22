@@ -8,7 +8,7 @@ export class RegisterUsuarioRequest {
   @ApiProperty({ description: USUARIO.SWAGGER.FIRSTNAME })
   @TextField({
     required: true,
-    min: 6,
+    min: 1,
     max: 100,
     label: 'Primeiro nome',
     gender: 'm',
@@ -18,7 +18,7 @@ export class RegisterUsuarioRequest {
   @ApiProperty({ description: USUARIO.SWAGGER.LASTNAME })
   @TextField({
     required: true,
-    min: 6,
+    min: 1,
     max: 100,
     label: 'Último nome',
     gender: 'm',
@@ -28,9 +28,8 @@ export class RegisterUsuarioRequest {
   @ApiProperty({ description: USUARIO.SWAGGER.USERNAME })
   @TextField({
     required: true,
-    min: 6,
+    min: 1,
     max: 100,
-    email: true,
     label: 'Nome do usuário',
     gender: 'm',
   })
@@ -39,7 +38,7 @@ export class RegisterUsuarioRequest {
   @ApiProperty({ description: USUARIO.SWAGGER.EMAIL })
   @TextField({
     required: true,
-    min: 6,
+    min: 1,
     max: 100,
     email: true,
     label: 'E-mail',
