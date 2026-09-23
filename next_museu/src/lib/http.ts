@@ -20,7 +20,9 @@ http.interceptors.response.use(
 
     const errorPayload: ApiResponse<unknown> & { isNetworkError: boolean } = {
       status: error.response?.status || (isOffline ? 503 : 500),
-      mensagem: isOffline ? 'Servidor indisponível.' : error.response?.data?.mensagem || 'Erro inesperado',
+      mensagem: isOffline
+        ? 'Servidor indisponível.'
+        : error.response?.data?.mensagem || 'Erro inesperado',
       erro: error.message,
       isNetworkError: isOffline,
     };

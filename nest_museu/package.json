@@ -17,8 +17,10 @@
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "typeorm-ts-node-commonjs",
-    "migration:generate": "npm run typeorm migration:generate src/database/migrations/migration",
-    "migration:run": "npm run typeorm migration:run"
+    "migration:generate": "npm run typeorm -- migration:generate src/database/migrations/migration -d src/database/data.source.ts",
+    "migration:run": "npm run typeorm -- migration:run -d src/database/data.source.ts",
+    "test:media": "jest --config test/jest-e2e.json --runInBand media.e2e-spec.ts",
+    "media:migrate-local": "node scripts/migrate-local-media.cjs"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.2.0",

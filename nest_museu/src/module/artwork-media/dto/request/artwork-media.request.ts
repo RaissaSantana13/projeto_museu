@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import { IsInt, Min, IsOptional } from 'class-validator';
 import { ARTWORK_MEDIA } from '../../constants/artwork-media.constants';
 import { TextField } from '../../../../commons/decorators/validation/text.decorator';
 import { BooleanField } from '../../../../commons/decorators/validation/boolean.decorator';
@@ -13,22 +13,34 @@ export class ArtworkMediaRequest {
   @IsOptional()
   idMedia?: number;
 
-  @ApiProperty({ description: ARTWORK_MEDIA.SWAGGER.ID_ARTWORK, example: 1 })
+  @ApiProperty({
+    description: ARTWORK_MEDIA.SWAGGER.ID_ARTWORK,
+    example: 1,
+    required: false,
+    nullable: true,
+  })
   // Padrão para IDs e chaves estrangeiras (mudar dps?)
   @Type(() => Number)
-  @IsNumber()
-  @IsNotEmpty()
-  idArtwork!: number;
+  @IsInt()
+  @Min(1)
+  @IsOptional()
+  idArtwork?: number | null;
 
-  @ApiProperty({ description: ARTWORK_MEDIA.SWAGGER.MEDIA_TYPE, example: '3d' })
+  @ApiProperty({
+    description: ARTWORK_MEDIA.SWAGGER.MEDIA_TYPE,
+    example: 'imagem',
+    required: false,
+    nullable: true,
+  })
+  @IsOptional()
   @TextField({
-    required: true,
+    required: false,
     min: 1,
     max: 20,
     label: 'Tipo do Arquivo',
     gender: 'm',
   })
-  mediaType!: string;
+  mediaType?: string | null;
 
   @ApiProperty({
     description: ARTWORK_MEDIA.SWAGGER.URL,

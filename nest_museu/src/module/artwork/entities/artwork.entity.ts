@@ -128,7 +128,7 @@ export class Artwork extends BaseEntity {
   // Uma obra pode ter muitas mídias vinculas
   @OneToMany(() => ArtworkMedia, (media) => media.artwork, {
     // Salvar mídias junto a obra, se necessário
-    cascade: true,
+    cascade: ['insert', 'update'],
   })
   medias!: ArtworkMedia[];
 

@@ -17,17 +17,26 @@ export class ArtworkMedia extends BaseEntity {
   @Column({
     name: ARTWORK_MEDIA.TABLE_FIELDS.ID_ARTWORK,
     type: 'int',
-    nullable: false,
+    nullable: true,
   })
-  idArtwork!: number;
+  idArtwork!: number | null;
 
   @Column({
     name: ARTWORK_MEDIA.TABLE_FIELDS.MEDIA_TYPE,
     type: 'varchar',
     length: 20,
-    nullable: false,
+    nullable: true,
   })
-  mediaType!: string;
+  mediaType!: string | null;
+
+  @Column({ name: 'original_name', type: 'text', nullable: true })
+  originalName!: string | null;
+
+  @Column({ name: 'mime_type', type: 'varchar', length: 255, nullable: true })
+  mimeType!: string | null;
+
+  @Column({ name: 'size_bytes', type: 'bigint', nullable: true })
+  sizeBytes!: string | null;
 
   @Column({
     name: ARTWORK_MEDIA.TABLE_FIELDS.URL,
@@ -47,11 +56,11 @@ export class ArtworkMedia extends BaseEntity {
   // Relações
   // Muitas mídias pertencem a uma obra
   @ManyToOne(() => Artwork, (artwork) => artwork.medias, {
-    // Deletar as mídias automaticamente caso a obra for deletada
-    onDelete: 'CASCADE',
+    nullable: true,
+    onDelete: 'SET NULL',
   })
   @JoinColumn({ name: ARTWORK_MEDIA.TABLE_FIELDS.ID_ARTWORK })
-  artwork!: Artwork;
+  artwork!: Artwork | null;
 
   constructor(data: Partial<ArtworkMedia> = {}) {
     super();
