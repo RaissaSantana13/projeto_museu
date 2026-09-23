@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { resolve } from 'path';
+import { join, resolve } from 'path';
+import { mediaStorageRoot } from '../module/artwork-media/storage/media-storage';
 import { DataBaseModule } from '../database/database.module';
 import { AcessoModule } from '../module/access/acesso.module';
 import { AuthModule } from '../module/auth/auth.module';
@@ -46,20 +47,33 @@ const modules = [
       },
     ]),
 
-    ServeStaticModule.forRoot({
-      // Resolve transforma o caminho em absoluto para o SO
-      // Se for Linux: '/uploads_projeto_museu'
-      // Se for Windows: 'C:\\uploads_projeto_museu'
-      rootPath: resolve('/uploads_projeto_museu'),
+    ServeStaticModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => [
+        {
+          rootPath: join(
+            mediaStorageRoot(config.get<string>('MEDIA_STORAGE_ROOT')),
+            'files',
+          ),
+          serveRoot: '/media/files',
+          serveStaticOptions: { index: false, fallthrough: false },
+        },
+        {
+          // Resolve transforma o caminho em absoluto para o SO
+          // Se for Linux: '/uploads_projeto_museu'
+          // Se for Windows: 'C:\\uploads_projeto_museu'
+          rootPath: resolve('/uploads_projeto_museu'),
 
-      // Esse é o prefixo da URL.
-      // Ex: http://localhost:3000/media/pecas/foto.jpg
-      serveRoot: '/media',
+          // Esse é o prefixo da URL.
+          // Ex: http://localhost:3000/media/pecas/foto.jpg
+          serveRoot: '/media',
 
-      // Configurações extras úteis
-      serveStaticOptions: {
-        index: false, // Desativa procurar por index.html
-      },
+          // Configurações extras úteis
+          serveStaticOptions: {
+            index: false, // Desativa procurar por index.html
+          },
+        },
+      ],
     }),
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({

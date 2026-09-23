@@ -1,21 +1,20 @@
 import { BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { promises as fs } from 'fs';
-import * as path from 'path';
 import { IsNull, Not, Repository } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
 import { BaseService } from '../../../commons/entities/base.service';
 import { ConflictException } from '../../../commons/exceptions/error/conflict.exception';
 import { EntityNotFoundException } from '../../../commons/exceptions/error/entity-not-found.exception';
 import { ServerErrorExceptions } from '../../../commons/exceptions/error/server-error.exception';
 import { Pageable } from '../../../commons/pagination/page.response';
 import { Page } from '../../../commons/pagination/pagination.sistema';
+import { Artwork } from '../../artwork/entities/artwork.entity';
 import {
   ARTWORK_MEDIA,
   fieldsArtworkMedia,
 } from '../constants/artwork-media.constants';
 import { ArtworkMediaConverter } from '../dto/converter/artwork-media.converter';
 import { ArtworkMediaRequest } from '../dto/request/artwork-media.request';
+import { UploadMediaRequest } from '../dto/request/upload-media.request';
 import { ArtworkMediaResponse } from '../dto/response/artwork-media.response';
 import { ArtworkMedia } from '../entities/artwork-media.entity';
 
@@ -90,9 +89,12 @@ export class ArtworkMediaService extends BaseService<ArtworkMedia> {
     artworkMediaRequest: ArtworkMediaRequest,
   ): Promise<ArtworkMediaResponse> {
     try {
-      const artworkExistente = await this.artworkMediaRepository.findOne({
-        where: { idMedia: artworkMediaRequest.idMedia },
-      });
+      const artworkExistente =
+        artworkMediaRequest.idMedia == null
+          ? null
+          : await this.artworkMediaRepository.findOne({
+              where: { idMedia: artworkMediaRequest.idMedia },
+            });
 
       if (artworkExistente) {
         throw new ConflictException(ARTWORK_MEDIA.MENSAGEM.ENTIDADE_JA_ATIVA);
@@ -126,6 +128,8 @@ export class ArtworkMediaService extends BaseService<ArtworkMedia> {
       const dadosNovos =
         ArtworkMediaConverter.toArtworkMedia(artworkMediaRequest);
       Object.assign(mediaCadastrada, dadosNovos);
+      // A relação carregada não deve sobrescrever a nova chave estrangeira.
+      delete (mediaCadastrada as Partial<ArtworkMedia>).artwork;
 
       const mediaAtualizada =
         await this.artworkMediaRepository.save(mediaCadastrada);
@@ -201,48 +205,63 @@ export class ArtworkMediaService extends BaseService<ArtworkMedia> {
       );
     }
   }
-  async upload(
-    file: Express.Multer.File,
-    idArtwork: number,
-    mediaType: string,
-    isMain: boolean,
-  ): Promise<ArtworkMediaResponse> {
-    // 1. Validar arquivo
-    if (!file) {
-      throw new BadRequestException('Arquivo não enviado.');
+  async uploadMany(
+    files: Express.Multer.File[],
+    metadata: UploadMediaRequest,
+  ): Promise<ArtworkMediaResponse[]> {
+    if (!files?.length)
+      throw new BadRequestException('Envie pelo menos um arquivo.');
+    if (metadata.idArtwork != null) {
+      const exists = await this.artworkMediaRepository.manager
+        .getRepository(Artwork)
+        .existsBy({ idArtwork: metadata.idArtwork });
+      if (!exists) throw new BadRequestException('Obra não encontrada.');
     }
+    const records = files.map(
+      (file) =>
+        new ArtworkMedia({
+          ...this.fileMetadata(file),
+          idArtwork: metadata.idArtwork ?? null,
+          mediaType: metadata.mediaType ?? null,
+          isMain: metadata.isMain ?? false,
+        }),
+    );
+    // save(array) usa uma transação: o lote inteiro é persistido ou revertido.
+    const saved = await this.artworkMediaRepository.save(records);
+    return ArtworkMediaConverter.toListArtworkMediaResponse(saved);
+  }
 
-    // 2. Criar nome único
-    const extensao = path.extname(file.originalname);
-    const nomeArquivo = `${uuidv4()}${extensao}`;
+  async updateMetadata(
+    id: number,
+    metadata: UploadMediaRequest,
+  ): Promise<ArtworkMediaResponse> {
+    const media = await this.buscarPorId(id);
+    if (!media)
+      throw new EntityNotFoundException(
+        ARTWORK_MEDIA.MENSAGEM.ENTIDADE_NAO_ENCONTRADA,
+      );
+    if (metadata.idArtwork != null) {
+      const exists = await this.artworkMediaRepository.manager
+        .getRepository(Artwork)
+        .existsBy({ idArtwork: metadata.idArtwork });
+      if (!exists) throw new BadRequestException('Obra não encontrada.');
+    }
+    delete (media as Partial<ArtworkMedia>).artwork;
+    for (const key of ['idArtwork', 'mediaType', 'isMain'] as const) {
+      if (metadata[key] !== undefined)
+        Object.assign(media, { [key]: metadata[key] });
+    }
+    return ArtworkMediaConverter.toArtworkMediaResponse(
+      await this.artworkMediaRepository.save(media),
+    );
+  }
 
-    // 3. Definir pasta onde os arquivos serão salvos
-    const pastaUpload = path.resolve('uploads', 'artworks');
-
-    // Criar pasta caso não exista
-    await fs.mkdir(pastaUpload, { recursive: true });
-
-    // Caminho completo do arquivo
-    const caminhoArquivo = path.join(pastaUpload, nomeArquivo);
-
-    // Salvar arquivo
-    await fs.writeFile(caminhoArquivo, file.buffer);
-
-    // URL que será armazenada no banco
-    const url = `/uploads/artworks/${nomeArquivo}`;
-
-    // 4. Criar registro ArtworkMedia
-    const novaMedia = new ArtworkMedia({
-      idArtwork,
-      mediaType,
-      url,
-      isMain,
-    });
-
-    // 5. Salvar no banco
-    const mediaSalva = await this.artworkMediaRepository.save(novaMedia);
-
-    // 6. Retornar response
-    return ArtworkMediaConverter.toArtworkMediaResponse(mediaSalva);
+  private fileMetadata(file: Express.Multer.File): Partial<ArtworkMedia> {
+    return {
+      url: `/media/files/${file.filename}`,
+      originalName: file.originalname,
+      mimeType: file.mimetype,
+      sizeBytes: String(file.size),
+    };
   }
 }

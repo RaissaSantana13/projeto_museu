@@ -9,7 +9,7 @@ import {
 } from '../../../commons/constants/url.sistema';
 
 const ENTITY_NAME = 'artwork_media';
-const ALIAS_NAME = 'Mídia da Obra';
+const ALIAS_NAME = 'Arquivos do Museu';
 
 export const ARTWORK_MEDIA = {
   ENTITY: ENTITY_NAME,

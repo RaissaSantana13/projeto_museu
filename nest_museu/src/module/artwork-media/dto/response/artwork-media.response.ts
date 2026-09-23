@@ -15,14 +15,29 @@ export class ArtworkMediaResponse {
     example: 1,
   })
   @Expose()
-  idArtwork!: number;
+  idArtwork!: number | null;
 
   @ApiProperty({
     description: ARTWORK_MEDIA.SWAGGER.MEDIA_TYPE,
     example: '3d',
   })
   @Expose()
-  mediaType!: string;
+  mediaType!: string | null;
+
+  @ApiProperty({ nullable: true })
+  @Expose()
+  originalName!: string | null;
+
+  @ApiProperty({ nullable: true })
+  @Expose()
+  mimeType!: string | null;
+
+  @ApiProperty({
+    nullable: true,
+    description: 'Tamanho em bytes, como string para preservar bigint',
+  })
+  @Expose()
+  sizeBytes!: string | null;
 
   @ApiProperty({
     description: ARTWORK_MEDIA.SWAGGER.URL,

@@ -12,9 +12,10 @@ import {
   Query,
   Req,
   UploadedFile,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import {
   ApiBody,
   ApiConsumes,
@@ -24,7 +25,9 @@ import {
 } from '@nestjs/swagger';
 import { Crud } from '@nestjsx/crud';
 import { Request } from 'express';
-import { memoryStorage } from 'multer';
+import { UploadMediaRequest } from '../dto/request/upload-media.request';
+import { UploadCleanupInterceptor } from '../storage/upload-cleanup.interceptor';
+import { HateoasHelper } from '../../../commons/helpers/hateoas.helpers';
 import { PARAMS } from '../../../commons/constants/param.constants';
 import { ApiPaginatedResponse } from '../../../commons/decorators/swagger/api-paginated-response.decorator';
 import {
@@ -70,9 +73,13 @@ import { ArtworkMediaService } from '../service/artwork-media.service';
 })
 @ApiTags(ARTWORK_MEDIA.ALIAS)
 @ApiExtraModels(ApiResponse, ArtworkMediaResponse, Link)
-@Controller(ARTWORK_MEDIA.ROTAS.BASE)
+@Controller(['files', ARTWORK_MEDIA.ROTAS.BASE])
 export class ArtworkMediaController extends BaseController {
-  protected readonly entityPath = ARTWORK_MEDIA.ROTAS.BASE;
+  protected readonly entityPath = 'files';
+
+  protected getResourceLinks(id?: number) {
+    return HateoasHelper.generateResourceLinks(this.fullPath, id);
+  }
 
   constructor(private readonly artworkMediaService: ArtworkMediaService) {
     super();
@@ -145,41 +152,93 @@ export class ArtworkMediaController extends BaseController {
   @ApiQuery({
     name: 'idArtwork',
     type: Number,
-    required: true,
-    description: 'ID de uma obra existente',
+    required: false,
+    description: 'ID opcional de uma obra existente',
   })
   @ApiQuery({
     name: 'mediaType',
     type: String,
-    required: true,
+    required: false,
     example: 'imagem',
   })
   @ApiQuery({ name: 'isMain', type: Boolean, required: false, example: false })
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: memoryStorage(),
-    }),
-  )
+  @UseInterceptors(UploadCleanupInterceptor, FileInterceptor('file'))
   async upload(
     @UploadedFile() file: Express.Multer.File,
-    @Query('idArtwork', ParseIntPipe) idArtwork: number,
-    @Query('mediaType') mediaType: string,
-    @Query('isMain') isMain: string,
+    @Query() metadata: UploadMediaRequest,
     @Req() req: Request,
   ) {
-    const response = await this.artworkMediaService.upload(
-      file,
-      idArtwork,
-      mediaType,
-      isMain === 'true',
+    const [response] = await this.artworkMediaService.uploadMany(
+      file ? [file] : [],
+      metadata,
     );
 
-    return ResponseBuilder.status<ArtworkMediaResponse>(HttpStatus.OK)
+    return ResponseBuilder.status<ArtworkMediaResponse>(HttpStatus.CREATED)
       .message(ARTWORK_MEDIA.MENSAGEM.ENTIDADE_CADASTRADA)
       .path(req.path)
       .data(response)
       .metodo(req.method)
       .links(this.getResourceLinks(response?.idMedia))
+      .build();
+  }
+
+  @Post('upload-multiple')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    required: true,
+    schema: {
+      type: 'object',
+      required: ['files'],
+      properties: {
+        files: { type: 'array', items: { type: 'string', format: 'binary' } },
+      },
+    },
+  })
+  @ApiQuery({
+    name: 'idArtwork',
+    type: Number,
+    required: false,
+    description: 'Deixe vazio para arquivos independentes',
+  })
+  @ApiQuery({
+    name: 'mediaType',
+    type: String,
+    required: false,
+    description: 'Classificação opcional do lote',
+  })
+  @ApiQuery({ name: 'isMain', type: Boolean, required: false })
+  @UseInterceptors(UploadCleanupInterceptor, FilesInterceptor('files'))
+  async uploadMultiple(
+    @UploadedFiles() files: Express.Multer.File[],
+    @Query() metadata: UploadMediaRequest,
+    @Req() req: Request,
+  ) {
+    const response = await this.artworkMediaService.uploadMany(files, metadata);
+    return ResponseBuilder.status<ArtworkMediaResponse[]>(HttpStatus.CREATED)
+      .message(ARTWORK_MEDIA.MENSAGEM.ENTIDADE_CADASTRADA)
+      .path(req.path)
+      .data(response)
+      .metodo(req.method)
+      .build();
+  }
+
+  @Patch(':id/metadata')
+  @ApiBody({ type: UploadMediaRequest })
+  async updateMetadata(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() metadata: UploadMediaRequest,
+    @Req() req: Request,
+  ) {
+    const response = await this.artworkMediaService.updateMetadata(
+      id,
+      metadata,
+    );
+    return ResponseBuilder.status<ArtworkMediaResponse>(HttpStatus.OK)
+      .message(ARTWORK_MEDIA.MENSAGEM.ENTIDADE_ALTERADA)
+      .path(req.path)
+      .data(response)
+      .metodo(req.method)
+      .links(this.getResourceLinks(id))
       .build();
   }
   @Post()

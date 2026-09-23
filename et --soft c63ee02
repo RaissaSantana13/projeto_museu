@@ -1,0 +1,11 @@
+[33m023e5df[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{0}: reset: moving to HEAD~2
+[33mc63ee02[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{1}: pull: Fast-forward
+[33m7e2312e[m HEAD@{2}: reset: moving to HEAD
+[33m7e2312e[m HEAD@{3}: pull: Fast-forward
+[33mcd74298[m HEAD@{4}: checkout: moving from att-metodos-work to main
+[33m321b8d5[m[33m ([m[1;32matt-metodos-work[m[33m)[m HEAD@{5}: pull origin main: Fast-forward
+[33m264fd7f[m[33m ([m[1;31morigin/att-metodos-work[m[33m)[m HEAD@{6}: commit: att
+[33mcd74298[m HEAD@{7}: checkout: moving from main to att-metodos-work
+[33mcd74298[m HEAD@{8}: pull: Fast-forward
+[33m4830ed9[m HEAD@{9}: pull: Fast-forward
+[33mabfbd0e[m HEAD@{10}: clone: from https://github.com/RaissaSantana13/projeto_museu.git
