@@ -230,7 +230,7 @@ export class SessionService {
   /**
    * Obtém sessão por ID
    */
-  async getSessionById(sessionId: string): Promise<Session | null> {
+  async getSessionById(sessionId: number): Promise<Session | null> {
     return this.sessionRepository.findOneBy({ idSession: sessionId });
   }
 
@@ -238,7 +238,7 @@ export class SessionService {
    * Invalida uma sessão específica por ID (com verificação de posse)
    */
   async invalidateSessionById(
-    sessionId: string,
+    sessionId: number,
     usuarioId: number,
   ): Promise<boolean> {
     const result = await this.sessionRepository.update(
