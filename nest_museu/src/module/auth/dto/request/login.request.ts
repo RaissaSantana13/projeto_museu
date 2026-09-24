@@ -19,7 +19,7 @@ export class LoginRequest {
   @ApiProperty({ description: AUTH.SWAGGER.PASSWORD })
   @TextField({ required: true, min: 6, max: 20, label: 'Senha', gender: 'f' })
   @Password()
-  senha!: string;
+  password!: string;
 
   constructor(partial: Partial<LoginRequest>) {
     Object.assign(this, partial);

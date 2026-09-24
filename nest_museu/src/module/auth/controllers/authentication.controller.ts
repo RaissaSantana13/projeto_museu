@@ -33,6 +33,8 @@ import { LoginResponse } from '../dto/response/login.response';
 import { AuthenticationService } from '../service/authentication.service';
 import { SessionService } from '../service/session.service';
 import { ConfirmEmailRequest } from '../dto/request/confirm-email.request';
+import { LoginRequest } from '../dto/request/login.request';
+import { ApiBody } from '@nestjs/swagger';
 
 @Controller(AUTH.ENTITY)
 @UseInterceptors(ClassSerializerInterceptor)
@@ -47,6 +49,7 @@ export class AuthenticationController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthenticationGuard)
   @Post(AUTH.ROTAS.SESSION)
+  @ApiBody({ type: LoginRequest })
   async logIn(
     @Req() req: RequestWithUser,
   ): Promise<ApiResponse<LoginResponse>> {
