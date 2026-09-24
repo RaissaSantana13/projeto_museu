@@ -22,6 +22,7 @@
     //"strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     //"strictPropertyInitialization": false,
-    "typeRoots": ["node_modules/@types", "src/@types"]
+    "typeRoots": ["node_modules/@types", "src/@types"],
+    "esModuleInterop": true
   }
 }

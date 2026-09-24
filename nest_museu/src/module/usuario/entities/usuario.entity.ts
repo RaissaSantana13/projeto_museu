@@ -37,8 +37,8 @@ export class Usuario extends BaseEntity {
   @Column({ name: 'phone', length: 20, nullable: true })
   phone?: string;
 
-  @Column({ name: USUARIO.TABLE_FIELDS?.ACTIVE || 'active', default: false })
-  active: boolean = false;
+  @Column({ name: USUARIO.TABLE_FIELDS?.ACTIVE || 'active', default: true })
+  active: boolean = true;
 
   @Column({
     name: USUARIO.TABLE_FIELDS?.IMAGE_PATH || 'image_path',

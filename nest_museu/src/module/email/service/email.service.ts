@@ -16,8 +16,8 @@ export default class EmailService {
   ) {
     this.nodemailerTransport = createTransport({
       host: this.configService.getOrThrow<string>('EMAIL_HOST'),
-      port: this.configService.getOrThrow<number>('EMAIL_PORT'),
-      secure: this.configService.getOrThrow<boolean>('EMAIL_SECURE'),
+      port: Number(this.configService.getOrThrow<string>('EMAIL_PORT')),
+      secure: this.configService.getOrThrow<string>('EMAIL_SECURE') === 'true',
       auth: {
         user: this.configService.getOrThrow<string>('EMAIL_USER'),
         pass: this.configService.getOrThrow<string>('EMAIL_PASSWORD'),

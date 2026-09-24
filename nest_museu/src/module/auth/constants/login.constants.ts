@@ -94,6 +94,7 @@ function getMensagem(ALIAS: string) {
       MENSAGEM_GENERICA.EMAIL_CONFIRMADO_NO_SISTEMA,
       ALIAS,
     ),
+    CONTA_DESATIVADA: gerarMensagem(MENSAGEM_GENERICA.CONTA_DESATIVADA),
   };
 }
 
