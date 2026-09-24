@@ -6,9 +6,27 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { ThemeSwitch } from '../../layout/theme-switch';
 
+const acervoItems = [
+  {
+    title: 'Obras',
+    href: '/acervo/obras',
+    description: 'Explore o acervo de obras do museu.',
+  },
+  {
+    title: 'Fotos',
+    href: '/acervo/fotos',
+    description: 'Confira o registro fotográfico do acervo.',
+  },
+  {
+    title: 'Documentos',
+    href: '/acervo/documentos',
+    description: 'Acesse os documentos históricos do acervo.',
+  },
+];
+
 export function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 w-full border-b backdrop-blur bg-background/75">
+    <nav className="sticky top-0 z-50 w-full border-b bg-[var(--navbar-background)]">
       <div className="w-full flex h-16 items-center justify-between">
         <div className="flex items-center gap-8  ml-3">
           <Link
@@ -72,13 +90,52 @@ export function Navbar() {
             </Link>
           </div>
           <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
-            <Link href="/login">
+            <Link href="/dashboard">
               <LogIn className="mr-2 h-4 w-4" /> Login
             </Link>
           </Button>
-          <Button variant="outline" size="icon" className="md:hidden">
-            <Menu className="h-5 w-5" />
-          </Button>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="md:hidden"
+                aria-label="Abrir menu"
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>Acervo</DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  {acervoItems.map((item) => (
+                    <DropdownMenuItem key={item.title} asChild>
+                      <Link href={item.href}>{item.title}</Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/tour-virtual">Tour Virtual</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="#pesquisa">Histórias</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="#faq">Suporte</Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard">
+                  <LogIn className="mr-2 h-4 w-4" /> Login
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <ThemeSwitch />
         </div>
       </div>
