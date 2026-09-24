@@ -1,4 +1,4 @@
-import { listarRoles } from "@/app/dashboard/roles/page";
+import { listarRoles } from "@/lib/dashboard/listar-roles";
 import { notFound, redirect } from "next/navigation";
 import { AtualizarUsuario } from "../../../../../components/usuario/atualizar-usuario";
 import { UsuarioResponse } from "../../../../../schemas/usuario-schemas";

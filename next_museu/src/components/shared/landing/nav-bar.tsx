@@ -1,25 +1,8 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from '@/components/ui/navigation-menu';
-import { LogIn, Menu } from 'lucide-react';
+import { ChevronDown, FileText, Image, LogIn, Menu, Palette } from 'lucide-react';
+import NextImage from 'next/image';
 import Link from 'next/link';
 import { ThemeSwitch } from '../../layout/theme-switch';
 
@@ -48,44 +31,46 @@ export function Navbar() {
         <div className="flex items-center gap-8  ml-3">
           <Link
             href="/"
-            className="font-serif text-xl font-bold tracking-tighter italic"
+            className="flex items-center gap-2 font-serif text-xl font-bold tracking-tighter italic"
           >
             MUSEU DE <span className="text-primary underline">BIRIGUI</span>
           </Link>
         </div>
         <div className="flex items-center gap-4 mr-3">
-          <div className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="h-auto bg-transparent p-0 text-sm font-medium text-muted-foreground hover:text-primary hover:bg-transparent data-[state=open]:bg-transparent data-[state=open]:text-primary">
-                    Acervo
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[300px] gap-2 p-3">
-                      {acervoItems.map((item) => (
-                        <li key={item.title}>
-                          <NavigationMenuLink asChild>
-                            <Link
-                              href={item.href}
-                              className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
-                            >
-                              <div className="text-sm font-medium leading-none">
-                                {item.title}
-                              </div>
-                              <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                                {item.description}
-                              </p>
-                            </Link>
-                          </NavigationMenuLink>
-                        </li>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-
+          <div className="hidden items-center gap-6 text-sm font-medium text-muted-foreground md:flex">
+            <div className="group relative">
+              <button
+                type="button"
+                className="inline-flex items-center gap-1 bg-transparent p-0 hover:text-primary transition-colors"
+                aria-haspopup="true"
+              >
+                Acervo
+                <ChevronDown className="size-3.5 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" />
+              </button>
+              <div className="invisible absolute left-1/2 top-[calc(100%-1px)] z-50 w-56 -translate-x-1/2 rounded-md border bg-popover p-1 text-popover-foreground opacity-0 shadow-lg transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                <Link
+                  href="/acervo?tipo=obra"
+                  className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
+                >
+                  <Palette className="size-4 text-primary" />
+                  Obras e objetos
+                </Link>
+                <Link
+                  href="/acervo?tipo=foto"
+                  className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
+                >
+                  <Image className="size-4 text-primary" />
+                  Fotografias
+                </Link>
+                <Link
+                  href="/acervo?tipo=documento"
+                  className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
+                >
+                  <FileText className="size-4 text-primary" />
+                  Documentos históricos
+                </Link>
+              </div>
+            </div>
             <Link
               href="/tour-virtual"
               className="hover:text-primary transition-colors"
@@ -94,11 +79,12 @@ export function Navbar() {
             </Link>
 
             <Link
-              href="#pesquisa"
+              href="/programacao"
               className="hover:text-primary transition-colors"
             >
-              Histórias
+              Programação
             </Link>
+
             <Link href="#faq" className="hover:text-primary transition-colors">
               Suporte
             </Link>

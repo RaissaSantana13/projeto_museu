@@ -31,9 +31,8 @@ export default async function RootLayout({
         <Providers locale={locale} dictionary={dict}>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
-            themes={['light', 'dark', 'theme-museu']}
-            enableSystem
+            defaultTheme="dark"
+            themes={['dark', 'light']}
             disableTransitionOnChange
           >
             {children}

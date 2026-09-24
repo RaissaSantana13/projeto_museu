@@ -4,7 +4,7 @@ export function HeroMuseum() {
   return (
     <section
       id="hero"
-      className="relative w-full h-[700px] md:h-[600px] lg:h-[700px] overflow-hidden"
+      className="relative w-full h-[500px] md:h-[450px] lg:h-[500px] overflow-hidden"
     >
       {/* Imagem de fundo */}
       <Image
@@ -18,9 +18,9 @@ export function HeroMuseum() {
       {/* Overlay escuro para melhorar legibilidade do texto */}
       <div className="absolute inset-0 bg-black/50" />
 
-      {/* Título no topo, centralizado */}
-      <div className="relative z-10 flex flex-col items-center pt-6 md:pt-8 px-4">
-        <h1 className="font-inter text-4xl sm:text-5xl lg:text-6xl font-bold text-white text-center drop-shadow-lg">
+      {/* Título centralizado */}
+      <div className="absolute inset-0 z-10 flex items-center justify-center px-4">
+        <h1 className="font-inter text-center text-4xl font-bold text-white drop-shadow-lg sm:text-5xl lg:text-6xl">
           MUSEU VIRTUAL DE BIRIGUI
         </h1>
       </div>

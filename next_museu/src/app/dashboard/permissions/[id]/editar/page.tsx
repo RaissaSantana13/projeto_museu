@@ -4,8 +4,8 @@ import { PermissionsResponse } from "../../../../../schemas/permissions-schemas"
 import { PermissionsService } from "../../../../../service/connection/PermissionsService";
 import { getResource } from "../../../../../service/connection/RecursosService";
 import { ApiResponse } from "../../../../../type/api";
-import { listarRecursos } from "../../../resources/page";
-import { listarRoles } from "../../../roles/page";
+import { listarRecursos } from "../../../../../lib/dashboard/listar-recursos";
+import { listarRoles } from "../../../../../lib/dashboard/listar-roles";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -18,7 +18,7 @@ interface PageProps {
   }>;
 }
 
-export async function getPorId(
+async function getPorId(
   id: string,
 ): Promise<ApiResponse<PermissionsResponse>> {
   let endpoint: string | undefined;

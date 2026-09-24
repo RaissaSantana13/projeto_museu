@@ -104,7 +104,7 @@ export function EventDetails({ eventId }: { eventId: string }) {
         {/* Botão voltar e título */}
         <div className="mb-8">
           <Link
-            href="/eventos"
+            href="/exposicoes"
             className="inline-flex items-center gap-2 text-sm font-medium mb-6 hover:opacity-70 transition-opacity"
           >
             <svg
@@ -120,9 +120,9 @@ export function EventDetails({ eventId }: { eventId: string }) {
                 d="M15 19l-7-7 7-7"
               />
             </svg>
-            Voltar aos Eventos
+            Voltar às Exposições
           </Link>
-          <h1 className="text-2xl font-bold font-serif">Detalhes do Evento:</h1>
+          <h1 className="text-2xl font-bold font-serif">Detalhes da Exposição:</h1>
         </div>
 
         {/* Seção principal com imagem e informações */}
@@ -134,8 +134,8 @@ export function EventDetails({ eventId }: { eventId: string }) {
               <span
                 className={`inline-block px-4 py-2 rounded text-sm font-semibold ${
                   evento.available
-                    ? 'bg-[#3A2F25]/10 text-[#3A2F25]'
-                    : 'bg-red-100 text-red-800'
+                    ? 'bg-yellow-400 text-yellow-950'
+                    : 'bg-gray-400 text-gray-900'
                 }`}
               >
                 {evento.available ? 'DISPONÍVEL' : 'ESGOTADO'}

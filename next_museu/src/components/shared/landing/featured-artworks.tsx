@@ -61,15 +61,6 @@ export function FeaturedArtworks() {
       className="w-full py-5 px-2 md:px-4 lg:px-6 bg-black/80"
       style={{ background: 'var(--foreground)' }}
     >
-      <div className="mb-6">
-        <h2
-          className="text-2xl md:text-3xl font-bold"
-          style={{ color: 'var(--accent)' }}
-        >
-          Obras em Destaque
-        </h2>
-      </div>
-
       <div className="relative px-10">
         <Carousel opts={{ align: 'start', loop: false }} className="w-full">
           <CarouselContent className="-ml-2 md:-ml-4 lg:-ml-8">

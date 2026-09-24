@@ -64,7 +64,7 @@
   },
   "auth": {
     "access": "Acceso",
-    "signIn": "Acceda con su correo electrónico",
+    "signIn": "Iniciar sesión",
     "dontHaveAccount": "¿No tiene una cuenta?",
     "signUp": "Registrarse",
     "orContinueWith": "O continúe con ",
@@ -76,8 +76,8 @@
     "resend": "Reenviar",
     "alreadyHaveAccount": "¿Ya tiene una cuenta?",
     "login": {
-      "title": "Acceso al Sistema",
-      "description": "Ingrese su correo electrónico y contraseña para acceder a su cuenta",
+      "title": "Entrar al Museo Virtual",
+      "description": "Ingrese sus datos para acceder a su área.",
       "password": "Contraseña:",
       "placeholderSenha": "Escriba su contraseña",
       "email": "Correo electrónico",
