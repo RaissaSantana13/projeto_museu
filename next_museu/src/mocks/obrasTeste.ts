@@ -39,14 +39,14 @@ export const bancoDeDadosTeste: Work[] = [
   },
   {
     id_work: 2,
-    title: 'A Noite Estrelada',
-    artist: 'Vincent van Gogh',
-    creation_year: 1889,
+    title: 'Davi de Michelangelo',
+    artist: 'Michelangelo Buonarroti',
+    creation_year: 1503,
     description:
-      'Pintura a óleo sobre tela retratando a vista da janela do quarto do asilo.',
+      'Escultura em mármore retratando a vista da janela do quarto do asilo.',
     dimensions: '73.7 cm × 92.1 cm',
-    type: 'Pintura',
-    category: 'Pós-Impressionismo',
+    type: 'Escultura',
+    category: 'Renacentismo',
     location: 'Galeria Principal - Sala 3',
     id_img: 102,
     has_3d: false,
@@ -57,3 +57,32 @@ export const bancoDeDadosTeste: Work[] = [
     deleted_at: null,
   },
 ];
+
+export async function buscarObrasFalsas(
+  termo?: string,
+  tipoFiltro?: string,
+): Promise<Work[]> {
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
+  let obrasFiltradas = bancoDeDadosTeste;
+
+  if (tipoFiltro && tipoFiltro !== 'Todos') {
+    obrasFiltradas = obrasFiltradas.filter(
+      (obra) => obra.type.toLowerCase() === tipoFiltro.toLowerCase(),
+    );
+  }
+
+  if (termo) {
+    const termoMinusc = termo.toLowerCase();
+    obrasFiltradas = obrasFiltradas.filter((obra) => {
+      const temNoTitulo = obra.title.toLowerCase().includes(termoMinusc);
+      const temNoArtista = obra.artist.toLowerCase().includes(termoMinusc);
+      const temNoTipo = obra.type.toLowerCase().includes(termoMinusc);
+      const temNaCategoria = obra.category.toLowerCase().includes(termoMinusc);
+
+      return temNoTitulo || temNoArtista || temNoTipo || temNaCategoria;
+    });
+  }
+
+  return obrasFiltradas;
+}
