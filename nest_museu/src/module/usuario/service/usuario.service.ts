@@ -112,7 +112,6 @@ export class UsuarioService extends BaseService<Usuario> {
           lastName: usuarioRequest.lastName,
           username: usuarioRequest.username,
           imagePath: usuarioRequest.imagePath,
-          active: usuarioRequest.active,
           emailVerified: false, // Inicializa como não confirmado
         });
         if (usuarioRequest.roleIds?.length > 0) {

@@ -28,7 +28,7 @@ export class RegisterUsuarioRequest {
   @ApiProperty({ description: USUARIO.SWAGGER.USERNAME })
   @TextField({
     required: true,
-    min: 1,
+    min: 3,
     max: 100,
     label: 'Nome do usuário',
     gender: 'm',

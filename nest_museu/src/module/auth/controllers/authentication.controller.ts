@@ -32,6 +32,7 @@ import { ResetPasswordRequest } from '../dto/request/reset.password.request';
 import { LoginResponse } from '../dto/response/login.response';
 import { AuthenticationService } from '../service/authentication.service';
 import { SessionService } from '../service/session.service';
+import { ConfirmEmailRequest } from '../dto/request/confirm-email.request';
 
 @Controller(AUTH.ENTITY)
 @UseInterceptors(ClassSerializerInterceptor)
@@ -160,7 +161,7 @@ export class AuthenticationController {
   }
 
   @Post(AUTH.ROTAS.CONFIRM_EMAIL)
-  async verificationEmail(@Body() token: string): Promise<undefined> {
-    await this.usuarioService.markEmailAsConfirmed(token);
+  async verificationEmail(@Body() dto: ConfirmEmailRequest): Promise<void> {
+    await this.usuarioService.markEmailAsConfirmed(dto.token);
   }
 }
