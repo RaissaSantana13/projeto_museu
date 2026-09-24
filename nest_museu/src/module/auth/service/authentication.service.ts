@@ -80,7 +80,7 @@ export class AuthenticationService {
     token: string,
     expiresInSeconds: number,
   ): string {
-    return `Refresh=${token}; HttpOnly: true; Path=/; Max-Age=${expiresInSeconds}; SameSite=Strict`;
+    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${expiresInSeconds}; SameSite=Strict`;
   }
 
   public getCookieWithJwtRefreshToken(userId: number): RefreshTokenResult {
@@ -113,7 +113,7 @@ export class AuthenticationService {
     token: string,
     expiresInSeconds: number,
   ): string {
-    return `Refresh=${token}; HttpOnly: true; Path=/; Max-Age=${expiresInSeconds}; SameSite=Strict`;
+    return `Refresh=${token}; HttpOnly; Path=/; Max-Age=${expiresInSeconds}; SameSite=Strict`;
   }
 
   public getCookiesForLogOut() {
