@@ -18,7 +18,11 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:generate": "npm run typeorm -- migration:generate src/database/migrations/migration -d src/database/data.source.ts",
-    "migration:run": "npm run typeorm -- migration:run -d src/database/data.source.ts",
+    "migration:run": "ts-node scripts/migrations.ts run",
+    "migration:show": "ts-node scripts/migrations.ts show",
+    "migration:check": "ts-node scripts/migrations.ts check",
+    "migration:revert": "ts-node scripts/migrations.ts revert",
+    "test:migrations": "jest --config test/jest-e2e.json --runInBand migrations.e2e-spec.ts",
     "test:media": "jest --config test/jest-e2e.json --runInBand media.e2e-spec.ts",
     "media:migrate-local": "node scripts/migrate-local-media.cjs"
   },
