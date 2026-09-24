@@ -1,16 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsArray, IsBoolean, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsInt, IsOptional, IsString, Min } from 'class-validator';
 import { Password } from '../../../../commons/decorators/validation/password.decorator';
 import { TextField } from '../../../../commons/decorators/validation/text.decorator';
 import { USUARIO } from '../../constants/usuario.constants';
+import { MatchField } from '../../../../commons/decorators/validation/match.decorator';
 
 export class UsuarioRequest {
   static entityName = USUARIO.ALIAS.toLowerCase();
-  @ApiProperty({ description: USUARIO.SWAGGER.ID_USUARIO, example: '1' })
-  @Type(() => Number)
-  @IsOptional()
-  idUsuario?: number;
 
   @ApiProperty({
     description: USUARIO.SWAGGER.FIRSTNAME,
@@ -42,7 +38,13 @@ export class UsuarioRequest {
     description: USUARIO.SWAGGER.USERNAME,
     example: 'Antônio da Silva',
   })
-  @TextField({ required: true, min: 6, max: 100, label: 'Nome', gender: 'm' })
+  @TextField({
+    required: true,
+    min: 3,
+    max: 100,
+    label: 'Nome',
+    gender: 'm',
+  })
   username!: string;
 
   @ApiProperty({
@@ -58,13 +60,21 @@ export class UsuarioRequest {
     email: true,
   })
   email!: string;
+
   @ApiProperty({
     description: USUARIO.SWAGGER.PASSWORD,
     example: 'Teste123!',
   })
-  @TextField({ required: true, min: 6, max: 20, label: 'Senha', gender: 'f' })
+  @TextField({
+    required: true,
+    min: 6,
+    max: 20,
+    label: 'Senha',
+    gender: 'f',
+  })
   @Password()
   password!: string;
+
   @ApiProperty({
     description: USUARIO.SWAGGER.CONFIRM_PASSWORD,
     example: 'Teste123!',
@@ -77,6 +87,11 @@ export class UsuarioRequest {
     gender: 'f',
   })
   @Password()
+  @MatchField('password', {
+    required: true,
+    label: 'Confirme a Senha',
+    gender: 'f',
+  })
   confirmPassword!: string;
 
   @ApiProperty({
@@ -84,16 +99,14 @@ export class UsuarioRequest {
     example: [1, 2],
   })
   @IsArray()
+  @IsInt({ each: true })
+  @Min(1, { each: true })
   roleIds!: number[];
 
   @ApiProperty({ description: USUARIO.SWAGGER.IMAGE_PATH })
   @IsOptional()
   @IsString()
   imagePath?: string;
-
-  @ApiProperty({ description: USUARIO.SWAGGER.ACTIVE })
-  @IsBoolean()
-  active: boolean = false;
 
   constructor(data: Partial<UsuarioRequest> = {}) {
     Object.assign(this, data);

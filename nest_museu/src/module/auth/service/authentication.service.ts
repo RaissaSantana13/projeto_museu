@@ -80,7 +80,7 @@ export class AuthenticationService {
     token: string,
     expiresInSeconds: number,
   ): string {
-    return `Refresh=${token}; HttpOnly: true; Path=/; Max-Age=${expiresInSeconds}; SameSite=Strict`;
+    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${expiresInSeconds}; SameSite=Strict`;
   }
 
   public getCookieWithJwtRefreshToken(userId: number): RefreshTokenResult {
@@ -113,7 +113,7 @@ export class AuthenticationService {
     token: string,
     expiresInSeconds: number,
   ): string {
-    return `Refresh=${token}; HttpOnly: true; Path=/; Max-Age=${expiresInSeconds}; SameSite=Strict`;
+    return `Refresh=${token}; HttpOnly; Path=/; Max-Age=${expiresInSeconds}; SameSite=Strict`;
   }
 
   public getCookiesForLogOut() {
@@ -130,6 +130,10 @@ export class AuthenticationService {
     try {
       const credentials = await this.getByEmail(email);
       await this.verifyPassword(plainTextPassword, credentials.password);
+
+      if (!credentials.usuario.active) {
+        throw new UnauthorizedException(AUTH.MENSAGEM.CONTA_DESATIVADA);
+      }
       if (!credentials.usuario.emailVerified) {
         throw new UnauthorizedException(
           AUTH.MENSAGEM.EMAIL_NAO_CONFIRMADO_NO_SISTEMA,
@@ -137,6 +141,9 @@ export class AuthenticationService {
       }
       return credentials;
     } catch (error: any) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
       throw new PasswordInvalidExceptions(
         AUTH.MENSAGEM.CREDENCIAL_INVALIDA,
         error.message,

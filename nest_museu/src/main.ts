@@ -14,9 +14,13 @@ import { SIS_MUSEU } from './commons/enum/sis-museu.enum';
 import { GlobalExceptionFilter } from './commons/exceptions/filter/global.filter';
 import { UnprocesseableEntityExceptionFilter } from './commons/exceptions/filter/unprocesseable.entity.filter';
 import { UsuarioResponse } from './module/usuario/dto/response/usuario.response';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.use(cookieParser());
+
   app.setGlobalPrefix(SIS_MUSEU.ROTA_VERSIONAMENTO);
 
   app.useGlobalFilters(

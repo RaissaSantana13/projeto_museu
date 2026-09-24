@@ -23,6 +23,8 @@ import { AuthenticationService } from './service/authentication.service';
 import { OAuthService } from './service/oauth.service';
 import { SessionService } from './service/session.service';
 import { TwoFactorAuthenticationService } from './service/twoFactorAuthentication.service';
+import { JwtStrategy } from './config/strategy/jwt/jwt.strategy';
+import { JwtRefreshTokenStrategy } from './config/strategy/jwt/jwt-refresh-token.strategy';
 
 const moduleController = [
   AccountController,
@@ -42,6 +44,8 @@ const moduleProviders = [
   GoogleOAuthStrategy,
   FacebookOAuthStrategy,
   GitHubOAuthStrategy,
+  JwtStrategy,
+  JwtRefreshTokenStrategy,
 ];
 
 @Module({

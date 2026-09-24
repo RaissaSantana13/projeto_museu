@@ -8,6 +8,7 @@ export enum MENSAGEM_GENERICA {
   EMAIL_NAO_CONFIRMADO_NO_SISTEMA = 'EMAIL_NAO_CONFIRMADO_NO_SISTEMA',
   EMAIL_CONFIRMADO_NO_SISTEMA = 'EMAIL_CONFIRMADO_NO_SISTEMA',
   FALHA_SERVICO_EMAIL = 'FALHA_SERVICO_EMAIL',
+  CONTA_DESATIVADA = 'CONTA_DESATIVADA',
   ENTIDADE_CADASTRADA = 'ENTIDADE_CADASTRADA',
   ENTIDADE_ALTERADA = 'ENTIDADE_ALTERADA',
   ENTIDADE_EXCLUIDA = 'ENTIDADE_EXCLUIDA',
@@ -93,6 +94,8 @@ const MENSAGENS_GENERICAS: MensagensGenericas = {
     `O e-mail já está confirmado no sistema.`,
   [MENSAGEM_GENERICA.FALHA_SERVICO_EMAIL]: (entidade: string) =>
     `Falha no serviço de ${entidade}.`,
+  [MENSAGEM_GENERICA.CONTA_DESATIVADA]: () =>
+    `Conta desativada. Entre em contato com a administração.`,
   [MENSAGEM_GENERICA.CREDENCIAL_INVALIDA]: () =>
     `As credenciais de acesso estão inválidas.`,
   [MENSAGEM_GENERICA.LOGIN_EFETUADO]: (entidade: string) =>
