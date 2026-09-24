@@ -2,6 +2,8 @@ import { LanguageDropdown } from '../../components/layout/language-dropdown';
 import { ThemeSwitch } from '../../components/layout/theme-switch';
 import { getClientDictionary } from '../../lib/get-dictionary';
 import { Providers } from '../../service/providers';
+import { House } from 'lucide-react';
+import Link from 'next/link';
 
 export default async function AuthLayout({
   children,
@@ -21,8 +23,16 @@ export default async function AuthLayout({
           {/* Aqui você poderia colocar uma marca d'água do brasão de Birigui ou textura de papel antigo */}
         </div>
 
-        {/* CANTO SUPERIOR ESQUERDO: Nome do Sistema */}
-        <div className="absolute top-6 left-6 md:top-8 md:left-8 hidden sm:flex items-center gap-2 z-10">
+        {/* CANTO SUPERIOR ESQUERDO: Voltar para a página principal */}
+        <div className="pointer-events-auto absolute top-4 left-4 z-50 flex items-center gap-3 md:top-8 md:left-8">
+          <Link
+            href="/"
+            aria-label="Voltar para a tela principal"
+            title="Voltar para a tela principal"
+            className="pointer-events-auto inline-flex size-10 cursor-pointer items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground shadow-sm backdrop-blur transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <House className="size-5" aria-hidden="true" />
+          </Link>
           <span className="text-xl font-black tracking-tighter text-primary uppercase">
             {dict.app.name}
           </span>

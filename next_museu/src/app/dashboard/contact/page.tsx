@@ -43,13 +43,13 @@ async function listarContact(
 export default async function ListarContactPage({
   searchParams,
 }: {
-  searchParams: {
+  searchParams: Promise<{
     page?: string;
     pageSize?: string;
     field?: string;
     order?: string;
     search?: string;
-  };
+  }>;
 }) {
   const params = await searchParams;
   const result = await listarContact(params.page, params.pageSize, params.field, params.order, params.search);

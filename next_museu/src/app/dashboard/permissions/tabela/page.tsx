@@ -1,5 +1,5 @@
-import PermissionsMatriz from "../../../components/permissions/permissions-matriz";
+import PermissionsMatriz from '../../../../components/permissions/permissions-matriz';
 
-export default function MatrizPermission(){
-  return <PermissionsMatriz/>
+export default function MatrizPermission() {
+  return <PermissionsMatriz />;
 }

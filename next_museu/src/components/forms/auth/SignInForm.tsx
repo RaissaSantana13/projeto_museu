@@ -44,20 +44,20 @@ export function SignInForm() {
   });
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-6 w-full">
-      <div className="grid w-full gap-2 text-left">
+    <form onSubmit={onSubmit} className="grid w-full gap-6">
+      <div className="grid w-full gap-4 text-left">
         <FieldGroup>
           <Controller
             name="email"
             control={form.control}
             render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                {/* <FieldLabel>{dict.auth.login.email}:</FieldLabel> */}
+              <Field data-invalid={fieldState.invalid} className="space-y-2">
                 <Input
                   {...field}
                   value={field.value ?? ''}
                   placeholder={dict.auth.login.email}
                   autoComplete="off"
+                  className="h-11"
                 />
                 {fieldState.invalid && fieldState.error && (
                   <FieldError>{fieldState.error.message}</FieldError>
@@ -69,23 +69,23 @@ export function SignInForm() {
             name="password"
             control={form.control}
             render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <div className="flex items-center">
-                  {/* <FieldLabel>{dict.auth.login.password}:</FieldLabel> */}
-                  <Link
-                    href="/forgot-password"
-                    className="ms-auto inline-block text-sm underline"
-                  >
-                    {dict.auth.login.forgotPassword}
-                  </Link>
-                </div>
+              <Field data-invalid={fieldState.invalid} className="space-y-2">
                 <Input
                   {...field}
                   value={field.value ?? ''}
                   type="password"
-                  placeholder={dict.auth.login.placeholderSenha} // Opcional: adicionar ao JSON
+                  placeholder={dict.auth.login.placeholderSenha}
                   autoComplete="current-password"
+                  className="h-11"
                 />
+                <div className="flex items-center justify-start">
+                  <Link
+                    href="/forgot-password"
+                    className="text-sm text-muted-foreground underline-offset-4 hover:underline"
+                  >
+                    {dict.auth.login.forgotPassword}
+                  </Link>
+                </div>
                 {fieldState.invalid && fieldState.error && (
                   <FieldError>{fieldState.error.message}</FieldError>
                 )}
@@ -95,10 +95,10 @@ export function SignInForm() {
         </FieldGroup>
       </div>
 
-      <ButtonLoading isLoading={false} aria-label={dict.auth.signIn}>
+      <ButtonLoading isLoading={false} aria-label={dict.auth.signIn} className="mt-0 h-11">
         {dict.auth.signIn}
       </ButtonLoading>
-      <div className="-mt-4 text-center text-sm">
+      <div className="text-center text-sm">
         {dict.auth.dontHaveAccount}{' '}
         <Link
           href="/register"

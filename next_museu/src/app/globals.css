@@ -42,156 +42,59 @@ html {
 }
 
 :root {
-  --background: oklch(0.98 0.01 220);
-  --foreground: oklch(0.15 0.02 260);
-
-  --primary: oklch(0.35 0.13 260);
-  --primary-foreground: oklch(0.98 0.01 247);
-
-  --secondary: oklch(0.45 0.15 45);
-  --secondary-foreground: oklch(0.98 0.01 247);
-
-  /* --- AJUSTE TOM SOBRE TOM (SIDEBAR & HEADER ESCUROS) --- */
-  /* Azul Marinho Profundo para o fundo do Sidebar/Header */
-  --sidebar: oklch(0.2 0.04 260);
-  --sidebar-foreground: oklch(0.98 0.01 247); /* Texto branco */
-
-  /* Azul um pouco mais claro para itens ativos no menu */
-  --sidebar-primary: oklch(0.45 0.15 250);
+  --background: oklch(0.94 0.04 90);
+  --foreground: oklch(0.3 0.08 55);
+  --card: oklch(0.98 0.025 90);
+  --card-foreground: oklch(0.3 0.08 55);
+  --popover: oklch(0.98 0.025 90);
+  --popover-foreground: oklch(0.3 0.08 55);
+  --primary: oklch(0.38 0.12 55);
+  --primary-foreground: oklch(0.98 0.025 90);
+  --secondary: oklch(0.84 0.18 90);
+  --secondary-foreground: oklch(0.3 0.08 55);
+  --sidebar: oklch(0.36 0.1 55);
+  --sidebar-foreground: oklch(0.97 0.04 90);
+  --sidebar-primary: oklch(0.84 0.18 90);
   --sidebar-primary-foreground: oklch(1 0 0);
-
-  /* Hover dos itens do menu */
-  --sidebar-accent: oklch(0.28 0.05 260);
-  --sidebar-accent-foreground: oklch(0.98 0.01 247);
-
-  --sidebar-border: oklch(0.25 0.04 260);
-  --sidebar-ring: oklch(0.45 0.15 250);
-
-  --border: oklch(0.9 0.02 260);
-  --input: oklch(0.9 0.02 260);
-  --ring: oklch(0.35 0.13 260);
+  --sidebar-accent: oklch(0.44 0.1 55);
+  --sidebar-accent-foreground: oklch(0.97 0.04 90);
+  --sidebar-border: oklch(0.48 0.08 55);
+  --sidebar-ring: oklch(0.84 0.18 90);
+  --muted: oklch(0.88 0.07 90);
+  --muted-foreground: oklch(0.48 0.06 55);
+  --accent: oklch(0.8 0.08 100);
+  --accent-foreground: oklch(0.3 0.08 55);
+  --border: oklch(0.82 0.08 90);
+  --input: oklch(0.82 0.08 90);
+  --ring: oklch(0.58 0.14 90);
 }
 
 .dark {
-  --background: oklch(0.12 0.02 260);
-  --foreground: oklch(0.98 0.01 247);
-
-  /* Precisamos redefinir os containers no Dark Mode */
-  --card: oklch(0.15 0.02 260);
-  --card-foreground: oklch(0.98 0.01 247);
-
-  --popover: oklch(0.15 0.02 260);
-  --popover-foreground: oklch(0.98 0.01 247);
-
-  /* Azul Marinho ajustado para brilhar no Dark Mode */
-  --primary: oklch(0.98 0.01 247);
-  --primary-foreground: oklch(0.12 0.02 260);
-
-  /* Terracota ajustado para o Dark Mode */
-  --secondary: oklch(0.55 0.12 45);
-  --secondary-foreground: oklch(0.98 0.01 247);
-
-  --muted: oklch(0.2 0.02 260);
-  --muted-foreground: oklch(0.7 0.02 260);
-
-  --accent: oklch(0.2 0.02 260);
-  --accent-foreground: oklch(0.98 0.01 247);
-
-  --sidebar: oklch(0.08 0.02 260);
-  --sidebar-foreground: oklch(0.98 0.01 247);
-  --sidebar-border: oklch(1 1 1 / 10%);
-
-  --border: oklch(0.25 0.02 260);
-  --input: oklch(0.25 0.02 260);
-  --ring: oklch(0.65 0.12 250);
-}
-
-/* ============================= */
-/*  TEMA 3 - MUSEU HISTÓRICO    */
-/* ============================= */
-
-.theme-museu {
-  --background: oklch(0.95 0.02 85); /* Tom pergaminho */
-  --foreground: oklch(0.25 0.03 70); /* Marrom escuro */
-
-  --card: oklch(0.98 0.01 85);
-  --card-foreground: oklch(0.25 0.03 70);
-
-  --popover: oklch(0.98 0.01 85);
-  --popover-foreground: oklch(0.25 0.03 70);
-
-  /* Marrom institucional museológico */
-  --primary: oklch(0.25 0.03 70);
-  --primary-foreground: oklch(0.98 0.01 85);
-
-  /* Terracota histórica */
-  --secondary: oklch(0.55 0.1 45);
-  --secondary-foreground: oklch(0.98 0.01 85);
-
-  --muted: oklch(0.9 0.02 85);
-  --muted-foreground: oklch(0.45 0.03 70);
-
-  --accent: oklch(0.85 0.04 95);
-  --accent-foreground: oklch(0.25 0.03 70);
-
-  /* Sidebar estilo madeira escura */
-  --sidebar: oklch(0.3 0.04 70);
-  --sidebar-foreground: oklch(0.98 0.01 85);
-
-  --sidebar-primary: oklch(0.25 0.03 70);
-  --sidebar-primary-foreground: oklch(0.98 0.01 85);
-
-  --sidebar-accent: oklch(0.38 0.04 70);
-  --sidebar-accent-foreground: oklch(0.98 0.01 85);
-
-  --sidebar-border: oklch(0.35 0.03 70);
-  --sidebar-ring: oklch(0.25 0.03 70);
-
-  --border: oklch(0.85 0.02 85);
-  --input: oklch(0.85 0.02 85);
-  --ring: oklch(0.25 0.03 70);
-}
-
-.theme-birigui {
-  /* Fundo "Papel de Museu" (Amarelo Creme Suave da Bandeira) */
-  --background: oklch(0.98 0.02 95);
-  --foreground: oklch(0.12 0.01 0);
-
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.12 0.01 0);
-
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.12 0.01 0);
-
-  /* Marrom institucional do Museu */
-  --primary: oklch(0.25 0.03 70);
-  --primary-foreground: oklch(0.98 0.02 95);
-
-  /* Amarelo da Bandeira - Destaques e Suportes */
-  --secondary: oklch(0.85 0.18 95);
-  --secondary-foreground: oklch(0.2 0.05 95);
-
-  /* Vermelho da Bandeira - Ações de Destaque / Alertas */
-  --accent: oklch(0.55 0.22 25);
-  --accent-foreground: oklch(0.98 0.02 95);
-
-  --muted: oklch(0.93 0.03 95);
-  --muted-foreground: oklch(0.4 0.05 95);
-
-  /* Sidebar: Marrom profundo para contraste "Tom sobre Tom" */
-  --sidebar: oklch(0.25 0.03 70);
-  --sidebar-foreground: oklch(0.98 0.02 95);
-  --sidebar-primary: oklch(0.25 0.03 70);
-  --sidebar-accent: oklch(0.3 0.04 70);
-  --sidebar-border: oklch(0.2 0.03 70);
-  --sidebar-ring: oklch(0.25 0.03 70);
-
-  --border: oklch(0.88 0.03 95);
-  --input: oklch(0.88 0.03 95);
-  --ring: oklch(0.25 0.03 70);
-
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.98 0.02 95);
+  --background: oklch(0.19 0.02 70);
+  --foreground: oklch(0.95 0.04 90);
+  --card: oklch(0.24 0.035 65);
+  --card-foreground: oklch(0.95 0.04 90);
+  --popover: oklch(0.24 0.035 65);
+  --popover-foreground: oklch(0.95 0.04 90);
+  --primary: oklch(0.86 0.18 90);
+  --primary-foreground: oklch(0.25 0.08 55);
+  --secondary: oklch(0.48 0.13 50);
+  --secondary-foreground: oklch(0.97 0.04 90);
+  --muted: oklch(0.27 0.025 70);
+  --muted-foreground: oklch(0.76 0.05 90);
+  --accent: oklch(0.34 0.07 95);
+  --accent-foreground: oklch(0.95 0.04 90);
+  --sidebar: oklch(0.14 0.02 70);
+  --sidebar-foreground: oklch(0.95 0.04 90);
+  --sidebar-primary: oklch(0.86 0.18 90);
+  --sidebar-primary-foreground: oklch(0.25 0.08 55);
+  --sidebar-accent: oklch(0.25 0.04 65);
+  --sidebar-accent-foreground: oklch(0.95 0.04 90);
+  --sidebar-border: oklch(0.32 0.04 65);
+  --sidebar-ring: oklch(0.86 0.18 90);
+  --border: oklch(0.34 0.04 65);
+  --input: oklch(0.34 0.04 65);
+  --ring: oklch(0.86 0.18 90);
 }
 
 @layer base {

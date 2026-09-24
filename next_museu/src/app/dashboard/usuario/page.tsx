@@ -76,13 +76,13 @@ async function listarUsuario(
 export default async function ListarUsuariosPage({
   searchParams,
 }: {
-  searchParams: {
+  searchParams: Promise<{
     page?: string;
     pageSize?: string;
     field?: string;
     order?: string;
     search?: string;
-  };
+  }>;
 }) {
   const params = await searchParams;
   const result = await listarUsuario(

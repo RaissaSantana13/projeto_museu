@@ -1,16 +1,16 @@
 import { SalvarUsuario } from "../../../../components/usuario/salvar-usuario";
-import { listarRoles } from "../../roles/page";
+import { listarRoles } from "../../../../lib/dashboard/listar-roles";
 
 export default async function UsuarioSalvar({
   searchParams,
 }: {
-  searchParams: {
+  searchParams: Promise<{
     page?: string;
     pageSize?: string;
     field?: string;
     order?: string;
     search?: string;
-  };
+  }>;
 }) {
   const params = await searchParams;
   const result = await listarRoles(

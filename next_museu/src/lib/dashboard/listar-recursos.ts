@@ -1,11 +1,10 @@
 import { redirect } from 'next/navigation';
-import ListarResources from '../../../components/resources/lista-resources';
-import { ResourcesResponse } from '../../../schemas/resources-schemas';
-import { getResource } from '../../../service/connection/RecursosService';
-import { ResourcesService } from '../../../service/connection/ResourcesService';
-import { ApiResponse, PageResponse } from '../../../type/api';
+import { ResourcesResponse } from '../../schemas/resources-schemas';
+import { getResource } from '../../service/connection/RecursosService';
+import { ResourcesService } from '../../service/connection/ResourcesService';
+import { ApiResponse, PageResponse } from '../../type/api';
 
-async function listarRecursos(
+export async function listarRecursos(
   page?: string,
   pageSize?: string,
   field?: string,
@@ -17,7 +16,7 @@ async function listarRecursos(
   try {
     const resources = await getResource();
     endpoint = resources.find(
-      (r) => r.name === 'resources' && !r.endpoint.includes(':id'),
+      (resource) => resource.name === 'resources' && !resource.endpoint.includes(':id'),
     )?.endpoint;
   } catch (error) {
     const apiError = error as ApiResponse<never> & { isNetworkError?: boolean };
@@ -32,16 +31,13 @@ async function listarRecursos(
 
   try {
     const resourcesService = new ResourcesService(endpoint);
-
-    const param = {
+    const data = await resourcesService.listar({
       page: page ? Number(page) : undefined,
       pageSize: pageSize ? Number(pageSize) : undefined,
       field,
       order,
       search,
-    };
-
-    const data = await resourcesService.listar(param);
+    });
 
     if (!data || !data.dados) {
       return {
@@ -49,14 +45,7 @@ async function listarRecursos(
         timestamp: new Date().toISOString(),
         path: '',
         metodo: 'GET',
-        dados: {
-          content: [],
-          totalPages: 0,
-          totalElements: 0,
-          pageSize: 5,
-          page: 1,
-          lastPage: 0,
-        },
+        dados: { content: [], totalPages: 0, totalElements: 0, pageSize: 5, page: 1, lastPage: 0 },
       };
     }
     return data;
@@ -64,33 +53,9 @@ async function listarRecursos(
     if (error.digest?.includes('NEXT_REDIRECT')) throw error;
 
     const apiError = error as ApiResponse<never> & { isNetworkError?: boolean };
-
     if (apiError.isNetworkError || apiError.status === 503) {
       redirect('/status/offline');
     }
-
     return apiError;
   }
-}
-
-export default async function ListarRecursosPage({
-  searchParams,
-}: {
-  searchParams: Promise<{
-    page?: string;
-    pageSize?: string;
-    field?: string;
-    order?: string;
-    search?: string;
-  }>;
-}) {
-  const params = await searchParams;
-  const result = await listarRecursos(
-    params.page,
-    params.pageSize,
-    params.field,
-    params.order,
-    params.search,
-  );
-  return <ListarResources result={result} />;
 }

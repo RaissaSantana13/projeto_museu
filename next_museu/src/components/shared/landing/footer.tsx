@@ -11,20 +11,20 @@ export function Footer() {
           {/* Coluna 1: Branding e Endereço */}
           <div className="md:col-span-2 space-y-6">
             <Link href="/" className="font-serif text-2xl font-bold italic tracking-tighter">
-              MUSEU<span className="text-primary underline">VIVO</span>
+              MUSEU<span className="text-primary underline"> DE BIRIGUI</span>
             </Link>
             <div className="space-y-3 text-sm text-muted-foreground">
               <p className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                 <span>
-                  Rua da Memória, 123, Centro Histórico
+                  Praça James Mellor - Centro
                   <br />
-                  Birigui - SP, CEP 16200-000
+                  Birigui - SP, CEP 16200-045
                 </span>
               </p>
               <p className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-primary" />
-                <span>contato@museuvivo.org.br</span>
+                <span>contato@museudebirigui.org.br</span>
               </p>
               <p className="text-xs opacity-70 mt-4">Fundação Cultural • CNPJ: 00.000.000/0001-00</p>
             </div>
@@ -88,7 +88,7 @@ export function Footer() {
 
         {/* Créditos Finais */}
         <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground font-medium">
-          <p>© 2026 Museu Vivo Digital. Todos os direitos reservados.</p>
+          <p>© 2026 Museu Virtual de Birigui. Todos os direitos reservados.</p>
           <p className="italic">Desenvolvido para preservação da memória de Birigui.</p>
         </div>
       </div>

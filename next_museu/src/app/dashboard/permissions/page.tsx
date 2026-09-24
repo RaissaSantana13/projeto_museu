@@ -76,13 +76,13 @@ async function listarPermissions(
 export default async function ListarPermissionsPage({
   searchParams,
 }: {
-  searchParams: {
+  searchParams: Promise<{
     page?: string;
     pageSize?: string;
     field?: string;
     order?: string;
     search?: string;
-  };
+  }>;
 }) {
   const params = await searchParams;
   const result = await listarPermissions(

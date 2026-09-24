@@ -51,7 +51,7 @@
     "institution": "IFSP - Birigui"
   },
   "app": {
-    "name": "Sistema de Museu",
+    "name": "Museu Virtual",
     "welcome": "Seja Bem vindo",
     "endpoint": {
       "message": "Não foi possível identificar o endpoint de destino.",
@@ -64,7 +64,7 @@
   },
   "auth": {
     "access": "Acesso",
-    "signIn": "Entre com o seu e-mail",
+    "signIn": "Entrar",
     "dontHaveAccount": "Não tem uma conta?",
     "signUp": "Cadastrar-se",
     "orContinueWith": "Ou continue com ",
@@ -76,8 +76,8 @@
     "resend": "Reenviar",
     "alreadyHaveAccount": "Já tem uma conta?",
     "login": {
-      "title": "Acesso ao Sistema ",
-      "description": "Informe seu e-email e senha para acessar a sua conta",
+      "title": "Entrar no Museu Virtual",
+      "description": "Informe seus dados para acessar sua área.",
       "password": "Senha:",
       "placeholderSenha": "Digite sua senha",
       "email": "E-mail",

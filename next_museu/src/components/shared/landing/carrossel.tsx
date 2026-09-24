@@ -79,7 +79,7 @@ export function HighlightCarousel() {
 
         <Carousel
           opts={{ align: 'start', loop: false }}
-          className="w-full [&>div]:overflow-visible"
+          className="mx-8 w-auto md:mx-12 [&>div]:overflow-visible"
         >
           <CarouselContent className="-ml-6">
             {PECAS.map((peca, i) => (
@@ -93,7 +93,7 @@ export function HighlightCarousel() {
                 >
                   <CardContent className="p-0 m-0 h-full flex flex-col gap-0">
                     {/* IMAGEM */}
-                    <div className="relative w-full h-[320px] overflow-hidden m-0">
+                    <div className="relative w-full h-[280px] overflow-hidden m-0">
                       {peca.featured && (
                         <div className="absolute top-3 right-3 px-4 py-2 rounded-lg flex items-center justify-center z-20 bg-black/75">
                           <span
@@ -153,7 +153,7 @@ export function HighlightCarousel() {
           </CarouselContent>
 
           <CarouselPrevious
-            className="border transition-all duration-200 hover:bg-white/10 -left-2 h-14 w-14"
+            className="-left-14 top-1/2 h-12 w-12 -translate-y-1/2 border transition-all duration-200 hover:bg-white/10"
             style={{
               borderColor: 'rgba(255,240,200,0.40)',
               background: 'rgba(150,70,10,0.70)',
@@ -162,15 +162,7 @@ export function HighlightCarousel() {
           />
 
           <CarouselNext
-            className="
-              border
-              transition-all
-              duration-200
-              hover:bg-white/10
-              -right-2
-              h-14
-              w-14
-            "
+            className="-right-14 top-1/2 h-12 w-12 -translate-y-1/2 border transition-all duration-200 hover:bg-white/10"
             style={{
               borderColor: 'rgba(255,240,200,0.40)',
               background: 'rgba(150,70,10,0.70)',
