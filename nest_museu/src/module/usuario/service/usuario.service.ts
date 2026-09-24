@@ -207,8 +207,10 @@ export class UsuarioService extends BaseService<Usuario> {
     try {
       const usuario = await this.usuarioRepository
         .createQueryBuilder('usuario') // Nome da entidade
-        .leftJoinAndSelect('user.role', 'roles') // Carrega as roles atuais
-        .where('user.idUsuario = :id', { id })
+        .leftJoinAndSelect('usuario.role', 'roles') // Carrega as roles atuais
+        .leftJoin('usuario.credentials', 'credentials')
+        .addSelect(['credentials.idLogin', 'credentials.email'])
+        .where('usuario.idUsuario = :id', { id })
         .getOne();
 
       if (!usuario) {
@@ -294,9 +296,8 @@ export class UsuarioService extends BaseService<Usuario> {
   }
 
   async getUserIfRefreshTokenMatches(refreshToken: string, userId: number) {
-    const usuario = await this.usuarioRepository.findOne({
-      where: { idUsuario: userId },
-    });
+    const usuario = await this.buscarPorId(userId);
+
     if (!usuario) {
       throw new UnauthorizedException('Usuário não encontrado.');
     }

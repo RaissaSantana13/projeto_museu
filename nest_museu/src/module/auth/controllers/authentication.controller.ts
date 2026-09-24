@@ -40,7 +40,7 @@ import { ApiBody } from '@nestjs/swagger';
 @UseInterceptors(ClassSerializerInterceptor)
 export class AuthenticationController {
   constructor(
-    private readonly authticationService: AuthenticationService,
+    private readonly authenticationService: AuthenticationService,
     private readonly usuarioService: UsuarioService,
     private readonly sessionService: SessionService,
     //private readonly emailConfirmationService: EmailConfirmationService,
@@ -55,12 +55,12 @@ export class AuthenticationController {
   ): Promise<ApiResponse<LoginResponse>> {
     const usuario = req.user;
     const { cookie: accessTokenCookie } =
-      this.authticationService.getCookieWithJwtAccessToken(usuario.idUsuario);
+      this.authenticationService.getCookieWithJwtAccessToken(usuario.idUsuario);
     const {
       cookie: refreshTokenCookie,
       token: refreshToken,
       expiresRefreshToken,
-    } = this.authticationService.getCookieWithJwtRefreshToken(
+    } = this.authenticationService.getCookieWithJwtRefreshToken(
       usuario.idUsuario,
     );
 
@@ -80,7 +80,11 @@ export class AuthenticationController {
     };
 
     await this.sessionService.salvar(session);
-    const response = GenericConverter.toResponse(LoginResponse, usuario);
+    const response = GenericConverter.toResponse(LoginResponse, {
+      idUsuario: req.user.idUsuario,
+      username: req.user.username,
+      email: req.user.credentials?.email,
+    });
     return ResponseBuilder.status<LoginResponse>(HttpStatus.OK)
       .path(req.path)
       .data(response)
@@ -95,26 +99,47 @@ export class AuthenticationController {
     await this.usuarioService.removeRefreshToken(request.user.idUsuario);
     request.res?.setHeader(
       'Set-Cookie',
-      this.authticationService.getCookiesForLogOut(),
+      this.authenticationService.getCookiesForLogOut(),
     );
   }
 
   @UseGuards(JwtAuthenticationGuard)
   @Get(AUTH.ROTAS.SESSION_ME)
-  usuarioAuthenticate(@Req() request: RequestWithUser) {
-    return request.user;
+  usuarioAuthenticate(@Req() req: RequestWithUser) {
+    const response = GenericConverter.toResponse(LoginResponse, {
+      idUsuario: req.user.idUsuario,
+      username: req.user.username,
+      email: req.user.credentials?.email,
+    });
+
+    return ResponseBuilder.status<LoginResponse>(HttpStatus.OK)
+      .path(req.path)
+      .data(response)
+      .metodo(req.method)
+      .build();
   }
 
   @UseGuards(JwtRefreshGuard)
   @Put(AUTH.ROTAS.SESSION)
-  refresh(@Req() request: RequestWithUser) {
+  refresh(@Req() req: RequestWithUser) {
     const { cookie: accessTokenCookie } =
-      this.authticationService.getCookieWithJwtAccessToken(
-        request.user.idUsuario,
+      this.authenticationService.getCookieWithJwtAccessToken(
+        req.user.idUsuario,
       );
 
-    request.res?.setHeader('Set-Cookie', accessTokenCookie);
-    return request.user;
+    req.res?.setHeader('Set-Cookie', accessTokenCookie);
+
+    const response = GenericConverter.toResponse(LoginResponse, {
+      idUsuario: req.user.idUsuario,
+      username: req.user.username,
+      email: req.user.credentials?.email,
+    });
+
+    return ResponseBuilder.status<LoginResponse>(HttpStatus.OK)
+      .path(req.path)
+      .data(response)
+      .metodo(req.method)
+      .build();
   }
 
   @UseGuards(JwtAuthenticationGuard)
@@ -123,7 +148,7 @@ export class AuthenticationController {
     @Body() changePassordRequest: ChangePasswordRequest,
     @Req() req: RequestWithUser,
   ): Promise<ApiResponse<void>> {
-    const message = await this.authticationService.changePassword(
+    const message = await this.authenticationService.changePassword(
       req.user.idUsuario,
       changePassordRequest.password,
       changePassordRequest.confirmPassword,
@@ -132,14 +157,16 @@ export class AuthenticationController {
   }
 
   async forgotPassword(@Body() forgotPasswordRequest: ForgotPasswordRequest) {
-    return this.authticationService.forgotPassword(forgotPasswordRequest.email);
+    return this.authenticationService.forgotPassword(
+      forgotPasswordRequest.email,
+    );
   }
 
   @Put(AUTH.ROTAS.SESSION_PASSWORD_RESETS)
   async resetPassword(
     @Body() resetPasswordRequest: ResetPasswordRequest,
   ): Promise<ApiResponse<void> | undefined> {
-    const message = await this.authticationService.resetPassword(
+    const message = await this.authenticationService.resetPassword(
       resetPasswordRequest.password,
       resetPasswordRequest.token,
     );
