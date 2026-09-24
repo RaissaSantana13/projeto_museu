@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 import { Check, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
-import { Library, MapPin } from 'lucide-react';
+import { Library } from 'lucide-react';
 import * as React from 'react';
 import { useSettings } from '../../hooks/use-settings';
 
@@ -25,7 +25,6 @@ export function ThemeSwitch() {
       light: '#ffffff',
       dark: '#020817',
       'theme-museu': '#f5f3ef', // Bege do museu
-      'theme-birigui': '#ffffff',
     };
 
     const themeColor = colors[theme as string] || '#ffffff';
@@ -74,17 +73,6 @@ export function ThemeSwitch() {
           <Check size={14} className={cn('ms-auto', theme !== 'theme-museu' && 'hidden')} />
         </DropdownMenuItem>
 
-        <DropdownMenuItem onClick={() => handleThemeChange('theme-birigui')}>
-          <MapPin className="me-2 size-4 text-blue-600" />
-          Birigui
-          <Check size={14} className={cn('ms-auto', theme !== 'theme-birigui' && 'hidden')} />
-        </DropdownMenuItem>
-
-        <DropdownMenuItem onClick={() => handleThemeChange('system')}>
-          <span className="me-2 size-4 flex items-center justify-center text-[10px] font-bold">PC</span>
-          System
-          <Check size={14} className={cn('ms-auto', theme !== 'system' && 'hidden')} />
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -32,7 +32,7 @@ export default async function RootLayout({
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
-            themes={['light', 'dark', 'theme-museu', 'theme-birigui', 'system']}
+            themes={['light', 'dark', 'theme-museu']}
             enableSystem
             disableTransitionOnChange
           >
