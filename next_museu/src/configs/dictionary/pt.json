@@ -52,7 +52,7 @@
   },
   "app": {
     "name": "Museu Virtual",
-    "welcome": "Seja Bem vindo",
+    "welcome": "Seja bem-vindo",
     "endpoint": {
       "message": "Não foi possível identificar o endpoint de destino.",
       "error": "URL do recurso não fornecida pelo Provider.",
@@ -193,16 +193,16 @@
     },
     "validation": {
       "invalidMinFirstname": "O primeiro nome deve conter no mínimo 8 caracteres ",
-      "invalidMaxFirstname": "O primeiro nome contêm mais de 100 caracteres ",
+      "invalidMaxFirstname": "O primeiro nome contém mais de 100 caracteres ",
       "invalidMinLastname": "O último nome deve conter no mínimo 8 caracteres ",
-      "invalidMaxLastname": "O último nome contêm mais de 100 caracteres ",
+      "invalidMaxLastname": "O último nome contém mais de 100 caracteres ",
       "invalidMinUsername": "O nome deve conter no mínimo 8 caracteres ",
-      "invalidMaxUsername": "O nome contêm mais de 100 caracteres ",
+      "invalidMaxUsername": "O nome contém mais de 100 caracteres ",
       "invalidEmail": "E-mail inválido",
       "invalidMinPassword": "Senha deve conter no mínimo 8 caracteres",
-      "invalidMaxPassword": "Senha contêm mais de 250 caracteres ",
-      "invalidCaracterPassword": "Senha deve conter pelos um caracter",
-      "invalidNumberDigit": "Senha de conter pelos menos um número.",
+      "invalidMaxPassword": "A senha contém mais de 250 caracteres ",
+      "invalidCaracterPassword": "A senha deve conter pelo menos um caractere",
+      "invalidNumberDigit": "A senha deve conter pelo menos um número.",
       "passwordsMustMatch": "As senhas não são iguais"
     }
   },
@@ -254,14 +254,14 @@
     },
     "validation": {
       "invalidMinFirstName": "O nome deve conter no mínimo 8 caracteres ",
-      "invalidMaxFirstName": "O nome contêm mais de 100 caracteres ",
+      "invalidMaxFirstName": "O nome contém mais de 100 caracteres ",
       "invalidMinLastName": "O nome deve conter no mínimo 8 caracteres ",
-      "invalidMaxLastName": "O nome contêm mais de 100 caracteres ",
-      "invalidMaxPhone": "O nome contêm mais de 100 caracteres ",
+      "invalidMaxLastName": "O nome contém mais de 100 caracteres ",
+      "invalidMaxPhone": "O nome contém mais de 100 caracteres ",
       "invalidMinPhone": "O nome deve conter no mínimo 8 caracteres ",
       "invalidEmail": "E-mail inválido",
       "invalidMinMessage": "Senha deve conter no mínimo 8 caracteres",
-      "invalidMaxMessage": "Senha contêm mais de 250 caracteres",
+      "invalidMaxMessage": "A senha contém mais de 250 caracteres",
       "invalidAgreedToPrivacy": "Você deve aceitar a política de privacidade"
     }
   },
@@ -283,15 +283,15 @@
       "create_event": "Criar Evento",
       "description": "Descrição",
       "title": "Título",
-      "start_date": "Data Inicíal",
-      "start_time": "Hora Inicíal",
+      "start_date": "Data Inicial",
+      "start_time": "Hora Inicial",
       "end_date": "Data Final",
       "end_time": "Hora Final",
       "all_day": "Todos os Dias",
       "location": "Local"
     },
     "agenda_view": {
-      "no_events": "Nenum Evento encontrado",
+      "no_events": "Nenhum evento encontrado",
       "no_period": "Não há eventos agendados para este período."
     },
     "calendar": {
@@ -324,7 +324,7 @@
       "action_delete": "Excluir Registro de Permissão",
       "action_new": "Adicionar Registro de Permissão",
       "action_cancel": "Cancelar a transação no Registro de Permissão",
-      "not_found": "Permissões não encontrado",
+      "not_found": "Permissões não encontradas",
       "id_not_found": "Identificador da permissão não encontrado",
       "message_permissions": "As alterações nesta matriz afetam todos os usuários vinculados a este perfil.",
       "matrix_permissions": "Matriz de Permissões",
@@ -400,9 +400,9 @@
     },
     "form": {
       "create_title": "Novas Roles",
-      "create_description": "Preencha os dados para criar um novo roles",
+      "create_description": "Preencha os dados para criar uma nova role",
       "edit_title": "Editar Roles",
-      "edit_description": "Edite os dados para alterar as informações do roles",
+      "edit_description": "Edite os dados para alterar as informações da role",
       "delete_title": "Excluir Roles",
       "delete_description": "Excluir os dados do roles",
       "consult_title": "Consultar Roles",
@@ -422,13 +422,13 @@
     },
     "validation": {
       "invalidMinNameRole": "O nome deve conter no mínimo 8 caracteres ",
-      "invalidMaxNameRole": "O nome contêm mais de 100 caracteres "
+      "invalidMaxNameRole": "O nome contém mais de 100 caracteres "
     }
   },
   "resources": {
     "management": {
       "title": "Gestão de Recursos",
-      "description": "Gerenciar os dados das recursos no sistema.",
+      "description": "Gerenciar os dados dos recursos no sistema.",
       "lista_resources": "Lista de Recursos",
       "action_list": "Ações",
       "select_all": "Selecionar todas as linhas",
@@ -439,7 +439,7 @@
       "action_new": "Adicionar Registro de Recursos",
       "action_cancel": "Cancelar a transação no Registro de Recursos",
       "not_found": "Recursos não encontrada",
-      "id_not_found": "Identificador das recursos não encontrado"
+      "id_not_found": "Identificador dos recursos não encontrado"
     },
     "form": {
       "create_title": "Novos Recursos",
@@ -465,7 +465,7 @@
     },
     "validation": {
       "invalidMinNameResources": "O nome deve conter no mínimo 8 caracteres ",
-      "invalidMaxNameResources": "O nome contêm mais de 100 caracteres "
+      "invalidMaxNameResources": "O nome contém mais de 100 caracteres "
     }
   }
 }
