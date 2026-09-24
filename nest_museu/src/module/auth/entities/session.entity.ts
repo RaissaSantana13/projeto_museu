@@ -1,10 +1,9 @@
 import {
   Column,
   Entity,
-  Generated,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Usuario } from '../../usuario/entities/usuario.entity';
 import { SESSION } from '../constants/session.constants';
@@ -22,11 +21,10 @@ export class DeviceInfo {
 
 @Entity(SESSION.ENTITY)
 export class Session {
-  @PrimaryColumn('uuid', {
+  @PrimaryGeneratedColumn({
     name: SESSION.TABLE_FIELDS.ID_SESSION,
   })
-  @Generated('uuid')
-  idSession!: string;
+  idSession!: number;
 
   @Column({ name: SESSION.TABLE_FIELDS.ID_USUARIO })
   idUsuario!: number;
@@ -36,7 +34,7 @@ export class Session {
 
   @Column({
     name: SESSION.TABLE_FIELDS.EXPIRES_AT,
-    type: 'timestamp',
+    type: 'timestamptz',
     nullable: false,
   })
   expiresAt!: Date;

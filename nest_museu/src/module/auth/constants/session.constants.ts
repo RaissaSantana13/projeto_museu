@@ -18,7 +18,7 @@ export const SESSION = {
 
   TABLE_FIELDS: {
     ID_SESSION: 'id_session',
-    ID_USUARIO: 'id_usuario',
+    ID_USUARIO: 'id_user',
     TOKEN: 'token',
     EXPIRES_AT: 'expires_at',
     IP_ADDRESS: 'ip_address',

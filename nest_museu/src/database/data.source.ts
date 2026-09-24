@@ -2,6 +2,11 @@ import 'reflect-metadata';
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { join } from 'path';
+import { entityPaths } from './entities';
+
+if (!process.env.DB_SCHEMA)
+  throw new Error('Defina DB_SCHEMA no .env antes de executar migrations.');
 
 export default new DataSource({
   type: 'postgres',
@@ -11,7 +16,9 @@ export default new DataSource({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   schema: process.env.DB_SCHEMA,
+  synchronize: false,
+  installExtensions: false,
   namingStrategy: new SnakeNamingStrategy(),
-  entities: ['src/**/*.entity.ts'],
-  migrations: ['src/database/migrations/*.ts'],
+  entities: entityPaths,
+  migrations: [join(__dirname, 'migrations/*.{ts,js}')],
 });
