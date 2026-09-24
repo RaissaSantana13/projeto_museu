@@ -32,25 +32,25 @@ export function LanguageDropdown() {
         <Button
           variant="outline"
           size="sm"
-          className="gap-2 rounded-full h-9 px-3 border-muted-foreground/20 bg-sidebar"
+          className="h-9 gap-2 rounded-full border-sidebar-border bg-sidebar px-3 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
         >
-          <Earth className="size-4 text-muted-foreground" />
+          <Earth className="size-4 text-sidebar-foreground" />
           <span className="text-xs font-bold uppercase">{currentLocale}</span>
-          <ChevronDown className="size-3 opacity-50" />
+          <ChevronDown className="size-3 text-sidebar-foreground/80" />
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="w-40">
-        <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">Idioma / Language</div>
+      <DropdownMenuContent align="end" className="w-40 bg-popover text-popover-foreground">
+        <div className="px-2 py-1.5 text-xs font-semibold text-popover-foreground">Idioma / Language</div>
         <DropdownMenuSeparator />
         <DropdownMenuRadioGroup value={currentLocale} onValueChange={handleLocaleChange}>
-          <DropdownMenuRadioItem value="pt" className="cursor-pointer">
+          <DropdownMenuRadioItem value="pt" className="cursor-pointer data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground">
             Português (BR)
           </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="en" className="cursor-pointer">
+          <DropdownMenuRadioItem value="en" className="cursor-pointer data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground">
             English (US)
           </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="es" className="cursor-pointer">
+          <DropdownMenuRadioItem value="es" className="cursor-pointer data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground">
             Español (ES)
           </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>

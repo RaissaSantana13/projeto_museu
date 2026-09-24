@@ -11,21 +11,26 @@ import { cn } from '@/lib/utils';
 import { Check, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
-import { Library, MapPin } from 'lucide-react';
 import * as React from 'react';
 import { useSettings } from '../../hooks/use-settings';
 
 export function ThemeSwitch() {
-  const { theme, setTheme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme();
   const { settings, updateSettings } = useSettings();
+  const [mounted, setMounted] = React.useState(false);
+  const activeTheme = mounted
+    ? resolvedTheme ?? (theme === 'light' ? 'light' : 'dark')
+    : 'light';
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Atualiza a cor da barra do navegador (mobile)
   React.useEffect(() => {
     const colors: Record<string, string> = {
-      light: '#ffffff',
-      dark: '#020817',
-      'theme-museu': '#f5f3ef', // Bege do museu
-      'theme-birigui': '#ffffff',
+      light: '#f7e8af',
+      dark: '#262522',
     };
 
     const themeColor = colors[theme as string] || '#ffffff';
@@ -33,7 +38,7 @@ export function ThemeSwitch() {
     if (metaThemeColor) {
       metaThemeColor.setAttribute('content', themeColor);
     }
-  }, [theme]);
+  }, [activeTheme]);
 
   // Função única para atualizar localmente (next-themes) e no servidor (cookies)
   const handleThemeChange = (newTheme: string) => {
@@ -47,43 +52,41 @@ export function ThemeSwitch() {
         <Button
           variant="ghost"
           size="icon"
-          className="relative scale-95 rounded-full border border-muted-foreground/10"
+          className="relative scale-95 rounded-full border border-muted-foreground/20 bg-background/80 text-foreground shadow-sm backdrop-blur-sm"
         >
-          <Sun className="size-[1.2rem] transition-all dark:rotate-90 dark:scale-0" />
-          <Moon className="absolute size-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <Sun
+            className={cn(
+              'size-[1.2rem] transition-all',
+              activeTheme === 'light' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-0',
+            )}
+          />
+          <Moon
+            className={cn(
+              'absolute size-[1.2rem] transition-all',
+              activeTheme === 'dark' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-0',
+            )}
+          />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" sideOffset={8} className="w-56">
-        <DropdownMenuItem onClick={() => handleThemeChange('light')}>
-          <Sun className="me-2 size-4" />
-          Light
-          <Check size={14} className={cn('ms-auto', theme !== 'light' && 'hidden')} />
-        </DropdownMenuItem>
-
-        <DropdownMenuItem onClick={() => handleThemeChange('dark')}>
+      <DropdownMenuContent align="end" sideOffset={8} className="w-56 bg-background text-foreground shadow-lg">
+        <DropdownMenuItem
+          onClick={() => handleThemeChange('dark')}
+          className={cn('focus:bg-accent', activeTheme === 'dark' && 'bg-accent text-accent-foreground')}
+        >
           <Moon className="me-2 size-4" />
           Dark
-          <Check size={14} className={cn('ms-auto', theme !== 'dark' && 'hidden')} />
+          <Check size={14} className={cn('ms-auto', activeTheme !== 'dark' && 'hidden')} />
         </DropdownMenuItem>
 
-        <DropdownMenuItem onClick={() => handleThemeChange('theme-museu')}>
-          <Library className="me-2 size-4 text-sepia-600" />
-          Museu Histórico
-          <Check size={14} className={cn('ms-auto', theme !== 'theme-museu' && 'hidden')} />
-        </DropdownMenuItem>
-
-        <DropdownMenuItem onClick={() => handleThemeChange('theme-birigui')}>
-          <MapPin className="me-2 size-4 text-blue-600" />
-          Birigui
-          <Check size={14} className={cn('ms-auto', theme !== 'theme-birigui' && 'hidden')} />
-        </DropdownMenuItem>
-
-        <DropdownMenuItem onClick={() => handleThemeChange('system')}>
-          <span className="me-2 size-4 flex items-center justify-center text-[10px] font-bold">PC</span>
-          System
-          <Check size={14} className={cn('ms-auto', theme !== 'system' && 'hidden')} />
+        <DropdownMenuItem
+          onClick={() => handleThemeChange('light')}
+          className={cn('focus:bg-accent', activeTheme === 'light' && 'bg-accent text-accent-foreground')}
+        >
+          <Sun className="me-2 size-4 text-primary" />
+          Light
+          <Check size={14} className={cn('ms-auto', activeTheme !== 'light' && 'hidden')} />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

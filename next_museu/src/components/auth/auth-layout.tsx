@@ -19,7 +19,7 @@ export function Auth({
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-2xl mx-auto p-6 md:p-8 shadow-lg border rounded-2xl h-auto">
-        <CardContent>
+        <CardContent className="p-0">
           <section
             className={cn(
               'container w-full flex justify-center px-0',
@@ -28,7 +28,7 @@ export function Auth({
             {...props}
           >
             <div className="w-full flex justify-center">
-              <div className="max-w-md w-full px-6 py-8 space-y-6">
+              <div className="max-w-md w-full px-4 py-6 space-y-6">
                 {children}
               </div>
             </div>

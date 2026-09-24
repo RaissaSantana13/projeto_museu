@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useDictionary } from '../../service/providers/i18n-providers';
 import { SignInForm } from '../forms/auth/SignInForm';
 import {
@@ -16,11 +17,21 @@ export function SignIn() {
     <section aria-labelledby="sigin-heading">
       <Auth>
         <AuthHeader>
+          <div className="flex justify-center">
+            <Image
+              src="/images/85fcd86a-d292-405e-8cba-2f45bb9e55ef (1).png"
+              alt="Logo do Museu"
+              width={220}
+              height={220}
+              className="mb-6 h-32 w-auto object-contain"
+              priority
+            />
+          </div>
           <AuthTitle headingId="sigin-heading">
-            'Entrar no Museu Digital'
+            {dict.auth.login.title}
           </AuthTitle>
           <AuthDescription>
-            Informe seus dados para acessar sua área.
+            {dict.auth.login.description}
           </AuthDescription>
         </AuthHeader>
         <AuthForm>
