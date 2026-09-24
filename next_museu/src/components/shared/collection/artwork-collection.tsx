@@ -15,6 +15,10 @@ interface Obra {
   description: string;
   img: string;
   format: Format;
+  artist: string;
+  type: string;
+  category: string;
+  creation_year: string;
 }
 
 const OBRAS: Obra[] = [
@@ -25,6 +29,10 @@ const OBRAS: Obra[] = [
       'Prêmio comemorativo institucional em formato de locomotiva sobre base metálica.',
     img: '/images/train.jpg',
     format: 'rectangular',
+    artist: 'Real Seguros',
+    type: 'Escultura',
+    category: 'Premiações',
+    creation_year: '2006',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440001',
@@ -33,6 +41,10 @@ const OBRAS: Obra[] = [
       'Microfone de estúdio condensador de grande diafragma com padrão polar cardioide.',
     img: '/images/microphone.png',
     format: 'square',
+    artist: 'Behringer',
+    type: 'Escultura',
+    category: 'Instrumentos Musicais',
+    creation_year: '2020',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440004',
@@ -41,6 +53,10 @@ const OBRAS: Obra[] = [
       'Cálice artesanal esculpido em madeira nobre com acabamento polido, de origem indígena.',
     img: '/images/cup.jpg',
     format: 'square',
+    artist: 'Artista Indígena',
+    type: 'Arte Popular',
+    category: 'Cultura Indígena',
+    creation_year: '2010',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440005',
@@ -49,6 +65,10 @@ const OBRAS: Obra[] = [
       'Telefone de parede vintage em madeira e metal com sistema de manivela magnética do início do século XX.',
     img: '/images/old_telephone.jpg',
     format: 'rectangular',
+    artist: 'Roberto Carlos',
+    type: 'Arte Popular',
+    category: 'Tecnologia Antiga',
+    creation_year: '2010',
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440006',
@@ -57,6 +77,10 @@ const OBRAS: Obra[] = [
       'Jarro de terracota artesanal, com acabamento único e detalhes handcrafted.',
     img: '/images/terracota_jug.jpg',
     format: 'square',
+    artist: 'Artista Local',
+    type: 'Artesanato',
+    category: 'Cerâmica',
+    creation_year: '2015',
   },
 ];
 
@@ -103,11 +127,27 @@ export function ArtworkCollection() {
     return format === 'rectangular' ? 'col-span-2' : 'col-span-1';
   };
 
-  const filteredObras = OBRAS.filter(
-    (obra) =>
-      obra.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      obra.description.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const filteredObras = OBRAS.filter((obra) => {
+    const termo = searchTerm.toLowerCase();
+
+    // Verifica em qual dos campos o texto digitado se encontra
+    const achaNoTitulo = obra.title.toLowerCase().includes(termo);
+    const achaNaDescricao = obra.description.toLowerCase().includes(termo);
+    const achaNoArtista = obra.artist.toLowerCase().includes(termo);
+    const achaNoTipo = obra.type.toLowerCase().includes(termo);
+    const achaNaCategoria = obra.category.toLowerCase().includes(termo);
+    const achaNoAno = obra.creation_year.includes(termo);
+
+    // Se achar retor na tela
+    return (
+      achaNoTitulo ||
+      achaNaDescricao ||
+      achaNoArtista ||
+      achaNoTipo ||
+      achaNaCategoria ||
+      achaNoAno
+    );
+  });
 
   return (
     <section className="w-full">
