@@ -3,9 +3,8 @@
 import { Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 
-type ScreenSize = 'small' | 'medium' | 'large';
 type Format = 'rectangular' | 'square';
 type CollectionType = 'obra' | 'foto' | 'documento';
 
@@ -137,135 +136,163 @@ const TYPE_CONFIG: Record<
   },
 };
 
-export function ArtworkCollection({ tipo = 'obra' }: { tipo?: CollectionType }) {
-  const [screenSize, setScreenSize] = useState<ScreenSize>('large');
+export function ArtworkCollection({
+  tipo = 'obra',
+}: {
+  tipo?: CollectionType;
+}) {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const currentType = COLLECTIONS[tipo] ? tipo : 'obra';
+  const currentType: CollectionType = COLLECTIONS[tipo] ? tipo : 'obra';
   const currentConfig = TYPE_CONFIG[currentType];
   const items = COLLECTIONS[currentType];
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setScreenSize('small');
-      } else if (window.innerWidth < 1024) {
-        setScreenSize('medium');
-      } else {
-        setScreenSize('large');
-      }
-    };
+  const filteredItems = useMemo(() => {
+    const search = searchTerm.trim().toLowerCase();
 
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const getGridClass = () => {
-    switch (screenSize) {
-      case 'small':
-        return 'grid-cols-1';
-      case 'medium':
-        return 'grid-cols-2';
-      default:
-        return 'grid-cols-3';
-    }
-  };
-
-  const getColSpanClass = (format: Format) => {
-    if (screenSize === 'small') {
-      return 'col-span-1';
+    if (!search) {
+      return items;
     }
 
-    if (screenSize === 'medium') {
-      return format === 'rectangular' ? 'col-span-2' : 'col-span-1';
-    }
-
-    return format === 'rectangular' ? 'col-span-2' : 'col-span-1';
-  };
-
-  const filteredItems = items.filter(
-    (item) =>
-      item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+    return items.filter(
+      (item) =>
+        item.title.toLowerCase().includes(search) ||
+        item.description.toLowerCase().includes(search) ||
+        item.year?.toString().includes(search),
+    );
+  }, [items, searchTerm]);
 
   return (
-    <section className="w-full">
-      <div className="w-full py-12 px-2 md:px-2 lg:px-4">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold font-serif mb-8">
+    <section className="w-full bg-background text-foreground">
+      <div className="mx-auto w-full max-w-7xl px-4 pb-10 pt-24 sm:px-6 md:pt-28 lg:px-8">
+        <div className="mb-8">
+          <h1 className="font-serif text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
             {currentConfig.title}
           </h1>
 
-          <div className="relative w-full">
+          <div className="relative mt-6 max-w-2xl">
             <Search
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-              size={20}
+              size={19}
+              aria-hidden="true"
+              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"
             />
+
             <input
-              type="text"
-              placeholder={currentConfig.placeholder}
+              type="search"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-white/10 border border-black/20 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-black/40 transition-colors"
+              onChange={(event) => setSearchTerm(event.target.value)}
+              placeholder={currentConfig.placeholder}
+              aria-label={currentConfig.placeholder}
+              className="
+                w-full rounded-xl border border-border
+                bg-card py-3 pl-11 pr-4
+                text-card-foreground
+                placeholder:text-muted-foreground
+                outline-none transition
+                focus:border-primary
+                focus:ring-1 focus:ring-primary
+              "
             />
           </div>
 
-          <p className="text-gray-400 text-sm mt-4">
+          <p className="mt-3 text-sm text-muted-foreground">
             {filteredItems.length}{' '}
-            {filteredItems.length === 1 ? currentConfig.singular : currentConfig.plural}{' '}
-            encontrada{filteredItems.length !== 1 ? 's' : ''}
+            {filteredItems.length === 1
+              ? currentConfig.singular
+              : currentConfig.plural}{' '}
+            encontrada{filteredItems.length === 1 ? '' : 's'}
           </p>
         </div>
-      </div>
 
-      <div className="w-full py-8 px-2 md:px-4 lg:px-6">
-        <div className="max-w-7xl mx-auto">
-          {filteredItems.length > 0 ? (
-            <div className={`grid ${getGridClass()} auto-rows-max gap-4`}>
-              {filteredItems.map((item) => {
-                const colSpan = getColSpanClass(item.format);
+        {filteredItems.length > 0 ? (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {filteredItems.map((item) => (
+              <Link
+                key={item.id}
+                href={`/acervo/${item.id}/detalhes`}
+                aria-label={`Ver detalhes de ${item.title}`}
+                className="
+                  group flex h-full flex-col overflow-hidden
+                  rounded-2xl border border-border
+                  bg-card text-card-foreground
+                  shadow-sm transition duration-300
+                  hover:-translate-y-1
+                  hover:border-primary/50
+                  hover:shadow-lg
+                "
+              >
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
+                  <Image
+                    src={item.img}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 639px) 100vw, (max-width: 1279px) 50vw, 33vw"
+                    className="
+                      object-contain p-3
+                      transition-transform duration-500
+                      group-hover:scale-[1.03]
+                    "
+                  />
+                </div>
 
-                return (
-                  <Link
-                    href={`/acervo/${item.id}/detalhes`}
-                    key={item.id}
-                    className={`${colSpan} h-[380px] relative overflow-hidden group cursor-pointer block bg-black/5 rounded-lg`}
-                  >
-                    <Image
-                      src={item.img}
-                      alt={item.title}
-                      fill
-                      className="object-contain p-4 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm"
-                    />
+                <div className="flex flex-1 flex-col p-5">
+                  <div className="mb-2 flex items-start justify-between gap-4">
+                    <h2
+                      className="
+                        text-lg font-semibold leading-snug
+                        text-foreground
+                        transition-colors
+                        group-hover:text-primary
+                        md:text-xl
+                      "
+                    >
+                      {item.title}
+                    </h2>
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent rounded-lg" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-
-                    <div className="absolute bottom-0 left-0 p-3 md:p-5 w-full text-left">
-                      <h3
-                        className="text-lg md:text-xl font-bold mb-0.5 leading-tight"
-                        style={{ color: 'var(--accent)' }}
+                    {item.year && (
+                      <span
+                        className="
+                          shrink-0 rounded-full
+                          border border-border
+                          bg-secondary px-2.5 py-1
+                          text-xs text-secondary-foreground
+                        "
                       >
-                        {item.title}
-                      </h3>
-                      <p className="text-sm md:text-sm text-white line-clamp-2">
-                        {item.description}
-                      </p>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="text-center py-16">
-              <p className="text-gray-400 text-lg">
-                Nenhuma {currentConfig.singular} encontrada para sua busca.
-              </p>
-            </div>
-          )}
-        </div>
+                        {item.year}
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="line-clamp-3 text-sm leading-6 text-muted-foreground">
+                    {item.description}
+                  </p>
+
+                  <span
+                    className="
+                      mt-auto pt-4 text-sm font-medium
+                      text-muted-foreground
+                      transition-colors
+                      group-hover:text-primary
+                    "
+                  >
+                    Ver detalhes →
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div
+            className="
+              rounded-2xl border border-border
+              bg-card px-6 py-16 text-center
+            "
+          >
+            <p className="text-lg text-muted-foreground">
+              Nenhuma {currentConfig.singular} encontrada para sua busca.
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );
