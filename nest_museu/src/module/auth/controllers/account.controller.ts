@@ -69,6 +69,7 @@ export class AccountController {
   }
 
   @Get(ACCOUNT.ROTAS.ID)
+  @ApiGetDoc(ACCOUNT.OPERACAO.PORID, AccountResponse)
   async porId(@Param(PARAMS.ID, ParseIntPipe) id: number, @Req() req: Request) {
     const response = await this.accountService.porId(id);
     return ResponseBuilder.status<AccountResponse>(HttpStatus.OK)
@@ -81,6 +82,7 @@ export class AccountController {
   }
 
   @Post()
+  @ApiGetDoc(ACCOUNT.OPERACAO.SALVAR, AccountResponse)
   async salvar(@Body() accountRequest: AccountRequest, @Req() req: Request) {
     const response = await this.accountService.salvar(accountRequest);
     return ResponseBuilder.status<AccountResponse>(HttpStatus.OK)
@@ -93,6 +95,7 @@ export class AccountController {
   }
 
   @Put(ACCOUNT.ROTAS.ID)
+  @ApiGetDoc(ACCOUNT.OPERACAO.ATUALIZAR, AccountResponse)
   async atualizar(
     @Param(PARAMS.ID, ParseIntPipe) id: number,
     @Body() accountRequest: AccountRequest,
@@ -109,6 +112,7 @@ export class AccountController {
   }
 
   @Delete(ACCOUNT.ROTAS.ID)
+  @ApiGetDoc(ACCOUNT.OPERACAO.EXCLUIR, AccountResponse)
   excluir(@Param(PARAMS.ID, ParseIntPipe) id: number, @Req() req: Request) {
     this.accountService.excluir(id);
     return ResponseBuilder.status<AccountResponse>(HttpStatus.OK)
