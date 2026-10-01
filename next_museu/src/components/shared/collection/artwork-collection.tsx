@@ -291,12 +291,15 @@ export function ArtworkCollection({ tipo = 'obra' }: { tipo?: CollectionType }) 
   };
 
   const filteredItems = items.filter(
-    (item) =>
-      item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  (item) =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    String(item.creationYear).includes(searchTerm.trim()),
+);
 
   return (
     <section className="w-full">
