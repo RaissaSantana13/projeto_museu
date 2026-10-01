@@ -34,7 +34,7 @@ import { AuthenticationService } from '../service/authentication.service';
 import { SessionService } from '../service/session.service';
 import { ConfirmEmailRequest } from '../dto/request/confirm-email.request';
 import { LoginRequest } from '../dto/request/login.request';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiOperation } from '@nestjs/swagger';
 
 @Controller(AUTH.ENTITY)
 @UseInterceptors(ClassSerializerInterceptor)
@@ -49,6 +49,11 @@ export class AuthenticationController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthenticationGuard)
   @Post(AUTH.ROTAS.SESSION)
+  @ApiOperation({
+    summary: 'Autentica o usuário e inicia uma sessão',
+    description:
+      'Valida as credenciais, cria a sessão e envia os tokens de acesso e renovação por cookies.',
+  })
   @ApiBody({ type: LoginRequest })
   async logIn(
     @Req() req: RequestWithUser,
@@ -95,6 +100,11 @@ export class AuthenticationController {
   @UseGuards(JwtAuthenticationGuard)
   @Delete(AUTH.ROTAS.SESSION)
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Encerra a sessão do usuário',
+    description:
+      'Remove o token de renovação associado ao usuário e limpa os cookies de autenticação.',
+  })
   async logOut(@Req() request: RequestWithUser) {
     await this.usuarioService.removeRefreshToken(request.user.idUsuario);
     request.res?.setHeader(
@@ -105,6 +115,11 @@ export class AuthenticationController {
 
   @UseGuards(JwtAuthenticationGuard)
   @Get(AUTH.ROTAS.SESSION_ME)
+  @ApiOperation({
+    summary: 'Retorna os dados do usuário autenticado',
+    description:
+      'Valida a sessão atual e retorna o identificador, o nome e o e-mail do usuário autenticado.',
+  })
   usuarioAuthenticate(@Req() req: RequestWithUser) {
     const response = GenericConverter.toResponse(LoginResponse, {
       idUsuario: req.user.idUsuario,
@@ -121,6 +136,11 @@ export class AuthenticationController {
 
   @UseGuards(JwtRefreshGuard)
   @Put(AUTH.ROTAS.SESSION)
+  @ApiOperation({
+    summary: 'Renova o token de acesso da sessão',
+    description:
+      'Valida o token de renovação e envia um novo token de acesso por cookie.',
+  })
   refresh(@Req() req: RequestWithUser) {
     const { cookie: accessTokenCookie } =
       this.authenticationService.getCookieWithJwtAccessToken(
@@ -144,6 +164,11 @@ export class AuthenticationController {
 
   @UseGuards(JwtAuthenticationGuard)
   @Put(AUTH.ROTAS.SESSION_CHANGE_PASSWORDS)
+  @ApiOperation({
+    summary: 'Altera a senha do usuário autenticado',
+    description:
+      'Altera a senha da conta após validar os dados informados. Requer uma sessão autenticada.',
+  })
   async changePassword(
     @Body() changePassordRequest: ChangePasswordRequest,
     @Req() req: RequestWithUser,
@@ -163,6 +188,11 @@ export class AuthenticationController {
   }
 
   @Put(AUTH.ROTAS.SESSION_PASSWORD_RESETS)
+  @ApiOperation({
+    summary: 'Redefine a senha do usuário',
+    description:
+      'Define uma nova senha utilizando o token de recuperação informado.',
+  })
   async resetPassword(
     @Body() resetPasswordRequest: ResetPasswordRequest,
   ): Promise<ApiResponse<void> | undefined> {
@@ -175,6 +205,11 @@ export class AuthenticationController {
   }
 
   @Post(AUTH.ROTAS.REGISTER)
+  @ApiOperation({
+    summary: 'Cadastra um novo usuário',
+    description:
+      'Cria uma conta de usuário com os dados de cadastro informados.',
+  })
   async registerUsuarioRequest(
     @Body() registerUsuarioRequest: RegisterUsuarioRequest,
     @Req() req: Request,
@@ -191,6 +226,11 @@ export class AuthenticationController {
   }
 
   @Post(AUTH.ROTAS.CONFIRM_EMAIL)
+  @ApiOperation({
+    summary: 'Confirma o endereço de e-mail do usuário',
+    description:
+      'Valida o token de confirmação e marca o endereço de e-mail como confirmado.',
+  })
   async verificationEmail(@Body() dto: ConfirmEmailRequest): Promise<void> {
     await this.usuarioService.markEmailAsConfirmed(dto.token);
   }

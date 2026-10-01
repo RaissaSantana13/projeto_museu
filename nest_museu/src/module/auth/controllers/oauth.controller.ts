@@ -25,7 +25,7 @@ import { OAuthProvider, OAuthService } from '../service/oauth.service';
  * OAuth Controller
  * Handles OAuth authentication endpoints
  */
-@ApiTags('oauth')
+@ApiTags('OAuth')
 @Controller('auth/oauth')
 export class OAuthController {
   constructor(private readonly oauthService: OAuthService) {}
