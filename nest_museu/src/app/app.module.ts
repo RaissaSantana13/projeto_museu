@@ -40,12 +40,18 @@ const modules = [
 
 @Module({
   imports: [
-    ThrottlerModule.forRoot([
-      {
-        ttl: 60000, // IMPORTANTE: Na v5+, o TTL é em MILISSEGUNDOS (60000ms = 1 minuto)
-        limit: 10, // Número de requisições
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        const loadTest = config.get<string>('K6_LOAD_TEST') === 'true';
+        const environment = config.get<string>('NODE_ENV');
+        if (loadTest && !['development', 'test'].includes(environment ?? '')) {
+          throw new Error('K6_LOAD_TEST exige NODE_ENV=development ou test.');
+        }
+        return [{ ttl: 60000, limit: loadTest ? 100000 : 10 }];
       },
-    ]),
+    }),
 
     ServeStaticModule.forRootAsync({
       inject: [ConfigService],
