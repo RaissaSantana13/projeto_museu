@@ -10,12 +10,19 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b backdrop-blur bg-background/75">
       <div className="w-full flex h-16 items-center justify-between">
-        <div className="flex items-center gap-8  ml-3">
+        <div className="-ml-2 flex items-center gap-8">
           <Link
             href="/"
-            className="flex items-center gap-2 font-serif text-xl font-bold tracking-tighter italic"
+            className="flex items-center"
           >
-            MUSEU DE <span className="text-primary underline">BIRIGUI</span>
+            <NextImage
+              src="/images/logo_sem_escrita%20(3).png"
+              alt="Museu de Birigui"
+              width={450}
+              height={100}
+              priority
+              className="h-16 w-auto max-w-[45vw] object-contain"
+            />
           </Link>
         </div>
         <div className="flex items-center gap-4 mr-3">
