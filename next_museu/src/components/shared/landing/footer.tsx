@@ -1,5 +1,6 @@
 import { Separator } from '@/components/ui/separator';
 import { Facebook, Instagram, Mail, MapPin, Youtube } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export function Footer() {
@@ -10,8 +11,14 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Coluna 1: Branding e Endereço */}
           <div className="md:col-span-2 space-y-6">
-            <Link href="/" className="font-serif text-2xl font-bold italic tracking-tighter">
-              MUSEU<span className="text-primary underline"> DE BIRIGUI</span>
+            <Link href="/" className="inline-flex">
+              <Image
+                src="/images/ImagemLogo.png"
+                alt="Museu de Birigui"
+                width={360}
+                height={206}
+                className="h-24 w-auto object-contain object-left"
+              />
             </Link>
             <div className="space-y-3 text-sm text-muted-foreground">
               <p className="flex items-start gap-2">

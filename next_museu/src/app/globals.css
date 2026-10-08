@@ -130,7 +130,7 @@ html {
   width: 3.25rem;
   height: 3.25rem;
   place-items: center;
-  border: 2px solid var(--background);
+  border: 2px solid var(--primary-foreground);
   border-radius: 50%;
   background: var(--primary);
   color: var(--primary-foreground);
@@ -185,8 +185,8 @@ html {
 
 .a11y-widget__item:hover,
 .a11y-widget__item[aria-pressed='true'] {
-  border-color: var(--primary);
-  background: var(--muted);
+  border-color: #655116;
+  background: #f0fdf4;
 }
 
 .a11y-widget__item--redefinir {
