@@ -7,7 +7,7 @@ Executar os comandos abaixo no PowerShell. Docker Desktop deve estar iniciado em
 Use um banco com dados ficticios e pelo menos uma obra. Preserve as configuracoes de banco ja utilizadas pelo backend.
 
 ```powershell
-cd C:\Users\hugop\projeto_museu\nest_museu
+cd C:\Users\"SeuDiretorio"\projeto_museu\nest_museu
 $env:NODE_ENV = 'development'
 $env:K6_LOAD_TEST = 'true'
 npm run build
