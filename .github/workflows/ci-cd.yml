@@ -1,0 +1,137 @@
+name: CI/CD Pipeline # Nome exibido para este workflow na interface do GitHub Actions
+
+on: # Eventos/gatilhos que disparam a execução
+  push:
+    branches: ['main'] # Executa apenas quando o push ocorrer na branch 'main'
+  pull_request:
+    branches: ['main'] # Executa apenas quando o alvo da pull request for a branch 'main'
+
+env: # Variáveis de ambiente globais compartilhadas entre os jobs
+  BACKEND_IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/museu-birigui-api
+  FRONTEND_IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/museu-birigui-front
+
+jobs:
+  # ========================================================
+  # BACKEND (NestJS, pasta nest_museu/)
+  # ========================================================
+  backend-validation:
+    name: Backend (NestJS) - Lint, Test & Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./nest_museu # package.json do backend fica aqui, não na raiz do repo
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Checagem de Lint
+        run: npm run lint
+
+      - name: Testes Unitários
+        run: npm run test -- --passWithNoTests
+
+      - name: Validação do Build TypeScript
+        run: npm run build
+
+  backend-docker-publish:
+    name: Build and Push Backend Docker Image
+    needs: [backend-validation]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Gerar hash curto do commit
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Autenticação no Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Construir e Publicar Imagem (Backend)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./nest_museu
+          file: ./nest_museu/Dockerfile
+          push: true
+          tags: |
+            ${{ env.BACKEND_IMAGE_NAME }}:latest
+            ${{ env.BACKEND_IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}
+
+  # ========================================================
+  # FRONTEND (Next.js, pasta next_museu/)
+  # ========================================================
+  frontend-validation:
+    name: Frontend (Next.js) - Lint & Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./next_museu # package.json do front fica aqui, não na raiz do repo
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Checagem de Lint
+        run: npm run lint
+
+      - name: Validação do Build
+        run: npm run build
+
+  frontend-docker-publish:
+    name: Build and Push Frontend Docker Image
+    needs: [frontend-validation]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Gerar hash curto do commit
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Autenticação no Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Construir e Publicar Imagem (Frontend)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./next_museu
+          file: ./next_museu/Dockerfile
+          push: true
+          tags: |
+            ${{ env.FRONTEND_IMAGE_NAME }}:latest
+            ${{ env.FRONTEND_IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}

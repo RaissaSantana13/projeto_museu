@@ -6,6 +6,7 @@
     "dev": "next dev -p 6001 --webpack",
     "build": "next build --webpack",
     "start": "next start -p 6001",
+    "lint": "eslint .",
     "format": "prettier --write ."
   },
   "dependencies": {
