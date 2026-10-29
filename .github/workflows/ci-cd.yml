@@ -7,7 +7,7 @@ on:
     branches: ['main']
 
 env:
-  DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/ppw-api
+  DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/projeto-museu
 
 jobs:
   
