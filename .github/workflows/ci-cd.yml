@@ -62,7 +62,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./nest_museu
-          file: ./Dockerfile
+          file: ./nest_museu/Dockerfile
           push: true
           tags: |
             ${{ env.DOCKER_IMAGE_NAME }}:latest
