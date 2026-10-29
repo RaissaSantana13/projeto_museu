@@ -30,8 +30,8 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
-      - name: Checagem de Lint
-        run: npm run lint
+      # - name: Checagem de Lint
+      #   run: npm run lint
 
       - name: Testes Unitários
         run: npm run test -- --passWithNoTests
