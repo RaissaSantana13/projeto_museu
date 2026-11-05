@@ -1,0 +1,50 @@
+version: '3.8' # Especifica a versão do formato de arquivo do Docker Compose a ser utilizada
+
+services: # Bloco raiz que define todos os serviços (contêineres) da aplicação
+  backend: # Nome identificador do serviço dentro da composição
+    image: cocaodasilva/museu-backend:latest # Imagem base a ser baixada do Docker Hub com a tag 'latest'
+    container_name: nestjs-api # Define um nome fixo e legível para o contêiner em execução (em vez de um gerado aleatoriamente)
+    volumes:
+      - museu_uploads:/uploads_projeto_museu
+    restart: always # Política de reinício: reinicia o contêiner automaticamente caso ele pare ou o Docker seja reinicializado
+    ports: # Mapeamento de portas entre a máquina hospedeira (host) e o contêiner
+      - '3000:3000' # Redireciona a porta 3000 do host para a porta 3000 interna do contêiner
+    environment: # Bloco de variáveis de ambiente injetadas dentro do contêiner em tempo de execução
+      - NODE_ENV=production # Define o ambiente de execução do Node.js como produção (otimizações ativadas)
+      - PORT=3000 # Informa à aplicação qual porta interna ela deve escutar
+      - DB_HOST=mudar_valor # Define o hostname do banco de dados (usa o DNS interno do Docker para achar o contêiner 'meu-postgres')
+      - DB_PORT=5432 # Porta padrão de conexão com o banco de dados PostgreSQL
+      - DB_USER=mudar_valor # Nome de usuário do banco, extraído de arquivo .env ou do ambiente do host
+      - DB_PASS=mudar_valor # Senha do banco, extraída de arquivo .env ou do ambiente do host
+      - DB_NAME=mudar_valor # Nome da base de dados a ser acessada, extraído de arquivo .env ou do host
+      - DB_SCHEMA=mudar_valor
+      - JWT_ACCESS_TOKEN_SECRET=mudar_valor
+      - JWT_ACCESS_TOKEN_EXPIRATION_TIME=mudar_valor
+      - JWT_REFRESH_TOKEN_SECRET=mudar_valor
+      - JWT_REFRESH_TOKEN_EXPIRATION_TIME=mudar_valor
+      - JWT_VERIFICATION_TOKEN_SECRET=mudar_valor
+      - JWT_VERIFICATION_TOKEN_EXPIRATION_TIME=mudar_valor
+      - EMAIL_HOST=mudar_valor
+      - EMAIL_PORT=mudar_valor
+      - EMAIL_USER=mudar_valor
+      - EMAIL_PASSWORD=mudar_valor
+      - EMAIL_FROM=mudar_valor
+      - EMAIL_FROM_NAME=mudar_valor
+      - EMAIL_SECURE=false
+      - EMAIL_TLS=false
+      - REGISTER_CONFIRMATION=mudar_valor
+      - EMAIL_CONFIRMED=mudar_valor
+  frontend:
+    image: cocaodasilva/museu-frontend:latest # Imagem base a ser baixada do Docker Hub com a tag 'latest'
+    container_name: nextjs-api # Define um nome fixo e legível para o contêiner em execução (em vez de um gerado aleatoriamente)
+    restart: always # Política de reinício: reinicia o contêiner automaticamente caso ele pare ou o Docker seja reinicializado
+    ports: # Mapeamento de portas entre a máquina hospedeira (host) e o contêiner
+      - '6001:6001' # Redireciona a porta 6001 do host para a porta 6001 interna do contêiner
+    environment: # Bloco de variáveis de ambiente injetadas dentro do contêiner em tempo de execução
+      - NODE_ENV=production # Define o ambiente de execução do Node.js como produção (otimizações ativadas)
+
+    # networks: # Associa o serviço a redes virtuais específicas do Docker
+    #   - postgres-network # Conecta o contêiner à rede compartilhada onde o PostgreSQL deve estar para permitir comunicação direta
+
+volumes:
+  museu_uploads:
