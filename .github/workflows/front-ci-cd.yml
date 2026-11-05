@@ -3,20 +3,24 @@ name: CI/CD Pipeline
 on:
   push:
     branches: ['main']
+    paths:
+      - 'next_museu/**'
   pull_request:
     branches: ['main']
+    paths:
+      - 'next_museu/**'
 
 env:
-  DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/projeto-museu
+  DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/museu-frontend
 
 jobs:
   
-  backend-validation:
-    name: Backend (NestJS) - Lint, Test & Build
+  frontend-validation:
+    name: Frontend (Next.js) - Lint, Test & Build
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./nest_museu
+        working-directory: ./next_museu
 
     steps:
       - name: Checkout do código
@@ -41,7 +45,7 @@ jobs:
   
   docker-publish-api:
     name: Build and Push Docker Image
-    needs: [backend-validation]
+    needs: [frontend-validation]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
 
@@ -61,9 +65,9 @@ jobs:
       - name: Construir e Publicar Imagem
         uses: docker/build-push-action@v6
         with:
-          context: ./nest_museu
-          file: ./nest_museu/Dockerfile
+          context: ./next_museu
+          file: ./next_museu/Dockerfile
           push: true
           tags: |
             ${{ env.DOCKER_IMAGE_NAME }}:latest
-            ${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}    
+            ${{ env.DOCKER_IMAGE_NAME }}:${{ github.run_number }}    
