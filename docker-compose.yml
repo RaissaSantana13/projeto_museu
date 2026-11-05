@@ -34,7 +34,7 @@ services: # Bloco raiz que define todos os serviços (contêineres) da aplicaç�
       - EMAIL_TLS=false
       - REGISTER_CONFIRMATION=mudar_valor
       - EMAIL_CONFIRMED=mudar_valor
-      
+
   frontend:
     image: cocaodasilva/museu-frontend:latest # Imagem base a ser baixada do Docker Hub com a tag 'latest'
     container_name: nextjs-api # Define um nome fixo e legível para o contêiner em execução (em vez de um gerado aleatoriamente)
