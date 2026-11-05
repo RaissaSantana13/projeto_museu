@@ -28,6 +28,10 @@ FROM node:20-alpine AS runner
 WORKDIR /usr/src/app
 ENV NODE_ENV=production
 
+# Diretório persistido pelo volume do Compose e gravável pelo usuário da aplicação.
+RUN mkdir -p /uploads_projeto_museu \
+    && chown node:node /uploads_projeto_museu
+
 # Usuário não-root por segurança
 USER node
 
