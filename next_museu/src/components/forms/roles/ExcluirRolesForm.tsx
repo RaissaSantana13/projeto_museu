@@ -128,7 +128,7 @@ export default function ExcluirRolesForm({
             <FieldGroup>
               {/* Nome */}
               <Controller
-                name="nameRoles"
+                name="nomeRoles"
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>

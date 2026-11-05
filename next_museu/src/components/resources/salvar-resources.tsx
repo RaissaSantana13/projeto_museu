@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useDictionary } from '../../service/providers/i18n-providers';
 import { PageShell } from '../pageshell/page-shell';
 import { Button } from '../ui/button';
+import SalvarResourcesForm from '../forms/resources/SalvarResourcesForm';
 
 export function SalvarResources() {
   const dict = useDictionary();

@@ -73,5 +73,5 @@ export default async function UsuarioAtualizar({
   if (!result.dados) {
     notFound();
   }
-  return <AtualizarUsuario result={result} idUsuario={id} />;
+  return <AtualizarUsuario result={result} idUsuario={id} roles={roles} />;
 }

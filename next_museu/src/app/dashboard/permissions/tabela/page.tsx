@@ -1,5 +1,5 @@
-import PermissionsMatriz from '../../../../components/permissions/permissions-matriz';
+import { redirect } from 'next/navigation';
 
-export default function MatrizPermission() {
-  return <PermissionsMatriz />;
+export default function PermissionsTablePage() {
+  redirect('/dashboard/permissions');
 }
