@@ -34,6 +34,7 @@ services: # Bloco raiz que define todos os serviços (contêineres) da aplicaç�
       - EMAIL_TLS=false
       - REGISTER_CONFIRMATION=mudar_valor
       - EMAIL_CONFIRMED=mudar_valor
+      - FRONTEND_URL=http://localhost:3000
 
   frontend:
     image: cocaodasilva/museu-frontend:latest # Imagem base a ser baixada do Docker Hub com a tag 'latest'
