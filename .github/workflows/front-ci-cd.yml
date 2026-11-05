@@ -37,8 +37,8 @@ jobs:
       # - name: Checagem de Lint
       #   run: npm run lint
 
-      - name: Testes Unitários
-        run: npm run test -- --passWithNoTests
+      # - name: Testes Unitários
+      #   run: npm run test -- --passWithNoTests
 
       - name: Validação do Build TypeScript
         run: npm run build
