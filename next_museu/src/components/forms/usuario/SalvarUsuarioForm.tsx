@@ -6,6 +6,7 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { RolesResponse } from "@/schemas/roles-schemas";
+import { z } from "zod";
 import { salvarUsuarioAction } from "../../../actions/usuario/salvar-usuario-actions";
 import {
   getUsuarioCreateFormSchema,
@@ -48,8 +49,13 @@ export default function SalvarUsuarioForm({
   const { getEndpoint } = useResources();
   const urlCreate = getEndpoint("usuario");
 
-  const form = useForm<UsuarioCreateForm>({
-    resolver: zodResolver(getUsuarioCreateFormSchema(dict)),
+  const createSchema = getUsuarioCreateFormSchema(dict);
+  const form = useForm<
+    z.input<typeof createSchema>,
+    unknown,
+    UsuarioCreateForm
+  >({
+    resolver: zodResolver(createSchema),
     defaultValues: {
       firstName: "",
       lastName: "",

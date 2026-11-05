@@ -6,7 +6,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
     <>
       <AccessibilityToolbar />
       <VLibras />
-      {children}
+      <div className="a11y-page-content">{children}</div>
     </>
   );
 }

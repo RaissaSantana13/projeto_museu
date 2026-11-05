@@ -27,6 +27,9 @@ export async function uploadImageAction(formData: FormData, type: string) {
     return { success: true, data: data[0] };
   } catch (error) {
     console.error('Erro na Action de Upload:', error);
-    return { success: false, message: error.message };
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : 'Erro inesperado no upload',
+    };
   }
 }

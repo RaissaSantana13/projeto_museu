@@ -6,7 +6,7 @@ FROM node:20-alpine AS deps
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 
 # ------------------------------------
 # 2. Estágio de Build

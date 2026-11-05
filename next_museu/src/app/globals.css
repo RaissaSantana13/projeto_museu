@@ -194,7 +194,7 @@ html {
   border-top: 1px solid #cbd5e1;
 }
 
-html[data-escala-cinza='true'] body {
+html[data-escala-cinza='true'] .a11y-page-content {
   filter: grayscale(1);
 }
 
@@ -231,7 +231,7 @@ html[data-alto-contraste='true'] {
   --ring: #ff0;
 }
 
-html[data-contraste-negativo='true'] body {
+html[data-contraste-negativo='true'] .a11y-page-content {
   filter: invert(1) hue-rotate(180deg);
 }
 

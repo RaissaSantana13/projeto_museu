@@ -1,7 +1,9 @@
 
+import { redirect } from 'next/navigation';
 import ListarContact from '../../../components/contact/lista-contato';
 import { ContactResponse } from '../../../schemas/contact-schema';
 import { ContactService } from '../../../service/connection/ContactService';
+import { getResource } from '../../../service/connection/RecursosService';
 import { ApiResponse, PageResponse } from '../../../type/api';
 
 async function listarContact(
@@ -11,7 +13,29 @@ async function listarContact(
   order?: string,
   search?: string,
 ): Promise<ApiResponse<PageResponse<ContactResponse>>> {
-  const contactService = new ContactService();
+  let endpoint: string | undefined;
+
+  try {
+    const resources = await getResource();
+    endpoint = resources.find(
+      (resource) =>
+        resource.name === 'contact' && !resource.endpoint.includes(':id'),
+    )?.endpoint;
+  } catch (error) {
+    const apiError = error as ApiResponse<never> & {
+      isNetworkError?: boolean;
+    };
+    if (apiError.isNetworkError || apiError.status === 503) {
+      redirect('/status/offline');
+    }
+    throw error;
+  }
+
+  if (!endpoint) {
+    redirect('/status/offline');
+  }
+
+  const contactService = new ContactService(endpoint);
   const param = {
     page: page ? Number(page) : undefined,
     pageSize: pageSize ? Number(pageSize) : undefined,

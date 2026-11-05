@@ -48,7 +48,7 @@ export default function CadastrarDocumentos() {
       .min(1, { message: 'O título do documento é obrigatório' }),
     'doc-type': z.string().min(1, { message: 'Selecione o tipo de documento' }),
     'doc-date': z.date({
-      required_error: 'A data ou ano do documento é obrigatória.',
+      error: 'A data ou ano do documento é obrigatória.',
     }),
     'doc-origin': z
       .string()

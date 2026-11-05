@@ -38,7 +38,11 @@ export default function CadastrarObras() {
     'select-1': z.string().optional(),
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<
+    z.input<typeof formSchema>,
+    unknown,
+    z.output<typeof formSchema>
+  >({
     resolver: zodResolver(formSchema),
     defaultValues: {
       'text-0': '',
@@ -53,7 +57,7 @@ export default function CadastrarObras() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.output<typeof formSchema>) {
     console.log('Dados do formulário:', values);
     // Aqui a sua Squad 1 fará a integração com o NestJS disparando o upload real
   }
@@ -240,7 +244,17 @@ export default function CadastrarObras() {
               <FieldLabel className="font-semibold">
                 Dimensões (em cm)
               </FieldLabel>
-              <Input placeholder="Ex: 120" type="number" {...field} />
+              <Input
+                placeholder="Ex: 120"
+                type="number"
+                {...field}
+                value={
+                  typeof field.value === 'number' ||
+                  typeof field.value === 'string'
+                    ? field.value
+                    : ''
+                }
+              />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}

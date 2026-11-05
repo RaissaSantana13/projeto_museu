@@ -78,7 +78,7 @@ export function CommandMenu({ buttonClassName, dictionary, ...props }: CommandMe
           <CommandItem asChild>
             <CollapsibleTrigger className="w-full flex justify-between items-center gap-2 px-2 py-1.5 [&[data-state=open]>svg]:rotate-180">
               <span className="flex items-center gap-2">
-                {'iconName' in item && <DynamicIcon name={item.iconName} className="h-4 w-4" />}
+                {'iconName' in item && item.iconName && <DynamicIcon name={item.iconName} className="h-4 w-4" />}
                 <span>{title}</span>
                 {'label' in item && <Badge variant="secondary">{label}</Badge>}
               </span>
@@ -93,7 +93,7 @@ export function CommandMenu({ buttonClassName, dictionary, ...props }: CommandMe
     }
 
     // Otherwise, render the item with a link.
-    if ('href' in item) {
+    if (typeof item.href === 'string') {
       const localizedPathname = ensureLocalizedPathname(item.href, locale);
       const isActive = isActivePathname(localizedPathname, pathname);
 
@@ -103,7 +103,7 @@ export function CommandMenu({ buttonClassName, dictionary, ...props }: CommandMe
           onSelect={() => runCommand(() => router.push(localizedPathname))}
           className={cn('flex items-center gap-2 px-2 py-1.5', isActive && 'bg-accent')}
         >
-          {'iconName' in item ? <DynamicIcon name={item.iconName} /> : <DynamicIcon name="Circle" />}
+          {item.iconName ? <DynamicIcon name={item.iconName} /> : <DynamicIcon name="Circle" />}
           <span>{title}</span>
           {label && <Badge variant="secondary">{label}</Badge>}
         </CommandItem>
@@ -143,7 +143,7 @@ export function CommandMenu({ buttonClassName, dictionary, ...props }: CommandMe
                   ))}
 
                   {/* Opcional: Se o próprio 'nav' for um link (como Contato), renderize-o aqui */}
-                  {!nav.items && nav.href && <Fragment key={nav.title}>{renderMenuItem(nav as any)}</Fragment>}
+                  {!nav.items && nav.href && <Fragment key={nav.title}>{renderMenuItem(nav)}</Fragment>}
                 </CommandGroup>
               );
             })}

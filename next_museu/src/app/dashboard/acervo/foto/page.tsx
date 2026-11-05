@@ -33,7 +33,7 @@ export default function CadastrarFotos() {
       .string()
       .min(1, { message: 'O título ou legenda da foto é obrigatório' }),
     'photo-date': z.date({
-      required_error: 'A data em que a foto foi tirada é obrigatória.',
+      error: 'A data em que a foto foi tirada é obrigatória.',
     }),
     'photo-people': z.string().min(1, {
       message: "Informe quem está na foto (ou digite 'Não identificado')",

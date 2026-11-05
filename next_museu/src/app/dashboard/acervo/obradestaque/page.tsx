@@ -26,16 +26,20 @@ export default function DestaqueObras() {
     'text-0': z.string().optional(),
     'id-obra-input': z.coerce
       .number({
-        invalid_type_error: 'Este campo precisa ser um número',
+        error: 'Este campo precisa ser um número',
       })
       .min(1, { message: 'O ID da obra é obrigatório' }),
     'date-begin': z.date({
-      required_error: 'A data de início é obrigatória.',
+      error: 'A data de início é obrigatória.',
     }),
     'date-finish': z.date().optional(),
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<
+    z.input<typeof formSchema>,
+    unknown,
+    z.output<typeof formSchema>
+  >({
     resolver: zodResolver(formSchema),
     defaultValues: {
       'text-0': '',
@@ -45,7 +49,7 @@ export default function DestaqueObras() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.output<typeof formSchema>) {
     console.log('Dados do destaque:', values);
   }
 
@@ -95,7 +99,12 @@ export default function DestaqueObras() {
                 placeholder="Digite o número de identificação (ID) da obra"
                 type="number"
                 {...field}
-                value={field.value || ''} // Evita o problema de renderizar '0' por padrão
+                value={
+                  typeof field.value === 'number' ||
+                  typeof field.value === 'string'
+                    ? field.value
+                    : ''
+                }
               />
               <FieldDescription>
                 O ID pode ser consultado na listagem geral do acervo.

@@ -1,5 +1,7 @@
 'use client';
 
+import '@google/model-viewer';
+
 import { Button } from '@/components/ui/button';
 import {
   Field,
