@@ -103,7 +103,8 @@ export class GitHubOAuthStrategy extends BaseOAuthStrategy {
         emailVerified: true,
 
         // Dados para a tabela 'account' (Postgres)
-        providerId: userProfile.id,
+        providerId: 'github',
+        accountId: String(userProfile.id),
         accessToken: tokenResponse.access_token,
         //refreshToken: "", // GitHub não envia refresh_token no fluxo padrão Web
         //accessTokenExpiresAt: null, // Tokens de usuário do GitHub geralmente não expiram a menos que revogados

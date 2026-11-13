@@ -13,7 +13,7 @@ interface GoogleTokenResponse {
 }
 
 interface GoogleUserProfileResponse {
-  id: number;
+  id: string;
   email: string;
   verified_email: boolean;
   name: string;
@@ -106,7 +106,8 @@ export class GoogleOAuthStrategy extends BaseOAuthStrategy {
         emailVerified: userProfile.verified_email,
 
         // Dados para a tabela 'account' (Postgres)
-        providerId: userProfile.id, // Convertendo para string por segurança
+        providerId: 'google',
+        accountId: userProfile.id,
         accessToken: tokenResponse.access_token,
         refreshToken: tokenResponse.refresh_token || '', // Pode ser undefined se não for a primeira vez
         accessTokenExpiresAt: accessTokenExpiresAt,

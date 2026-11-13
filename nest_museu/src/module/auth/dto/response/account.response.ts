@@ -9,7 +9,7 @@ export class AccountResponse {
 
   @ApiProperty({ description: ACCOUNT.SWAGGER.ID_ACCOUNT, example: '1' })
   @Expose()
-  providerId!: number;
+  providerId!: string;
 
   @ApiProperty({
     description: ACCOUNT.SWAGGER.SCOPE,

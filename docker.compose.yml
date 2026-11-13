@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  node:
+    container_name: nestjs_dockerize
+    build:
+      context: ./nest_museu  # Aponta para a subpasta do projeto
+      dockerfile: Dockerfile
+    command: npm run start:prod
+    # As variáveis abaixo serão preenchidas de forma segura pelo painel do Coolify
+    environment:
+      - PORT=6001    <--------   só verifique se a porta do nest é essa mesma
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}

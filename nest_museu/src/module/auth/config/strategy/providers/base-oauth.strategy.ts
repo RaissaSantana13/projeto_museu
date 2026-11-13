@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { randomBytes } from 'crypto';
 import {
   IOAuthStrategy,
   OAuthAccountProfile,
@@ -122,10 +123,7 @@ export abstract class BaseOAuthStrategy implements IOAuthStrategy {
    * Generate a random state string for CSRF protection
    */
   protected generateState(): string {
-    return (
-      Math.random().toString(36).substring(2, 15) +
-      Math.random().toString(36).substring(2, 15)
-    );
+    return randomBytes(32).toString('hex');
   }
 
   /**

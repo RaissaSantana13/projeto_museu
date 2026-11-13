@@ -35,10 +35,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
           r.endpoint.includes('me'),
       );
 
-      const hasToken =
-        document.cookie.includes('token') || localStorage.getItem('token');
-
-      if (!authResource || !hasToken) {
+      if (!authResource) {
         setCurrentUser(null);
         setAuthenticate(false);
         return;

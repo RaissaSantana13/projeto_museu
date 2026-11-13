@@ -31,6 +31,14 @@
 $ npm install
 ```
 
+## Google OAuth local setup
+
+Copy `.env.example` to `.env` and set `OAUTH_GOOGLE_CLIENT_SECRET` to the client secret from Google Cloud Console. The supplied client ID is already in the example. Configure the OAuth Web client with this exact redirect URI:
+
+`http://localhost:3000/api/v1/auth/oauth/google/callback`
+
+Add `http://localhost:6001` as an authorized JavaScript origin. Set the consent screen app name and support email (`hugopinhata21@gmail.com`) in Google Cloud Console. Start the backend and frontend, then use **Continuar com Google** on the login or registration page. The frontend origin is controlled by `FRONTEND_URL`; the frontend API address can be changed with `NEXT_PUBLIC_API_URL`.
+
 ## Compile and run the project
 
 ```bash

@@ -6,10 +6,12 @@ import {
   HttpStatus,
   Post,
   Query,
+  Req,
   Res,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
+import { Request } from 'express';
 
 import { ApiResponse } from '../../../commons/response/api.response';
 import { ResponseBuilder } from '../../../commons/response/builder.response';
@@ -34,6 +36,38 @@ export class OAuthController {
    * Get authorization URL for OAuth provider
    * GET /api/auth/oauth/authorize?provider=google
    */
+  @Public()
+  @Get('google')
+  @HttpCode(HttpStatus.FOUND)
+  startGoogle(@Res() response: Response) {
+    const { url, state } = this.oauthService.getGoogleAuthorization();
+    response.cookie('google_oauth_state', state, { httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', maxAge: 10 * 60 * 1000, path: '/' });
+    return response.redirect(url);
+  }
+
+  @Public()
+  @Get('google/callback')
+  @HttpCode(HttpStatus.FOUND)
+  async googleCallback(
+    @Query('code') code: string,
+    @Query('state') state: string,
+    @Query('error') error: string,
+    @Req() request: Request,
+    @Res() response: Response,
+  ) {
+    if (error || !code) {
+      return response.redirect(
+        `${this.oauthService.frontendUrl}/login?oauth_error=google`,
+      );
+    }
+    if (!state || state !== request.cookies?.google_oauth_state) {
+      return response.redirect(`${this.oauthService.frontendUrl}/login?oauth_error=state`);
+    }
+    await this.oauthService.handleGoogleCallback(code, state, request, response);
+    response.clearCookie('google_oauth_state', { path: '/' });
+    return response.redirect(`${this.oauthService.frontendUrl}/museu?oauth=success`);
+  }
+
   @Public()
   @Get('authorize')
   @HttpCode(HttpStatus.OK)

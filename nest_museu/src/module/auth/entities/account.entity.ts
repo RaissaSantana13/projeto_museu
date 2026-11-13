@@ -20,8 +20,8 @@ export class Account extends BaseEntity {
   @Column({ name: ACCOUNT.TABLE_FIELDS.ACCOUNT_ID })
   accountId!: string;
 
-  @Column({ name: ACCOUNT.TABLE_FIELDS.PROVIDER_ID })
-  providerId!: number;
+  @Column({ name: ACCOUNT.TABLE_FIELDS.PROVIDER_ID, length: 50 })
+  providerId!: string;
 
   @Column({
     name: ACCOUNT.TABLE_FIELDS.ACCESS_TOKEN,

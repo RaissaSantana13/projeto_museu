@@ -2,12 +2,12 @@ import axios, { AxiosError } from 'axios';
 import { ApiResponse } from '../type/api';
 
 export const http = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL: process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000/api/v1',
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: false,
+  withCredentials: true,
 });
 
 http.interceptors.response.use(

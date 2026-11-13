@@ -1,7 +1,6 @@
-import { SiFacebook, SiGithub, SiGoogle } from "react-icons/si";
+import { SiGoogle } from "react-icons/si";
 import { OAuthLinkType } from "../type/type";
 
 export const oauthLinksData: OAuthLinkType[] = [
-  { href: '/', label: 'Facebook', icon: SiFacebook },
-  { href: '/', label: 'Google', icon: SiGoogle },
+  { href: `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000/api/v1'}/auth/oauth/google`, label: 'Continuar com Google', icon: SiGoogle },
 ];

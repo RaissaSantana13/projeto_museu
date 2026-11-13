@@ -41,7 +41,7 @@ export interface OAuthAccountProfile {
   firstName?: string;
   lastName?: string;
   accountId?: string;
-  providerId?: number;
+  providerId?: string;
   accessToken?: string;
   refreshToken?: string;
   accessTokenExpiresAt?: Date;

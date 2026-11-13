@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
 import { NumberField } from '../../../../commons/decorators/validation/number.decorator';
 import { TextField } from '../../../../commons/decorators/validation/text.decorator';
 import { ACCOUNT } from '../../constants/accounts.constants';
@@ -11,8 +10,8 @@ export class AccountRequest {
   usuarioId!: number;
 
   @ApiProperty({ description: ACCOUNT.SWAGGER.ID_ACCOUNT, example: '1' })
-  @Type(() => Number)
-  providerId!: number; // Ex: 1 para Local, 2 para Google
+  @TextField({ required: true, min: 1, max: 50, label: 'Provedor OAuth', gender: 'm' })
+  providerId!: string;
 
   @ApiProperty({
     description: ACCOUNT.SWAGGER.PASSWORD,

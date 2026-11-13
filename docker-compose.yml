@@ -34,7 +34,10 @@ services: # Bloco raiz que define todos os serviços (contêineres) da aplicaç�
       - EMAIL_TLS=false
       - REGISTER_CONFIRMATION=mudar_valor
       - EMAIL_CONFIRMED=mudar_valor
-      - FRONTEND_URL=http://localhost:3000
+      - FRONTEND_URL=http://localhost:6001
+      - OAUTH_GOOGLE_CLIENT_ID=${OAUTH_GOOGLE_CLIENT_ID:-295285994554-vt268v7gk3ldf2s0n9r3qsltbqbs177h.apps.googleusercontent.com}
+      - OAUTH_GOOGLE_CLIENT_SECRET=${OAUTH_GOOGLE_CLIENT_SECRET:-}
+      - OAUTH_GOOGLE_CALLBACK_URL=${OAUTH_GOOGLE_CALLBACK_URL:-http://localhost:3000/api/v1/auth/oauth/google/callback}
 
   frontend:
     image: cocaodasilva/museu-frontend:latest # Imagem base a ser baixada do Docker Hub com a tag 'latest'

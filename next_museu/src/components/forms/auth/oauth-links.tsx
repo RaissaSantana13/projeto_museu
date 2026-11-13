@@ -10,10 +10,11 @@ export function OAuthLinks() {
         <Link
           key={link.label}
           href={link.href}
-          className={buttonVariants({ variant: 'outline', size: 'icon' })}
+          className={buttonVariants({ variant: 'outline', size: 'default' })}
           aria-label={link.label}
         >
-          <link.icon className="size-4" />
+          <link.icon className="size-4 mr-2" />
+          {link.label}
         </Link>
       ))}
     </div>

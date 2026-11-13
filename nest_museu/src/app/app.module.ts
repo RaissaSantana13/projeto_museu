@@ -84,6 +84,23 @@ const modules = [
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
+      load: [() => ({
+        oauth: {
+          google: {
+            enabled: Boolean(
+              (process.env.OAUTH_GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_ID) &&
+                (process.env.OAUTH_GOOGLE_CLIENT_SECRET || process.env.GOOGLE_CLIENT_SECRET),
+            ),
+            clientId: process.env.OAUTH_GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.OAUTH_GOOGLE_CLIENT_SECRET || process.env.GOOGLE_CLIENT_SECRET,
+            callbackUrl:
+              process.env.OAUTH_GOOGLE_CALLBACK_URL ||
+              'http://localhost:3000/api/v1/auth/oauth/google/callback',
+          },
+          github: { enabled: false },
+          facebook: { enabled: false },
+        },
+      })],
     }),
 
     ...modules,

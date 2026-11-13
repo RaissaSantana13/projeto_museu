@@ -11,6 +11,10 @@ import {
   OAuthAccountProfile,
 } from '../config/strategy/providers/oauth.strategy.interface';
 import { SessionService } from './session.service';
+import { AuthenticationService } from './authentication.service';
+import { Request } from 'express';
+import * as bcrypt from 'bcrypt';
+import { randomBytes } from 'crypto';
 
 /**
  * OAuth Provider Type
@@ -42,12 +46,40 @@ export class OAuthService {
     private readonly credentialsRepository: Repository<Credentials>,
     private readonly dataSource: DataSource, // Usado para transações
     private readonly sessionService: SessionService,
+    private readonly authenticationService: AuthenticationService,
     private readonly configService: ConfigService,
     private readonly googleStrategy: GoogleOAuthStrategy,
     private readonly githubStrategy: GitHubOAuthStrategy,
     private readonly facebookStrategy: FacebookOAuthStrategy,
   ) {
     this.registerStrategies();
+  }
+
+  get frontendUrl(): string {
+    return this.configService.get<string>('FRONTEND_URL', 'http://localhost:6001');
+  }
+
+  async handleGoogleCallback(code: string, state: string, request: Request, response: Response) {
+    const profile = await this.getStrategy('google').getAccountProfile(code, state);
+    if (!profile.email || !profile.accountId) throw new Error('Perfil Google incompleto');
+    const usuario = await this.findOrCreateUser('google', profile);
+    const access = this.authenticationService.getCookieWithJwtAccessToken(usuario.idUsuario);
+    const refresh = this.authenticationService.getCookieWithJwtRefreshToken(usuario.idUsuario);
+    await this.usuarioRepository.update(usuario.idUsuario, { currentHashedRefreshToken: await bcrypt.hash(refresh.token, 10) });
+    await this.sessionService.salvar({
+      idUsuario: usuario.idUsuario,
+      token: refresh.token,
+      ipAddress: request.ip ?? '0.0.0.0',
+      userAgent: String(request.headers['user-agent'] ?? 'unknown'),
+      expiresAt: refresh.expiresRefreshToken,
+    });
+    response.setHeader('Set-Cookie', [access.cookie, refresh.cookie]);
+  }
+
+  getGoogleAuthorization(): { url: string; state: string } {
+    const strategy = this.getStrategy('google');
+    const state = this.generateState();
+    return { url: strategy.getAuthorizationUrl(state), state };
   }
   private registerStrategies(): void {
     const allStrategies: [OAuthProvider, IOAuthStrategy][] = [
@@ -96,10 +128,7 @@ export class OAuthService {
   }
 
   private generateState(): string {
-    return (
-      Math.random().toString(36).substring(2, 15) +
-      Math.random().toString(36).substring(2, 15)
-    );
+    return randomBytes(32).toString('hex');
   }
 
   async handleCallback(
@@ -146,7 +175,8 @@ export class OAuthService {
     // 1. Tenta encontrar se este provedor já está vinculado a alguma conta
     const existingAccount = await this.accountRepository.findOne({
       where: {
-        providerId: profile.providerId,
+        providerId: provider,
+        accountId: profile.accountId ?? String(profile.providerId),
       },
       relations: ['usuario'],
     });
@@ -163,17 +193,17 @@ export class OAuthService {
 
     if (existingCredentials) {
       // O usuário existe (login local), vamos apenas vincular a nova conta OAuth
-      await this.linkAccount(existingCredentials.usuario.idUsuario, profile);
+      await this.linkAccount(existingCredentials.usuario.idUsuario, profile, provider);
       return existingCredentials.usuario;
     }
 
     // 3. Usuário totalmente novo: Criar Usuario + Account (usando Transação)
     return await this.dataSource.transaction(async (manager) => {
       const novoUsuario = manager.create(Usuario, {
-        firstname: profile.firstName,
-        lastname: profile.lastName,
+        firstName: profile.firstName || profile.name || profile.email?.split('@')[0] || 'Usuário',
+        lastName: profile.lastName || '',
         username: profile.email,
-        emailverified: true,
+        emailVerified: true,
         imagePath: profile.picture,
       });
 
@@ -181,9 +211,9 @@ export class OAuthService {
 
       const novaAccount = manager.create(Account, {
         usuarioId: userSaved.idUsuario,
-        providerId: profile.providerId,
+        providerId: provider,
         accessToken: profile.accessToken,
-        accountId: profile.accountId,
+        accountId: profile.accountId ?? String(profile.providerId),
         refreshToken: profile.refreshToken,
         accessTokenExpiresAt: profile.accessTokenExpiresAt,
         //refreshTokenExpiresAt: profile.refreshTokenExpiresAt,
@@ -195,12 +225,12 @@ export class OAuthService {
     });
   }
 
-  private async linkAccount(userId: number, profile: OAuthAccountProfile) {
+  private async linkAccount(userId: number, profile: OAuthAccountProfile, provider: OAuthProvider) {
     const account = this.accountRepository.create({
       usuarioId: userId,
-      providerId: profile.providerId,
+      providerId: provider,
       accessToken: profile.accessToken,
-      accountId: profile.accountId,
+      accountId: profile.accountId ?? String(profile.providerId),
       refreshToken: profile.refreshToken,
       accessTokenExpiresAt: profile.accessTokenExpiresAt,
       //refreshTokenExpiresAt: profile.refreshTokenExpiresAt,

@@ -95,7 +95,8 @@ export class FacebookOAuthStrategy extends BaseOAuthStrategy {
         emailVerified: true, // Facebook valida o e-mail no ato do cadastro
 
         // Dados para a tabela 'account' no Postgres
-        providerId: userProfile.id,
+        providerId: 'facebook',
+        accountId: String(userProfile.id),
         accessToken: tokenResponse.access_token,
         refreshToken: '', // Facebook não retorna refresh_token por padrão neste fluxo
         accessTokenExpiresAt: accessTokenExpiresAt,

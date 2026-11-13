@@ -56,10 +56,10 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: configService.getOrThrow<string>(SIS_MUSEU.FRONTEND_URL),
+    origin: configService.get<string>(SIS_MUSEU.FRONTEND_URL, 'http://localhost:6001').split(',').map((origin) => origin.trim()),
     methods: 'GET,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Accept, Authorization',
-    credentials: false,
+    credentials: true,
   });
 
   const configSwagger = new DocumentBuilder()
