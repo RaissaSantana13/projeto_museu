@@ -35,6 +35,7 @@ import { SessionService } from '../service/session.service';
 import { ConfirmEmailRequest } from '../dto/request/confirm-email.request';
 import { LoginRequest } from '../dto/request/login.request';
 import { ApiBody, ApiOperation } from '@nestjs/swagger';
+import { ResendConfirmationRequest } from '../dto/request/resend-confirmation.request';
 
 @Controller(AUTH.ENTITY)
 @UseInterceptors(ClassSerializerInterceptor)
@@ -233,5 +234,17 @@ export class AuthenticationController {
   })
   async verificationEmail(@Body() dto: ConfirmEmailRequest): Promise<void> {
     await this.usuarioService.markEmailAsConfirmed(dto.token);
+  }
+
+  @Post(AUTH.ROTAS.RESEND_CONFIRMATION)
+  @ApiOperation({
+    summary: 'Reenvia o e-mail de confirmação de registro',
+    description:
+      'Gera e envia um novo token de confirmação para o e-mail informado.',
+  })
+  async resendConfirmationEmail(
+    @Body() dto: ResendConfirmationRequest,
+  ): Promise<void> {
+    await this.authenticationService.sendResendEmail(dto.email);
   }
 }
