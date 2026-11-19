@@ -123,7 +123,7 @@ export function ForgotPasswordForm() {
       <ButtonLoading isLoading={isPending} disabled={isPending} aria-label={dict.auth.sendInstruction}>
         {dict.auth.sendInstruction}
       </ButtonLoading>
-      <Link href="/sign-in" className="-mt-4 text-center text-sm underline" aria-label={dict.auth.backToSignIn}>
+      <Link href="/login" className="-mt-4 text-center text-sm underline" aria-label={dict.auth.backToSignIn}>
         {dict.auth.backToSignIn}
       </Link>
     </form>

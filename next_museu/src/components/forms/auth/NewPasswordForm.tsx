@@ -147,7 +147,7 @@ export function NewPasswordForm() {
         {dict.auth.setNewPassword}
       </ButtonLoading>
       <Link
-        href="/sign-in"
+        href="/login"
         className="-mt-4 text-center text-sm underline"
         aria-label={dict.auth.backToSignIn}
       >

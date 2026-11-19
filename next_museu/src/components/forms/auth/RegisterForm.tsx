@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -20,6 +21,16 @@ import {
 import { useDictionary } from '../../../service/providers/i18n-providers';
 import { useResources } from '../../../service/providers/resource-providers';
 import { ApiResponse } from '../../../type/api';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+} from '../../ui/alert-dialog';
 import { Field, FieldError, FieldLabel } from '../../ui/field';
 import { OAuthLinks } from './oauth-links';
 
@@ -38,6 +49,8 @@ export function RegisterForm() {
   );
   const dict = useDictionary();
   const router = useRouter();
+  const [showRegistrationSuccess, setShowRegistrationSuccess] =
+    React.useState(false);
   const form = useForm<RegisterCreate>({
     resolver: zodResolver(getRegisterSchema(dict)),
     defaultValues: {
@@ -84,13 +97,17 @@ export function RegisterForm() {
 
   React.useEffect(() => {
     if (state.status === 200 || state.status === 201) {
-      toast.success(dict.auth.register.description);
-      router.push('/login');
-      router.refresh();
+      setShowRegistrationSuccess(true);
     } else if (state.erro || state.mensagem) {
       toast.error(state.erro || state.mensagem);
     }
   }, [state, router]);
+
+  const handleContinue = () => {
+    setShowRegistrationSuccess(false);
+    router.push('/');
+    router.refresh();
+  };
 
   const onSubmit = form.handleSubmit((data: RegisterCreate) => {
     if (!urlRegister) {
@@ -105,6 +122,7 @@ export function RegisterForm() {
   });
 
   return (
+    <>
     <form onSubmit={onSubmit} className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Controller
@@ -231,12 +249,35 @@ export function RegisterForm() {
       </ButtonLoading>
       <div className="-mt-4 text-center text-sm">
         {dict.auth.alreadyHaveAccount}{' '}
-        <Link href="/sign-in" className="underline" aria-label={dict.auth.signIn}>
+        <Link href="/login" className="underline" aria-label={dict.auth.signIn}>
           {dict.auth.signIn}
         </Link>
       </div>
       <SeparatorWithText>{dict.auth.orContinueWith}</SeparatorWithText>
       <OAuthLinks />
     </form>
+
+    <AlertDialog
+      open={showRegistrationSuccess}
+      onOpenChange={setShowRegistrationSuccess}
+    >
+      <AlertDialogContent size="sm">
+        <AlertDialogHeader>
+          <AlertDialogMedia className="mx-auto text-green-600">
+            <CheckCircle2 />
+          </AlertDialogMedia>
+          <AlertDialogTitle>Cadastro realizado!</AlertDialogTitle>
+          <AlertDialogDescription>
+            Sua conta foi criada com sucesso. Bem-vindo ao museu!
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogAction onClick={handleContinue} className="w-full">
+            Continuar
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    </>
   );
 }
