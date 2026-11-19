@@ -101,7 +101,7 @@ export function SignInForm() {
       <div className="text-center text-sm">
         {dict.auth.dontHaveAccount}{' '}
         <Link
-          href="/register"
+          href="/registro"
           className="underline"
           aria-label={dict.auth.signUp}
         >
