@@ -15,7 +15,13 @@ const publicRoutes = [
 //const REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE = '/login';
 
 export function proxy(request: NextRequest) {
-  //const pathName = request.nextUrl.pathname;
+  const { pathname } = request.nextUrl;
+  const isPrivate = pathname.startsWith('/dashboard');
+  const hasCookie = request.cookies.has('Authentication');
+
+  if (isPrivate && !hasCookie) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
 
   // Procura se a rota atual é pública
   //const publicRoute = publicRoutes.find(route => route.path === pathName);
@@ -43,5 +49,7 @@ export function proxy(request: NextRequest) {
 
 // Configuração para evitar que o middleware corra em ficheiros estáticos ou APIs
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)'],
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+  ],
 };
