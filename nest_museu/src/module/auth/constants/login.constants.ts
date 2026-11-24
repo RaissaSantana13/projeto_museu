@@ -32,6 +32,7 @@ export const AUTH = {
     EMAIL: `E-mail do usuário ${ALIAS_NAME}`,
     PASSWORD: `Senha do usuário no ${ALIAS_NAME}`,
     USERNAME: `Nome do usuário`,
+    ROLES: `Papéis do usuário`,
   },
 
   SEARCH: {

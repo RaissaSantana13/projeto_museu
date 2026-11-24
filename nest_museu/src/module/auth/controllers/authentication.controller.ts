@@ -90,6 +90,7 @@ export class AuthenticationController {
       idUsuario: req.user.idUsuario,
       username: req.user.username,
       email: req.user.credentials?.email,
+      roles: req.user.role?.map((r) => r.nomeRoles) ?? [],
     });
     return ResponseBuilder.status<LoginResponse>(HttpStatus.OK)
       .path(req.path)
@@ -126,6 +127,7 @@ export class AuthenticationController {
       idUsuario: req.user.idUsuario,
       username: req.user.username,
       email: req.user.credentials?.email,
+      roles: req.user.role?.map((r) => r.nomeRoles) ?? [],
     });
 
     return ResponseBuilder.status<LoginResponse>(HttpStatus.OK)
