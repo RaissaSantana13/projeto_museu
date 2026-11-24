@@ -22,12 +22,17 @@ import { AUTH } from '../../auth/constants/login.constants';
 import { RegisterUsuarioRequest } from '../../auth/dto/request/register.usuario.request';
 import { Credentials } from '../../auth/entities/credentials.entity';
 import EmailService from '../../email/service/email.service';
-import { fieldsUsuario, USUARIO } from '../constants/usuario.constants';
+import {
+  DEFAULT_ROLE,
+  fieldsUsuario,
+  USUARIO,
+} from '../constants/usuario.constants';
 import { UsuarioConverter } from '../dto/converter/usuario.converter';
 import { UsuarioRequest } from '../dto/request/usuario.request';
 import { UsuarioResponse } from '../dto/response/usuario.response';
 import { Usuario } from '../entities/usuario.entity';
 import { ConflictException } from '../../../commons/exceptions/error/conflict.exception';
+import { Roles } from '../../access/entities/role.entity';
 
 @Injectable()
 export class UsuarioService extends BaseService<Usuario> {
@@ -331,10 +336,18 @@ export class UsuarioService extends BaseService<Usuario> {
     try {
       usuarioSalvoResponse = await this.dataSource.transaction(
         async (manager) => {
+          const rolePadrao = await manager.findOne(Roles, {
+            where: { nomeRoles: DEFAULT_ROLE },
+          });
+          if (!rolePadrao) {
+            throw new Error(`Role padrão ${DEFAULT_ROLE} não encontrado.`);
+          }
+
           const novoUsuario = GenericConverter.toEntity(
             Usuario,
             registerUsuarioRequest,
           );
+          novoUsuario.role = [rolePadrao];
 
           const usuarioSalvo = await manager.save(Usuario, novoUsuario);
 

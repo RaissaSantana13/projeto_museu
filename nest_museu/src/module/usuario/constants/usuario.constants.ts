@@ -11,6 +11,9 @@ import {
 const ENTITY_NAME = 'user';
 const ALIAS_NAME = 'Usuário';
 
+// constante usada para definir automaticamente um novo usuário cadastrado com a role "Usuário"
+export const DEFAULT_ROLE = 'Usuário';
+
 export const USUARIO = {
   ENTITY: ENTITY_NAME,
 
