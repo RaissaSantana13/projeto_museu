@@ -21,7 +21,7 @@ export const ROLES = {
   },
 
   FIELDS: {
-    ID_ROLE: 'idRole',
+    ID_ROLE: 'idRoles',
     NOME_ROLE: 'nomeRole',
   },
 
