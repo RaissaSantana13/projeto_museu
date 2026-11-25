@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
+import { parse } from 'set-cookie-parser';
 import { getServerDictionary } from '../../lib/get-dictionary';
 import { LoginResponse } from '../../schemas/sigin-schemas';
 import { AuthService } from '../../service/connection/AuthService';
@@ -14,11 +15,12 @@ export async function loginAuthAction(
       email: string;
       password: string;
     };
-    url: string;
   },
 ): Promise<ApiResponse<LoginResponse>> {
   const dict = await getServerDictionary();
-  if (!payload.url) {
+  const url = process.env.API_AUTH_SESSION_URL;
+
+  if (!url) {
     return {
       status: 400,
       mensagem: dict.app.endpoint.message,
@@ -28,23 +30,26 @@ export async function loginAuthAction(
   }
 
   try {
-    const siginService = new AuthService(payload.url);
+    const service = new AuthService(url);
+    const { body, setCookies } = await service.signInWithCookies(
+      payload.loginRequest,
+    );
 
-    const result = await siginService.signIn(payload.loginRequest);
-
-    if (result.status >= 200 && result.status < 300 && result.dados) {
+    if (body.status >= 200 && body.status < 300) {
       const cookieStore = await cookies();
-
-      cookieStore.set('Authentication', result.dados.accessToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        path: '/',
-      });
+      for (const c of parse(setCookies, { decodeValues: false })) {
+        cookieStore.set(c.name, c.value, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          path: '/',
+          maxAge: c.maxAge,
+        });
+      }
       revalidatePath('/dashboard');
     }
 
-    return result;
+    return body;
   } catch (error: any) {
     const apiError = error as ApiResponse<never> & { isNetworkError?: boolean };
 
@@ -52,9 +57,8 @@ export async function loginAuthAction(
       status: apiError.status || 503,
       mensagem: apiError.mensagem || dict.app.endpoint.api_message,
       erro: apiError.erro || dict.app.endpoint.api_error,
-      errors: apiError.dados || {},
       timestamp: new Date().toISOString(),
-      isNetworkError: true,
+      isNetworkError: apiError.isNetworkError ?? false,
     } as ApiResponse<LoginResponse> & { isNetworkError: boolean };
   }
 }

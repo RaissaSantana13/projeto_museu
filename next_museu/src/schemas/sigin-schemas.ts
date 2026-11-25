@@ -32,7 +32,7 @@ export const LoginResponseSchema = z.object({
   idUsuario: z.number().int().positive().optional(),
   email: z.string(),
   username: z.string(),
-  accessToken: z.string(),
+  roles: z.array(z.string()).default([]),
 });
 
 export type LoginResponse = z.infer<typeof LoginResponseSchema>;

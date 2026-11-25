@@ -181,6 +181,7 @@ export class AuthenticationService {
       const credentials = await this.credentialsRepository
         .createQueryBuilder(AUTH.ENTITY)
         .leftJoinAndSelect('credentials.usuario', 'usuario')
+        .leftJoinAndSelect('usuario.role', 'role')
         .where(`${AUTH.SEARCH.POR_EMAIL} = :email`, { email })
         .getOne();
       if (!credentials) {

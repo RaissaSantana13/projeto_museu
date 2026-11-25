@@ -1,12 +1,12 @@
 import { http } from '../../lib/http';
 import { ForgotPasswordResponse } from '../../schemas/forgot-passward-schema';
 import {
-    NewPasswordCreate,
-    NewPasswordResponse,
+  NewPasswordCreate,
+  NewPasswordResponse,
 } from '../../schemas/new-passward-schema';
 import {
-    RegisterCreate,
-    RegisterResponse,
+  RegisterCreate,
+  RegisterResponse,
 } from '../../schemas/register-schemas';
 import { LoginRequest, LoginResponse } from '../../schemas/sigin-schemas';
 import { ApiResponse } from '../../type/api';
@@ -26,6 +26,18 @@ export class AuthService extends ConnectionService<LoginResponse> {
       },
     );
     return response.data;
+  }
+
+  async signInWithCookies(credentials: LoginRequest) {
+    const response = await http.post<ApiResponse<LoginResponse>>(
+      this.url,
+      credentials,
+      { ...this.config },
+    );
+    return {
+      body: response.data,
+      setCookies: (response.headers['set-cookie'] ?? []) as string[],
+    };
   }
 
   async me(): Promise<ApiResponse<LoginResponse>> {

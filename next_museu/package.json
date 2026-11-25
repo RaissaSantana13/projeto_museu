@@ -61,6 +61,7 @@
     "react-qr-code": "^2.0.18",
     "react-use": "^17.6.0",
     "recharts": "^3.8.0",
+    "set-cookie-parser": "^4.0.0",
     "shadcn": "^4.1.0",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.5.0",

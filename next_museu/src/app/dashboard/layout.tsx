@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Footer } from '../../components/layout/footer';
 import { Sidebar } from '../../components/layout/sidebar';
@@ -7,6 +6,8 @@ import { SiteHeader } from '../../components/layout/site-header';
 import { SidebarInset, SidebarProvider } from '../../components/ui/sidebar';
 import { getClientDictionary } from '../../lib/get-dictionary';
 import { Providers } from '../../service/providers';
+import { getCurrentUser } from '../../lib/auth-server';
+import { isAdmin } from '../../lib/roles';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -18,8 +19,8 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const role = (await cookies()).get('museu_demo_role')?.value;
-  if (role !== 'admin') {
+  const user = await getCurrentUser();
+  if (!user || !isAdmin(user.roles)) {
     redirect('/login');
   }
 

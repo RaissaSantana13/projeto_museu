@@ -14,6 +14,10 @@ export class LoginResponse {
   @ApiProperty({ description: AUTH.SWAGGER.USERNAME })
   username!: string;
 
+  @Expose()
+  @ApiProperty({ description: AUTH.SWAGGER.ROLES })
+  roles!: string[];
+
   constructor(partial: Partial<LoginResponse>) {
     Object.assign(this, partial);
   }
