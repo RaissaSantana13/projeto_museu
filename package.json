@@ -1,9 +1,5 @@
 {
   "dependencies": {
-    "cookie-parser": "^1.4.7",
-    "set-cookie-parser": "^4.0.0"
-  },
-  "devDependencies": {
-    "@types/set-cookie-parser": "^2.4.10"
+    "cookie-parser": "^1.4.7"
   }
 }
