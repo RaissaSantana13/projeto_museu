@@ -1,5 +1,40 @@
 {
   "lang": "es",
+  "dashboard": {
+    "title": "Panel de control",
+    "description": "Consulta lo que está disponible en la colección pública del Museo Virtual de Birigui.",
+    "total": "Piezas en la colección pública",
+    "objects": "Obras y objetos",
+    "photographs": "Fotografías",
+    "documents": "Documentos históricos",
+    "recent": "Últimas incorporaciones",
+    "documentType": "Documento histórico",
+    "pdfPage": "PDF de {count} página",
+    "pdfPages": "PDF de {count} páginas",
+    "accountMenu": {
+      "account": "Mi cuenta",
+      "notifications": "Notificaciones",
+      "signOut": "Cerrar sesión"
+    }
+  },
+  "preferences": {
+    "language": "Idioma",
+    "toggleTheme": "Cambiar tema",
+    "dark": "Oscuro",
+    "light": "Claro"
+  },
+  "profilePhoto": {
+    "title": "Mi perfil",
+    "label": "Foto de perfil",
+    "hint": "Selecciona una imagen JPEG, PNG o WebP de hasta 5 MB.",
+    "save": "Guardar foto",
+    "saving": "Guardando foto…",
+    "saved": "Foto de perfil actualizada.",
+    "invalid": "Selecciona una imagen JPEG, PNG o WebP de hasta 5 MB.",
+    "failed": "No se pudo guardar la foto. Inténtalo de nuevo.",
+    "backToDashboard": "Volver al panel",
+    "backToMuseum": "Volver al museo"
+  },
   "navigation": {
     "dashboards": "Página Principal",
     "back_dashboards": "Volver a la Página Principal",
@@ -165,6 +200,7 @@
       "action": "Enviando",
       "confirm": "Confirmar",
       "cancel": "Cancelar",
+      "new_user": "Nuevo usuario",
       "confirm_title": "¿Está seguro de que desea modificar los datos del usuario?",
       "confirm_description": "Esta acción modificará los datos del usuario en el sistema. Por favor, verifique que la información sea correcta.",
       "label": {
@@ -175,7 +211,11 @@
         "name": "Nombre",
         "email": "Correo electrónico",
         "password": "Contraseña",
-        "confirmPassword": "Confirmar Contraseña"
+        "confirmPassword": "Confirmar Contraseña",
+        "placeHolderName": "Introduce tu nombre",
+        "placeHolderEmail": "Introduce tu correo electrónico",
+        "placeHolderPassword": "Introduce tu contraseña",
+        "placeHolderConfirmPassword": "Vuelve a introducir la contraseña"
       }
     },
     "foto": {
@@ -192,7 +232,7 @@
       "invalidMinLastname": "El apellido debe tener al menos 8 caracteres",
       "invalidMaxLastname": "El apellido no puede tener más de 100 caracteres",
       "invalidMinUsername": "El nombre debe tener al menos 8 caracteres",
-      "invalidMaxUsernam": "El nombre supera los 100 caracteres",
+      "invalidMaxUsername": "El nombre supera los 100 caracteres",
       "invalidEmail": "Correo electrónico inválido",
       "invalidMinPassword": "La contraseña debe tener al menos 8 caracteres",
       "invalidMaxPassword": "La contraseña supera los 250 caracteres",
@@ -214,6 +254,7 @@
       "action_delete": "Eliminar Registro de Contactos",
       "action_new": "Agregar Registro de Contactos",
       "action_cancel": "Cancelar la transacción en el Registro de Contactos",
+      "not_found": "Contacto no encontrado",
       "id_not_found": "Identificador de contactos no encontrado"
     },
     "form": {
@@ -257,50 +298,52 @@
       "invalidMinMessage": "El mensaje debe contener al menos 8 caracteres",
       "invalidMaxMessage": "El mensaje contiene más de 250 caracteres",
       "invalidAgreedToPrivacy": "Debe aceptar la política de privacidad"
+    }
+  },
+  "event": {
+    "management": {
+      "title": "Gestión de eventos",
+      "description": "Gestiona los datos de los eventos en el sistema.",
+      "lista_eventos": "Lista de eventos"
     },
-    "event": {
-      "management": {
-        "title": "Gestão de Eventos",
-        "description": "Gerenciar os dados dos eventos no sistema.",
-        "lista_contact": "Lista de Eventos"
-      },
-      "calendarDndProvider": {
-        "activeData_overData": "Faltan datos de eventos obligatorios",
-        "month": "más",
-        "week": "semana",
-        "day": "dia",
-        "agenda": "agenda"
-      },
-      "dialog": {
-        "edit_event": "Editar Evento",
-        "create_event": "Nuevo Evento",
-        "description": "Descripción",
-        "title": "Titulo",
-        "start_date": "Datos Iniciales",
-        "start_time": "Hora Inicial",
-        "end_date": "Datos Finales",
-        "end_time": "Hora Final",
-        "all_day": "Todos os Dias",
-        "location": "Local"
-      },
-      "agenda_view": {
-        "no_events": "No se encontraron eventos",
-        "no_period": "No hay eventos programados para este período de tiempo."
-      },
-      "calendar": {
-        "event": "Evento",
-        "update": "actualizada",
-        "add": "agregada",
-        "deleted": "eliminada",
-        "moved": "movido correctamente",
-        "month": "Más",
-        "week": "Semana",
-        "day": "Dia",
-        "agenda": "Agenda",
-        "previous": "Anterior",
-        "next": "Próximo",
-        "more": "más"
-      }
+    "calendarDndProvider": {
+      "activeData_overData": "Faltan datos obligatorios del evento",
+      "month": "mes",
+      "week": "semana",
+      "day": "día",
+      "agenda": "agenda"
+    },
+    "dialog": {
+      "edit_event": "Editar evento",
+      "create_event": "Crear evento",
+      "description": "Descripción",
+      "title": "Título",
+      "start_date": "Fecha de inicio",
+      "start_time": "Hora de inicio",
+      "end_date": "Fecha de finalización",
+      "end_time": "Hora de finalización",
+      "all_day": "Todo el día",
+      "location": "Lugar"
+    },
+    "agenda_view": {
+      "no_events": "No se encontraron eventos",
+      "no_period": "No hay eventos programados para este período."
+    },
+    "calendar": {
+      "today": "Hoy",
+      "new_event": "Nuevo evento",
+      "event": "Evento",
+      "update": "actualizado",
+      "add": "agregado",
+      "deleted": "eliminado",
+      "moved": "movido",
+      "month": "Mes",
+      "week": "Semana",
+      "day": "Día",
+      "agenda": "Agenda",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "more": "más"
     }
   },
   "permissions": {
