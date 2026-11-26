@@ -1,6 +1,8 @@
+import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ModelViewer } from '../landing/models-3d';
+import { FOTOGRAFIAS } from './collection-items';
 
 interface ObraDetalhes {
   id: string;
@@ -122,177 +124,134 @@ const OBRAS_DATABASE: Record<string, ObraDetalhes> = {
 };
 
 export function ArtworkDetails({ obraId }: { obraId: string }) {
-  const obra = OBRAS_DATABASE[obraId];
+  const obra = Object.hasOwn(OBRAS_DATABASE, obraId)
+    ? OBRAS_DATABASE[obraId]
+    : undefined;
+  const fotografia = FOTOGRAFIAS.find((item) => item.id === obraId);
+  const item = obra ?? fotografia;
 
-  if (!obra) {
+  if (!item) {
     return (
-      <main className="flex-grow flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold mb-4">Obra não encontrada</h1>
-          <p className="text-muted-foreground mb-8">
-            Desculpe, não conseguimos encontrar a obra que você está procurando.
-          </p>
-        </div>
+      <main className="mx-auto w-full max-w-7xl flex-1 px-5 py-20 sm:px-8 lg:px-12">
+        <h1 className="font-serif text-4xl font-semibold">
+          Item não encontrado
+        </h1>
+        <Link
+          href="/acervo"
+          className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline"
+        >
+          <ArrowLeft className="size-4" aria-hidden="true" />
+          Voltar ao acervo
+        </Link>
       </main>
     );
   }
 
+  const facts = [
+    { label: 'Período', value: item.year },
+    { label: 'Artista ou fabricante', value: obra?.artist },
+    { label: 'Material', value: obra?.material },
+  ].filter(({ value }) => value != null);
+
   return (
-    <main className="flex-grow w-full py-12 px-4">
-      <div className="container mx-auto max-w-6xl">
-        {/* Botão voltar e título */}
-        <div className="mb-8">
+    <main className="w-full flex-1 bg-background text-foreground">
+      <div className="bg-neutral-950 bg-radial-[at_50%_55%] from-[#35261e] to-neutral-950 text-white">
+        <div className="mx-auto max-w-7xl px-5 pt-6 pb-8 sm:px-8 sm:pt-8 lg:px-12">
           <Link
-            href="/acervo"
-            className="inline-flex items-center gap-2 text-sm font-medium mb-6 hover:opacity-70 transition-opacity"
+            href={`/acervo?tipo=${fotografia ? 'foto' : 'obra'}`}
+            className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-white/85 underline-offset-4 hover:text-white hover:underline"
           >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            Voltar ao Acervo
+            <ArrowLeft className="size-4" aria-hidden="true" />
+            Voltar ao acervo
           </Link>
-          <h1 className="text-2xl font-bold font-serif">Detalhes da Obra:</h1>
-        </div>
 
-        {/* Seção principal com imagem e informações */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-          {/* Imagem da obra */}
-          <div className="flex items-start">
-            <div className="w-full h-[500px] relative rounded-xl overflow-hidden shadow-md bg-black/5 flex items-center justify-center p-4">
+          <figure className="mt-4">
+            <div className="relative mx-auto h-[clamp(17rem,58svh,38rem)] w-full max-w-5xl">
               <Image
-                src={obra.img}
-                alt={obra.title}
+                src={item.img}
+                alt={item.title}
                 fill
-                className="object-contain p-4 drop-shadow-sm"
-                priority
+                sizes="(min-width: 1120px) 1024px, 92vw"
+                className="object-contain"
+                preload
               />
             </div>
-          </div>
-
-          {/* Informações da obra */}
-          <div className="flex flex-col justify-start space-y-8">
-            <div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 font-serif">
-                {obra.title}
-              </h1>
-
-              {/* Categorias */}
-              <div className="flex flex-wrap gap-2 mb-6 mt-6">
-                {obra.categories.map((category) => (
-                  <span
-                    key={category}
-                    className={`px-3 py-1 rounded text-sm font-medium border bg-orange-400/50`}
-                  >
-                    {category}
-                  </span>
-                ))}
-              </div>
-
-              {/* Descrição curta */}
-              <p className="text-lg text-muted-foreground mb-6">
-                {obra.description}
-              </p>
-            </div>
-
-            {/* Detalhes técnicos */}
-            <div className="space-y-4 border-t pt-6">
-              {obra.year && (
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground uppercase tracking-wide">
-                      Período
-                    </p>
-                    <p className="text-base font-medium">{obra.year}</p>
-                  </div>
-                </div>
-              )}
-
-              {obra.artist && (
-                <div>
-                  <p className="text-sm text-muted-foreground uppercase tracking-wide">
-                    Artista / Fabricante
-                  </p>
-                  <p className="text-base font-medium">{obra.artist}</p>
-                </div>
-              )}
-
-              {obra.material && (
-                <div>
-                  <p className="text-sm text-muted-foreground uppercase tracking-wide">
-                    Material
-                  </p>
-                  <p className="text-base font-medium">{obra.material}</p>
-                </div>
-              )}
-            </div>
-          </div>
+            <figcaption className="mt-4 text-center">
+              <a
+                href={item.img}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-white/85 underline-offset-4 hover:text-white hover:underline"
+              >
+                Abrir imagem em nova aba
+                <ArrowUpRight className="size-4" aria-hidden="true" />
+              </a>
+            </figcaption>
+          </figure>
         </div>
+      </div>
 
-        {/* Descrição completa */}
-        <div className="mb-16 border-t pt-12">
-          <h2 className="text-2xl font-bold mb-6 font-serif">
-            Sobre esta obra
-          </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            {obra.fullDescription}
+      <article className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14 lg:px-12">
+        <header className="max-w-4xl">
+          <p className="text-xs font-bold tracking-[0.18em] text-primary uppercase">
+            Acervo · {fotografia ? 'Fotografias' : 'Obras e objetos'}
           </p>
+          <h1 className="mt-4 font-serif text-4xl leading-[1.05] font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+            {item.title}
+          </h1>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            {item.description}
+          </p>
+        </header>
+
+        <div className="mt-8 grid gap-10 border-t border-border pt-8 md:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:gap-16">
+          {obra && (
+            <section aria-labelledby="obra-sobre">
+              <h2 id="obra-sobre" className="font-serif text-2xl font-semibold">
+                Sobre esta obra
+              </h2>
+              <p className="mt-4 max-w-prose text-base leading-relaxed text-muted-foreground">
+                {obra.fullDescription}
+              </p>
+            </section>
+          )}
+          <section aria-labelledby="obra-ficha">
+            <h2 id="obra-ficha" className="font-serif text-2xl font-semibold">
+              Ficha do acervo
+            </h2>
+            <dl className="mt-4 divide-y divide-border border-y border-border text-sm">
+              {facts.map(({ label, value }) => (
+                <div key={label} className="grid gap-1 py-3 sm:grid-cols-2">
+                  <dt className="font-semibold">{label}</dt>
+                  <dd className="text-muted-foreground">{value}</dd>
+                </div>
+              ))}
+              {!!obra?.categories.length && (
+                <div className="grid gap-1 py-3 sm:grid-cols-2">
+                  <dt className="font-semibold">Categorias</dt>
+                  <dd className="text-muted-foreground">
+                    {obra.categories.join(' · ')}
+                  </dd>
+                </div>
+              )}
+            </dl>
+          </section>
         </div>
 
-        {/* Seção de visualização 3D */}
-        <div className="border-t pt-12">
-          {obra.model3dFileName ? (
+        {obra?.model3dFileName && (
+          <section
+            aria-label="Visualização 3D"
+            className="mt-10 border-t border-border pt-8"
+          >
             <ModelViewer
               fileName={obra.model3dFileName}
               scale={obra.model3dScale}
               cameraDistance={obra.model3dCameraDistance}
               rotation={obra.model3dRotation}
             />
-          ) : (
-            <div className="rounded-lg border-2 border-dashed border-muted-foreground/30 p-16 text-center bg-muted/20">
-              <div className="max-w-2xl mx-auto">
-                <div className="mb-4">
-                  <svg
-                    className="w-16 h-16 mx-auto text-muted-foreground/50"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 10V3L4 14h7v7l9-11h-7z"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-bold mb-2">
-                  Visualização 3D em Desenvolvimento
-                </h3>
-                <p className="text-muted-foreground mb-4">
-                  Estamos preparando uma experiência interativa em 3D para esta
-                  obra. Em breve, você poderá visualizar e explorar todos os
-                  detalhes desta peça sob diferentes ângulos e com zoom
-                  avançado.
-                </p>
-                <p className="text-sm text-muted-foreground italic">
-                  Esta seção será preenchida com tecnologia 3D de última
-                  geração.
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+          </section>
+        )}
+      </article>
     </main>
   );
 }

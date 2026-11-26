@@ -4,54 +4,52 @@ export function HeroMuseum() {
   return (
     <section
       id="hero"
-      className="relative w-full h-[500px] md:h-[450px] lg:h-[500px] overflow-hidden"
+      className="relative isolate flex min-h-[max(32rem,100svh)] w-full items-end overflow-hidden bg-neutral-900"
     >
-      {/* Imagem de fundo */}
       <Image
-        src="/images/capa_dashboard.png"
-        alt="Capa do Museu de Birigui"
+        src="/images/capa-paco-municipal.jpg"
+        alt="Paço Municipal de Birigui, com a fonte e o busto na praça"
         fill
-        className="object-cover"
+        sizes="100vw"
+        className="-z-20 object-cover object-[58%_55%] sm:object-[center_55%]"
         priority
       />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-linear-to-t from-black/95 via-black/65 via-35% to-transparent to-80%"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 -z-10 h-36 bg-linear-to-b from-black/85 via-black/55 to-transparent"
+      />
 
-      {/* Overlay escuro para melhorar legibilidade do texto */}
-      <div className="absolute inset-0 bg-black/50" />
-
-      {/* Título centralizado */}
-      <div className="absolute inset-0 z-10 flex items-center justify-center px-4">
-        <h1 className="font-inter text-center text-4xl font-bold text-white drop-shadow-lg sm:text-5xl lg:text-6xl">
-          MUSEU VIRTUAL DE BIRIGUI
-        </h1>
-      </div>
-
-      {/* Bloco inferior — texto à esquerda, imagens à direita */}
-      <div className="absolute bottom-8 left-8 right-8 z-10 flex items-end justify-between">
-        {/* Texto */}
+      <div className="grid w-full items-start gap-4 px-[clamp(1.25rem,5.5vw,8rem)] pt-20 pb-[clamp(2rem,6vh,5rem)] text-left text-white md:grid-cols-[minmax(0,1fr)_auto]">
         <div>
-          <p className="text-white text-sm md:text-base font-bold drop-shadow-lg">
-            DESTAQUES E INGRESSOS
-          </p>
-          <p className=" text-white/80 text-sm md:text-base mt-1 drop-shadow">
+          <h1 className="text-[clamp(2rem,5.15vw,7.25rem)] leading-[0.95] font-extrabold tracking-tight wrap-break-word drop-shadow-lg">
+            MUSEU VIRTUAL DE BIRIGUI
+          </h1>
+
+          <p className="mt-2 text-base drop-shadow sm:text-xl">
             Aberto hoje das 8h às 17h
           </p>
         </div>
 
-        {/* Duas imagens pequenas */}
-        <div className="flex gap-3">
-          <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-xl overflow-hidden">
+        <div className="flex items-center justify-self-end gap-3">
+          <div className="relative h-14 w-[4.25rem] shrink-0 sm:h-16 sm:w-[4.75rem]">
             <Image
               src="/images/logos/logo_birigui.png"
-              alt="Logo Birigui"
+              alt="Prefeitura de Birigui"
               fill
-              className="object-contain"
+              sizes="(min-width: 640px) 76px, 68px"
+              className="object-contain object-left"
             />
           </div>
-          <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-xl overflow-hidden">
+          <div className="relative h-14 w-12 shrink-0 sm:h-16 sm:w-14">
             <Image
               src="/images/logos/logo_if.png"
-              alt="Logo IF"
+              alt="Instituto Federal"
               fill
+              sizes="(min-width: 640px) 56px, 48px"
               className="object-contain"
             />
           </div>

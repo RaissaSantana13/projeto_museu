@@ -1,116 +1,25 @@
 'use client';
 
-import { Search, SlidersHorizontal, X } from 'lucide-react';
-import Image from 'next/image';
+import {
+  FileText,
+  Image as ImageIcon,
+  Palette,
+  Search,
+  SlidersHorizontal,
+  X,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { ArtworkGallery } from './artwork-gallery';
+import { FOTOGRAFIAS, OBRAS, type CollectionItem } from './collection-items';
 
 type CollectionType = 'obra' | 'foto' | 'documento';
 
-interface CollectionItem {
-  id: string;
-  title: string;
-  description: string;
-  img: string;
-  year?: number;
-  date?: string;
-  tileClass: string;
-  imagePosition?: string;
-}
-
-const OBRAS: CollectionItem[] = [
-  {
-    id: '550e8400-e29b-41d4-a716-446655440000',
-    title: 'Troféu Locomotiva de Bronze',
-    description:
-      'Prêmio comemorativo institucional em formato de locomotiva sobre base metálica.',
-    img: '/images/train.jpg',
-    year: 1910,
-    date: '1910-07-10',
-    tileClass: 'md:col-span-5 md:row-span-2',
-    imagePosition: 'object-center',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440001',
-    title: 'Microfone Condensador Behringer B-1',
-    description:
-      'Microfone de estúdio condensador de grande diafragma com padrão polar cardioide.',
-    img: '/images/microphone.png',
-    year: 1978,
-    date: '1978-09-12',
-    tileClass: 'md:col-span-3 md:row-span-2',
-    imagePosition: 'object-center',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440004',
-    title: 'Cálice de Madeira Indígena',
-    description:
-      'Cálice artesanal esculpido em madeira nobre com acabamento polido, de origem indígena.',
-    img: '/images/cup.jpg',
-    year: 1894,
-    date: '1894-02-03',
-    tileClass: 'md:col-span-4 md:row-span-2',
-    imagePosition: 'object-center',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440005',
-    title: 'Telefone de Parede Antigo',
-    description:
-      'Telefone de parede vintage em madeira e metal com sistema de manivela magnética do início do século XX.',
-    img: '/images/old_telephone.jpg',
-    year: 1922,
-    date: '1922-11-18',
-    tileClass: 'md:col-span-4 md:row-span-2',
-    imagePosition: 'object-center',
-  },
-  {
-    id: '550e8400-e29b-41d4-a716-446655440006',
-    title: 'Jarro de Terracota',
-    description:
-      'Jarro de terracota artesanal, com acabamento único e detalhes handcrafted.',
-    img: '/images/terracota_jug.jpg',
-    year: 1905,
-    date: '1905-04-26',
-    tileClass: 'md:col-span-8 md:row-span-2',
-    imagePosition: 'object-center',
-  },
-];
-
-const FOTOGRAFIAS: CollectionItem[] = [
-  {
-    id: 'foto-001',
-    title: 'Praça Central de Birigui',
-    description:
-      'Registro fotográfico da praça principal da cidade em meados do século XX.',
-    img: '/images/04-%20Pra%C3%A7a%20Dr.%20Gama.jpg',
-    year: 1958,
-    date: '1958-08-14',
-    tileClass: 'md:col-span-7 md:row-span-2',
-    imagePosition: 'object-center',
-  },
-  {
-    id: 'foto-002',
-    title: 'Família do Bairro Centro',
-    description:
-      'Imagem histórica de uma família local em ambiente urbano e cotidiano.',
-    img: '/images/01-%20Folia%20de%20Reis%20-%20Frei%20Tarc%C3%ADsio%20-%201982.jpg',
-    year: 1982,
-    date: '1982-01-06',
-    tileClass: 'md:col-span-5 md:row-span-2',
-    imagePosition: 'object-center',
-  },
-  {
-    id: 'foto-003',
-    title: 'Escola Municipal',
-    description:
-      'Fotografia de alunos e professores em frente à escola da cidade.',
-    img: '/images/09.jpg',
-    year: 1964,
-    date: '1964-10-21',
-    tileClass: 'md:col-span-12 md:row-span-2',
-    imagePosition: 'object-center',
-  },
-];
+const CATEGORIES = [
+  { type: 'obra', label: 'Obras e objetos', icon: Palette },
+  { type: 'foto', label: 'Fotografias', icon: ImageIcon },
+  { type: 'documento', label: 'Documentos históricos', icon: FileText },
+] as const;
 
 const DOCUMENTOS: CollectionItem[] = [];
 
@@ -125,7 +34,6 @@ const TYPE_CONFIG: Record<
   {
     eyebrow: string;
     title: string;
-    sectionLabel: string;
     placeholder: string;
     singular: string;
     plural: string;
@@ -135,7 +43,6 @@ const TYPE_CONFIG: Record<
   obra: {
     eyebrow: 'Acervo',
     title: 'OBRAS E OBJETOS',
-    sectionLabel: 'DESTAQUES',
     placeholder: 'Buscar obras...',
     singular: 'obra',
     plural: 'obras',
@@ -144,7 +51,6 @@ const TYPE_CONFIG: Record<
   foto: {
     eyebrow: 'Acervo',
     title: 'FOTOGRAFIAS',
-    sectionLabel: 'DESTAQUES',
     placeholder: 'Buscar fotografias...',
     singular: 'fotografia',
     plural: 'fotografias',
@@ -153,7 +59,6 @@ const TYPE_CONFIG: Record<
   documento: {
     eyebrow: 'Acervo',
     title: 'DOCUMENTOS',
-    sectionLabel: 'DESTAQUES',
     placeholder: 'Buscar documentos...',
     singular: 'documento',
     plural: 'documentos',
@@ -222,7 +127,24 @@ export function ArtworkCollection({
             {config.title}
           </h1>
 
-          <div className="mt-10">
+          <nav aria-label="Categorias do acervo" className="mt-8">
+            <ul className="flex flex-wrap gap-2">
+              {CATEGORIES.map(({ type, label, icon: Icon }) => (
+                <li key={type}>
+                  <Link
+                    href={`/acervo?tipo=${type}`}
+                    aria-current={type === currentType ? 'page' : undefined}
+                    className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-card-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-[current=page]:border-primary aria-[current=page]:bg-primary aria-[current=page]:text-primary-foreground"
+                  >
+                    <Icon className="size-4 shrink-0" aria-hidden="true" />
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="mt-6">
             <div className="relative">
               <Search
                 size={21}
@@ -257,50 +179,8 @@ export function ArtworkCollection({
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-5 pb-8 pt-10 sm:px-8 lg:px-12">
-        <p className="text-sm font-bold uppercase tracking-[0.12em] text-foreground">
-          {config.sectionLabel}
-        </p>
-      </div>
-
       {filteredItems.length > 0 ? (
-        <div className="grid auto-rows-[220px] grid-cols-1 gap-[2px] md:grid-cols-12 md:auto-rows-[190px] xl:auto-rows-[230px]">
-          {filteredItems.map((item, index) => (
-            <Link
-              key={item.id}
-              href={`/acervo/${item.id}/detalhes`}
-              aria-label={`Ver detalhes de ${item.title}`}
-              className={`group relative overflow-hidden bg-muted ${item.tileClass}`}
-            >
-              <Image
-                src={item.img}
-                alt={item.title}
-                fill
-                priority={index < 3}
-                sizes="(max-width: 767px) 100vw, 50vw"
-                className={`object-cover transition duration-700 group-hover:scale-[1.035] ${item.imagePosition ?? ''}`}
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-transparent to-background/10 opacity-45 transition-opacity duration-300 group-hover:opacity-90" />
-
-              <div className="absolute inset-x-0 bottom-0 translate-y-3 p-5 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 md:p-6">
-                {item.year && (
-                  <span className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-                    {item.year}
-                  </span>
-                )}
-
-                <h2 className="mt-2 max-w-xl text-xl font-bold leading-tight text-foreground md:text-2xl">
-                  {item.title}
-                </h2>
-
-                <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
-                  {item.description}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <ArtworkGallery items={filteredItems} prioritizeImages itemHeading="h2" />
       ) : (
         <div className="mx-auto flex min-h-[420px] max-w-7xl items-center justify-center px-6">
           <p className="text-lg text-muted-foreground">{config.empty}</p>

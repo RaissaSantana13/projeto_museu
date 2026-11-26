@@ -1,20 +1,23 @@
-'use client';
-
 import { Button } from '@/components/ui/button';
-import { ChevronDown, FileText, Image, LogIn, Menu, Palette } from 'lucide-react';
+import { hasActiveSession } from '@/lib/auth-session';
+import { ChevronDown, FileText, Image, Menu, Palette } from 'lucide-react';
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { ThemeSwitch } from '../../layout/theme-switch';
+import { NavbarAccount } from './navbar-account';
+import { NavbarFrame } from './navbar-frame';
 
-export function Navbar() {
+const navLinkClass =
+  'transition-colors hover:text-primary group-data-[over-hero=true]/nav:hover:text-white group-data-[over-hero=true]/nav:hover:underline';
+
+export async function Navbar({ overHero = false }: { overHero?: boolean }) {
+  const signedIn = await hasActiveSession();
+
   return (
-    <nav className="sticky top-0 z-50 w-full border-b backdrop-blur bg-background/75">
-      <div className="w-full flex h-16 items-center justify-between">
+    <NavbarFrame overHero={overHero}>
+      <div className="flex h-full w-full items-center justify-between">
         <div className="-ml-2 flex items-center gap-8">
-          <Link
-            href="/"
-            className="flex items-center"
-          >
+          <Link href="/" className="flex items-center">
             <NextImage
               src="/images/logo_sem_escrita%20(3).png"
               alt="Museu de Birigui"
@@ -26,11 +29,11 @@ export function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-4 mr-3">
-          <div className="hidden items-center gap-6 text-sm font-medium text-muted-foreground md:flex">
+          <div className="hidden items-center gap-6 text-sm font-medium text-muted-foreground group-data-[over-hero=true]/nav:text-white md:flex">
             <div className="group relative">
               <button
                 type="button"
-                className="inline-flex items-center gap-1 bg-transparent p-0 hover:text-primary transition-colors"
+                className={`inline-flex items-center gap-1 bg-transparent p-0 ${navLinkClass}`}
                 aria-haspopup="true"
               >
                 Acervo
@@ -60,35 +63,25 @@ export function Navbar() {
                 </Link>
               </div>
             </div>
-            <Link
-              href="/tour-virtual"
-              className="hover:text-primary transition-colors"
-            >
+            <Link href="/tour-virtual" className={navLinkClass}>
               Tour Virtual
             </Link>
 
-            <Link
-              href="/programacao"
-              className="hover:text-primary transition-colors"
-            >
+            <Link href="/programacao" className={navLinkClass}>
               Programação
             </Link>
 
-            <Link href="#faq" className="hover:text-primary transition-colors">
+            <Link href="#faq" className={navLinkClass}>
               Suporte
             </Link>
           </div>
-          <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
-            <Link href="/login">
-              <LogIn className="mr-2 h-4 w-4" /> Login
-            </Link>
-          </Button>
+          <NavbarAccount signedIn={signedIn} />
           <Button variant="outline" size="icon" className="md:hidden">
             <Menu className="h-5 w-5" />
           </Button>
           <ThemeSwitch />
         </div>
       </div>
-    </nav>
+    </NavbarFrame>
   );
 }
