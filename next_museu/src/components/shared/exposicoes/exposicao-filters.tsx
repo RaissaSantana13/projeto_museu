@@ -12,17 +12,18 @@ export function ExposicaoFilters({
   onFilterChange,
 }: ExposicaoFiltersProps) {
   return (
-    <div className="flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div
+      role="group"
+      aria-label="Filtrar exposições"
+      className="flex flex-wrap gap-2"
+    >
       {filters.map((filter) => (
         <button
           key={filter}
           type="button"
           onClick={() => onFilterChange(filter)}
-          className={`shrink-0 rounded px-4 py-1.5 text-[10px] font-bold uppercase tracking-wide transition-colors ${
-            selectedFilter === filter
-              ? 'bg-[#9f4d0c] text-white'
-              : 'bg-[#c58225] text-white hover:bg-[#9f4d0c]'
-          }`}
+          aria-pressed={selectedFilter === filter}
+          className="min-h-10 rounded-lg border border-border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
         >
           {filter}
         </button>

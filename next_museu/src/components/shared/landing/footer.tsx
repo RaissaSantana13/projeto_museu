@@ -1,4 +1,5 @@
 import { Separator } from '@/components/ui/separator';
+import { LEGAL_LINKS } from '@/configs/legal-links';
 import { Facebook, Instagram, Mail, MapPin, Youtube } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -31,9 +32,13 @@ export function Footer() {
               </p>
               <p className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-primary" />
-                <span>contato@museudebirigui.org.br</span>
+                <Link
+                  href="/contato"
+                  className="hover:text-primary hover:underline"
+                >
+                  Contato
+                </Link>
               </p>
-              <p className="text-xs opacity-70 mt-4">Fundação Cultural • CNPJ: 00.000.000/0001-00</p>
             </div>
           </div>
 
@@ -41,16 +46,16 @@ export function Footer() {
           <div>
             <h5 className="font-bold text-foreground mb-6">Institucional</h5>
             <ul className="text-sm space-y-3 text-muted-foreground">
-              <li>
-                <Link href="#" className="hover:text-primary transition-colors">
-                  Termos de Uso
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-primary transition-colors">
-                  Política de Privacidade
-                </Link>
-              </li>
+              {LEGAL_LINKS.map(({ href, label }) => (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    className="transition-colors hover:text-primary hover:underline"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
               <li>
                 <Link href="#" className="hover:text-primary transition-colors">
                   Transparência

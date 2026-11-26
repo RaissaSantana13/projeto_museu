@@ -1,226 +1,141 @@
+import { ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-interface EventoDetalhes {
-  id: string;
+interface ExhibitionDetails {
   title: string;
+  summary: string;
   description: string;
-  fullDescription: string;
   img: string;
-  categories: string[];
-  indicativeRating: string;
-  dates: { date: string; day: string; time: string }[];
-  available: boolean;
 }
 
-function getIndicativeRatingColor(rating: string): string {
-  switch (rating) {
-    case 'L':
-      return 'bg-[#3A2F25]/10 text-[#3A2F25] border border-[#3A2F25]/30';
-    case '10':
-      return 'bg-blue-100 text-blue-800 border border-blue-300';
-    case '12':
-      return 'bg-yellow-100 text-yellow-800 border border-yellow-300';
-    case '14':
-      return 'bg-orange-100 text-orange-800 border border-orange-300';
-    case '16':
-      return 'bg-red-100 text-red-800 border border-red-300';
-    case '18':
-      return 'bg-black text-white border border-white';
-    default:
-      return 'bg-gray-100 text-gray-800 border border-gray-300';
-  }
-}
-
-const EVENTOS_DATABASE: Record<string, EventoDetalhes> = {
+const EXHIBITIONS: Record<string, ExhibitionDetails | undefined> = {
   '743836ab-e940-4c71-828f-b0223d72549c': {
-    id: '743836ab-e940-4c71-828f-b0223d72549c',
     title: 'O solo vira arte',
+    summary:
+      'Explore as cores e texturas naturais do solo como matéria-prima artística.',
     description:
-      'Venha explorar as cores e texturas naturais do solo como matéria-prima artistica.',
-    fullDescription:
-      'Uma seleção impressionante de fotografias contemporâneas que documentam a vida urbana e rural no Brasil. Os fotógrafos utilizaram técnicas inovadoras para capturar momentos únicos que refletem a diversidade cultural do país.',
+      'O que muda quando olhamos para o chão como matéria-prima? A exposição convida a observar as tonalidades e texturas da terra e a descobrir como elas podem ser usadas na criação artística.',
     img: '/images/expo_solo.png',
-    categories: ['Fotografia', 'Contemporâneo'],
-    indicativeRating: '10',
-    dates: [
-      { date: '13/05', day: 'Segunda', time: '14h' },
-      { date: '14/05', day: 'Terça', time: '14h' },
-    ],
-    available: true,
   },
   'ae68d180-e62f-4ab2-bf07-8e4f8b4f533a': {
-    id: 'ae68d180-e62f-4ab2-bf07-8e4f8b4f533a',
     title: 'O mundo em grafite',
-    description: 'O mundo em grafite',
-    fullDescription:
-      'A exposição "O Mundo em Grafite" apresenta uma coleção impressionante de obras de arte criadas exclusivamente com grafite, revelando a versatilidade e a expressividade desse material aparentemente simples. Desde retratos detalhados até paisagens surreais, cada peça é uma demonstração do talento e da criatividade dos artistas que transformam o grafite em verdadeiras obras-primas visuais.',
+    summary:
+      'Obras que revelam a versatilidade do grafite, dos retratos aos cenários surreais.',
+    description:
+      'Dos retratos às paisagens surreais, a exposição reúne obras feitas em grafite. Observe como o contraste entre luz e sombra e a variedade de traços criam volume, textura e expressão.',
     img: '/images/expo_grafite.png',
-    categories: ['Escultura', 'Clássico', 'Moderno'],
-    indicativeRating: '12',
-    dates: [
-      { date: '15/05', day: 'Quarta', time: '10h' },
-      { date: '16/05', day: 'Quinta', time: '10h' },
-    ],
-    available: false,
   },
   'a1514b35-3ff3-4642-81fe-1803ea95acd9': {
-    id: 'a1514b35-3ff3-4642-81fe-1803ea95acd9',
     title: 'Tipografia urbana',
-    description: 'Tipografia urbana',
-    fullDescription:
-      'A exposição "Tipografia Urbana" mergulha no fascinante mundo das letras e fontes que compõem a paisagem urbana. Apresentando uma coleção diversificada de tipografias encontradas em fachadas, placas de rua, grafites e anúncios publicitários, esta exposição celebra a arte da tipografia como um elemento essencial da identidade visual das cidades. Desde estilos clássicos até designs contemporâneos, os visitantes serão convidados a explorar a riqueza e a criatividade presentes nas letras que moldam o ambiente urbano.',
+    summary:
+      'Conheça a arte das letras que dão identidade às fachadas e aos espaços das cidades.',
+    description:
+      'A exposição propõe um olhar atento para as letras presentes no espaço urbano. Em placas, fachadas e anúncios, a forma de escrever ajuda a contar a história e a revelar a identidade de cada lugar.',
     img: '/images/expo_tipografia.png',
-    categories: ['Arte Digital', 'Interativa', 'Contemporânea'],
-    indicativeRating: '14',
-    dates: [
-      { date: '17/05', day: 'Sexta', time: '16h' },
-      { date: '18/05', day: 'Sábado', time: '16h' },
-      { date: '19/05', day: 'Domingo', time: '11h' },
-    ],
-    available: true,
   },
 };
 
 export function EventDetails({ eventId }: { eventId: string }) {
-  const evento = EVENTOS_DATABASE[eventId];
+  const exhibition = Object.hasOwn(EXHIBITIONS, eventId)
+    ? EXHIBITIONS[eventId]
+    : undefined;
 
-  if (!evento) {
+  if (!exhibition) {
     return (
-      <main className="flex-grow flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold mb-4">Obra não encontrada</h1>
-          <p className="text-muted-foreground mb-8">
-            Desculpe, não conseguimos encontrar a obra que você está procurando.
-          </p>
-        </div>
+      <main className="mx-auto w-full max-w-7xl flex-1 px-5 py-20 sm:px-8 lg:px-12">
+        <h1 className="font-serif text-4xl font-semibold">
+          Exposição não encontrada
+        </h1>
+        <Link
+          href="/exposicoes"
+          className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline"
+        >
+          <ArrowLeft className="size-4" aria-hidden="true" />
+          Voltar às exposições
+        </Link>
       </main>
     );
   }
 
   return (
-    <main className="flex-grow w-full py-12 px-4">
-      <div className="container mx-auto max-w-6xl">
-        {/* Botão voltar e título */}
-        <div className="mb-8">
-          <Link
-            href="/exposicoes"
-            className="inline-flex items-center gap-2 text-sm font-medium mb-6 hover:opacity-70 transition-opacity"
+    <main className="w-full flex-1 bg-background text-foreground">
+      <article className="mx-auto max-w-6xl px-5 pt-6 pb-16 sm:px-8 sm:pt-8 sm:pb-24 lg:px-12">
+        <Link
+          href="/exposicoes"
+          className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+        >
+          <ArrowLeft className="size-4" aria-hidden="true" />
+          Voltar às exposições
+        </Link>
+
+        <div className="mt-6 grid items-start gap-x-12 gap-y-6 md:grid-cols-[minmax(0,1fr)_minmax(0,16rem)]">
+          <header className="max-w-3xl">
+            <p className="text-xs font-bold tracking-[0.18em] text-primary uppercase">
+              Exposição · Museu de Birigui
+            </p>
+            <h1 className="mt-4 font-serif text-4xl leading-[1.05] font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+              {exhibition.title}
+            </h1>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              {exhibition.summary}
+            </p>
+          </header>
+
+          <figure className="w-full max-w-60 rounded-xl bg-muted p-3 md:row-span-2 md:max-w-none">
+            <Image
+              src={exhibition.img}
+              alt={`Cartaz da exposição ${exhibition.title}`}
+              width={427}
+              height={430}
+              sizes="(min-width: 768px) 232px, 216px"
+              className="h-auto w-full rounded-md object-contain"
+              preload
+            />
+          </figure>
+
+          <section
+            aria-labelledby="sobre-titulo"
+            className="max-w-2xl border-t border-border pt-6"
           >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+            <h2
+              id="sobre-titulo"
+              className="font-serif text-2xl font-semibold sm:text-3xl"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            Voltar às Exposições
-          </Link>
-          <h1 className="text-2xl font-bold font-serif">Detalhes da Exposição:</h1>
+              Sobre a exposição
+            </h2>
+            <p className="mt-4 max-w-prose text-base leading-relaxed text-muted-foreground">
+              {exhibition.description}
+            </p>
+          </section>
         </div>
 
-        {/* Seção principal com imagem e informações */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-          {/* Informações da obra */}
-          <div className="flex flex-col justify-start space-y-6">
-            {/* Disponibilidade */}
-            <div>
-              <span
-                className={`inline-block px-4 py-2 rounded text-sm font-semibold ${
-                  evento.available
-                    ? 'bg-yellow-400 text-yellow-950'
-                    : 'bg-gray-400 text-gray-900'
-                }`}
-              >
-                {evento.available ? 'DISPONÍVEL' : 'ESGOTADO'}
-              </span>
-            </div>
-
-            {/* Título e Classificação Indicativa + Categorias */}
-            <div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 font-serif">
-                {evento.title}
-              </h1>
-
-              <div className="flex flex-wrap items-center gap-4 mb-6 mt-6">
-                {/* Classificação Indicativa */}
-                <div
-                  className={`w-8 h-8 flex items-center justify-center rounded text-sm font-bold ${getIndicativeRatingColor(
-                    evento.indicativeRating,
-                  )}`}
-                >
-                  {evento.indicativeRating}
-                </div>
-
-                {/* Categorias */}
-                <div className="flex flex-wrap gap-2">
-                  {evento.categories.map((category) => (
-                    <span
-                      key={category}
-                      className={`px-3 py-1 rounded text-sm font-medium border bg-gray-100/20`}
-                    >
-                      {category}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Descrição curta */}
-            <div>
-              <p className="text-lg text-muted-foreground">
-                {evento.description}
-              </p>
-            </div>
-
-            {/* Datas e Horários */}
-            <div className="border-t pt-6">
-              <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
-                Datas e Horários:
-              </h3>
-              <div className="space-y-3">
-                {evento.dates.map((dateInfo, index) => (
-                  <div key={index}>
-                    <p className="font-semibold text-sm">{dateInfo.date}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {dateInfo.day}, às {dateInfo.time}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Imagem da obra */}
-          <div className="flex items-start">
-            <div className="w-full h-[500px] relative rounded-lg overflow-hidden shadow-lg">
-              <Image
-                src={evento.img}
-                alt={evento.title}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Descrição completa */}
-        <div className="mb-16 border-t pt-12">
-          <h2 className="text-2xl font-bold mb-6 font-serif">
-            Sobre este evento
+        <section
+          aria-labelledby="informacoes-titulo"
+          className="mt-8 rounded-xl border border-border bg-card p-5 text-card-foreground sm:p-7"
+        >
+          <h2
+            id="informacoes-titulo"
+            className="font-serif text-2xl font-semibold"
+          >
+            Informações para a visita
           </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            {evento.fullDescription}
-          </p>
-        </div>
-      </div>
+          <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2">
+            <div>
+              <dt className="font-semibold">Local</dt>
+              <dd className="mt-1 text-muted-foreground">
+                Museu Histórico “Dr. Renato Cordeiro”
+                <br />
+                Praça James Mellor, s/n · Birigui
+              </dd>
+            </div>
+            <div>
+              <dt className="font-semibold">Período e horários</dt>
+              <dd className="mt-1 text-muted-foreground">A confirmar</dd>
+            </div>
+          </dl>
+        </section>
+      </article>
     </main>
   );
 }

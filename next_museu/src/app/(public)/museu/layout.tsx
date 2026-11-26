@@ -12,7 +12,7 @@ export default async function SiteLayout({
   return (
     <Providers locale={locale} dictionary={dict}>
       <div className="flex min-h-screen flex-col">
-        <Navbar />
+        <Navbar overHero />
 
         <main className="flex-1">{children}</main>
 

@@ -1,5 +1,5 @@
 import { FeaturedArtworks } from '@/components/shared/landing/featured-artworks';
-import { RotatingArtworks } from '@/components/shared/landing/rotating-artworks';
+import { LandingGallery } from '@/components/shared/landing/landing-gallery';
 import { HighlightCarousel } from '../../../components/shared/landing/carrossel';
 import { Faqs } from '../../../components/shared/landing/faq';
 import { HeroMuseum } from '../../../components/shared/landing/hero';
@@ -13,7 +13,7 @@ export default function Home() {
         <HeroMuseum />
         <HighlightCarousel />
         {hasHighlightedArtworks && <FeaturedArtworks />}
-        <RotatingArtworks />
+        <LandingGallery />
         <Faqs />
       </main>
     </div>

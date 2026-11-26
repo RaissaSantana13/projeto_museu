@@ -14,7 +14,7 @@ export default async function AcervoPage({
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <ArtworkCollection tipo={tipo} />
+      <ArtworkCollection key={tipo} tipo={tipo} />
       <Footer />
     </div>
   );

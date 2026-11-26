@@ -5,7 +5,7 @@ import { ExposicaoPage } from '@/components/shared/exposicoes/exposicao-page';
 export default function ExposicoesRoute() {
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar />
+      <Navbar overHero />
       <ExposicaoPage />
       <Footer />
     </div>

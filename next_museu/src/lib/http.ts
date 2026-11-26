@@ -2,7 +2,10 @@ import axios, { AxiosError } from 'axios';
 import { ApiResponse } from '../type/api';
 
 export const http = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL:
+    typeof window === 'undefined'
+      ? (process.env.API_INTERNAL_URL ?? 'http://localhost:3000')
+      : (process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'),
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',

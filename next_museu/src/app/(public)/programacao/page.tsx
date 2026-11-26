@@ -5,7 +5,7 @@ import { ProgramacaoPage } from '@/components/shared/programacao/programacao-pag
 export default function ProgramacaoRoute() {
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar />
+      <Navbar overHero />
       <ProgramacaoPage />
       <Footer />
     </div>
