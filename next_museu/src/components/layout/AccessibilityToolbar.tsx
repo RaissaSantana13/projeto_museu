@@ -28,8 +28,52 @@ const ESTADO_INICIAL: Estado = {
 
 export default function AccessibilityToolbar() {
   const [aberto, setAberto] = useState(false);
+  const [vlibrasAberto, setVlibrasAberto] = useState(false);
   const [estado, setEstado] = useState<Estado>(ESTADO_INICIAL);
   const painelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const widget = painelRef.current;
+    if (!widget) return;
+
+    widget.showPopover();
+    return () => widget.hidePopover();
+  }, []);
+
+  useEffect(() => {
+    let raizObservada: ShadowRoot | null = null;
+
+    function sincronizarVLibras() {
+      const raiz = document.getElementById('vlibras-app-root')?.shadowRoot ?? null;
+      if (raiz && raiz !== raizObservada) {
+        raizObservada = raiz;
+        observerInterno.observe(raiz, {
+          attributes: true,
+          attributeFilter: ['class', 'inert'],
+          childList: true,
+          subtree: true,
+        });
+        observerDocumento.disconnect();
+      }
+
+      const app = raiz?.querySelector<HTMLElement>('#vlibras-app');
+      const aberto = Boolean(app && !app.hasAttribute('inert') && !app.classList.contains('opacity-0'));
+      setVlibrasAberto(aberto);
+      if (aberto) {
+        setAberto(false);
+      }
+    }
+
+    const observerInterno = new MutationObserver(sincronizarVLibras);
+    const observerDocumento = new MutationObserver(sincronizarVLibras);
+    observerDocumento.observe(document.body, { childList: true, subtree: true });
+    sincronizarVLibras();
+
+    return () => {
+      observerDocumento.disconnect();
+      observerInterno.disconnect();
+    };
+  }, []);
 
   // Aplica cada opção como atributo/estilo no <html>, pra valer o site inteiro
   useEffect(() => {
@@ -87,7 +131,12 @@ export default function AccessibilityToolbar() {
   }
 
   return (
-    <div className="a11y-widget" ref={painelRef}>
+    <div
+      className="a11y-widget"
+      ref={painelRef}
+      popover="manual"
+      data-vlibras-aberto={vlibrasAberto}
+    >
       <button
         type="button"
         className="a11y-widget__botao"
