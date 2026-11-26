@@ -74,6 +74,7 @@ export function buildAuthResources(): Resource[] {
   const registerPath = `${AUTH.ENTITY}/register`;
   const me = `${AUTH.ROTAS.BASE}/${AUTH.ROTAS.SESSION_ME}`;
   const refreshToken = `${AUTH.ROTAS.BASE}/${AUTH.ROTAS.REFRESH_TOKEN}`;
+  const confirmEmail = `${AUTH.ROTAS.BASE}/${AUTH.ROTAS.CONFIRM_EMAIL}`;
   const forgotPassword = `${AUTH.ROTAS.BASE}/${AUTH.ROTAS.SESSION_PASSWORD_FORGOT}`;
   return [
     {
@@ -116,6 +117,11 @@ export function buildAuthResources(): Resource[] {
       endpoint: endPointBase(registerPath),
       method: ['POST'],
     }, // register user
+    {
+      name: `${AUTH.ENTITY}`,
+      endpoint: endPointBase(confirmEmail),
+      method: ['POST'],
+    }, // confirm email
   ];
 }
 

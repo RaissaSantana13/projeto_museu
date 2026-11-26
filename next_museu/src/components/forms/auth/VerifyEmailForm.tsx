@@ -50,7 +50,10 @@ export function VerifyEmailForm() {
   const urlLogin = React.useMemo(() => {
     if (loading) return '';
     const resource = resources.find(
-      (r) => r.name.toLowerCase() === 'credentials' && r.method.includes('PUT'),
+      (r) =>
+        r.name.toLowerCase() === 'credentials' &&
+        r.endpoint.includes('confirm-email') &&
+        r.method.includes('POST'),
     );
 
     return resource?.endpoint || '';
@@ -116,7 +119,9 @@ export function VerifyEmailForm() {
         />
 
         {/* BOTÃO SUBMIT */}
-        <Button type="submit" aria-label={dict.auth.resend}>{dict.auth.resend}</Button>
+        <Button type="submit" aria-label={dict.auth.resend}>
+          {dict.auth.resend}
+        </Button>
 
         {/* SKIP */}
         <Link

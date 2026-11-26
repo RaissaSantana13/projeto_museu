@@ -54,7 +54,7 @@ export const AUTH = {
     SESSION_ME: '/session/me',
     REGISTER: '/register',
     VERIFICATION_EMAIL: '/verification-email',
-    CONFIRM_EMAIL: '/confirm-email',
+    CONFIRM_EMAIL: 'confirm-email',
     REFRESH_TOKEN: '/refresh-token',
     RESEND_CONFIRMATION: '/resend-confirmation',
   },

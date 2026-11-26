@@ -14,9 +14,9 @@ import React, { startTransition, useActionState } from 'react';
 import { toast } from 'sonner';
 import { registerAuthAction } from '../../../actions/auth/register-auth-actions';
 import {
-    getRegisterSchema,
-    RegisterCreate,
-    RegisterResponse,
+  getRegisterSchema,
+  RegisterCreate,
+  RegisterResponse,
 } from '../../../schemas/register-schemas';
 import { useDictionary } from '../../../service/providers/i18n-providers';
 import { useResources } from '../../../service/providers/resource-providers';
@@ -71,7 +71,7 @@ export function RegisterForm() {
       (r) =>
         r.name.toLowerCase() === 'credentials' &&
         r.method.includes('POST') &&
-        r.endpoint.includes('register'),
+        r.endpoint.includes('confirm-email'),
     );
 
     return resource?.endpoint || '';
@@ -123,58 +123,118 @@ export function RegisterForm() {
 
   return (
     <>
-    <form onSubmit={onSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Controller
-          name="firstName"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel>{dict.auth.register.firstName}</FieldLabel>
-              <Input
-                {...field}
-                value={field.value ?? ''}
-                placeholder={dict.auth.register.placeholderFirstName}
-                autoComplete="off"
-              />
-              {fieldState.invalid && fieldState.error && (
-                <FieldError>{fieldState.error.message}</FieldError>
-              )}
-            </Field>
-          )}
-        />
-
-        <Controller
-          name="lastName"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel>{dict.auth.register.lastName}</FieldLabel>
-              <Input
-                {...field}
-                value={field.value ?? ''}
-                placeholder={dict.auth.register.placeholderLastName}
-                autoComplete="off"
-              />
-              {fieldState.invalid && fieldState.error && (
-                <FieldError>{fieldState.error.message}</FieldError>
-              )}
-            </Field>
-          )}
-        />
-
-        <div className="sm:col-span-2">
+      <form onSubmit={onSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Controller
-            name="username"
+            name="firstName"
             control={form.control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel>{dict.auth.register.username}</FieldLabel>
+                <FieldLabel>{dict.auth.register.firstName}</FieldLabel>
                 <Input
                   {...field}
                   value={field.value ?? ''}
-                  placeholder={dict.auth.register.placeholderUserName}
+                  placeholder={dict.auth.register.placeholderFirstName}
                   autoComplete="off"
+                />
+                {fieldState.invalid && fieldState.error && (
+                  <FieldError>{fieldState.error.message}</FieldError>
+                )}
+              </Field>
+            )}
+          />
+
+          <Controller
+            name="lastName"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel>{dict.auth.register.lastName}</FieldLabel>
+                <Input
+                  {...field}
+                  value={field.value ?? ''}
+                  placeholder={dict.auth.register.placeholderLastName}
+                  autoComplete="off"
+                />
+                {fieldState.invalid && fieldState.error && (
+                  <FieldError>{fieldState.error.message}</FieldError>
+                )}
+              </Field>
+            )}
+          />
+
+          <div className="sm:col-span-2">
+            <Controller
+              name="username"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel>{dict.auth.register.username}</FieldLabel>
+                  <Input
+                    {...field}
+                    value={field.value ?? ''}
+                    placeholder={dict.auth.register.placeholderUserName}
+                    autoComplete="off"
+                  />
+                  {fieldState.invalid && fieldState.error && (
+                    <FieldError>{fieldState.error.message}</FieldError>
+                  )}
+                </Field>
+              )}
+            />
+          </div>
+
+          <div className="sm:col-span-2">
+            <Controller
+              name="email"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel>{dict.auth.register.email}</FieldLabel>
+                  <Input
+                    {...field}
+                    value={field.value ?? ''}
+                    placeholder={dict.auth.register.placeholderEmail}
+                    autoComplete="off"
+                  />
+                  {fieldState.invalid && fieldState.error && (
+                    <FieldError>{fieldState.error.message}</FieldError>
+                  )}
+                </Field>
+              )}
+            />
+          </div>
+
+          <Controller
+            name="password"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel>{dict.auth.register.password}</FieldLabel>
+                <Input
+                  {...field}
+                  value={field.value ?? ''}
+                  type="password"
+                  placeholder={dict.auth.register.placeholderPassword}
+                />
+                {fieldState.invalid && fieldState.error && (
+                  <FieldError>{fieldState.error.message}</FieldError>
+                )}
+              </Field>
+            )}
+          />
+
+          <Controller
+            name="confirmPassword"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel>{dict.auth.register.confirmPassword}</FieldLabel>
+                <Input
+                  {...field}
+                  value={field.value ?? ''}
+                  type="password"
+                  placeholder={dict.auth.register.placeholderConfirmPassword}
                 />
                 {fieldState.invalid && fieldState.error && (
                   <FieldError>{fieldState.error.message}</FieldError>
@@ -184,100 +244,48 @@ export function RegisterForm() {
           />
         </div>
 
-        <div className="sm:col-span-2">
-          <Controller
-            name="email"
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel>{dict.auth.register.email}</FieldLabel>
-                <Input
-                  {...field}
-                  value={field.value ?? ''}
-                  placeholder={dict.auth.register.placeholderEmail}
-                  autoComplete="off"
-                />
-                {fieldState.invalid && fieldState.error && (
-                  <FieldError>{fieldState.error.message}</FieldError>
-                )}
-              </Field>
-            )}
-          />
+        <ButtonLoading
+          isLoading={isPending}
+          disabled={isPending}
+          aria-label={dict.auth.access}
+        >
+          {dict.auth.access}
+        </ButtonLoading>
+        <div className="-mt-4 text-center text-sm">
+          {dict.auth.alreadyHaveAccount}{' '}
+          <Link
+            href="/login"
+            className="underline"
+            aria-label={dict.auth.signIn}
+          >
+            {dict.auth.signIn}
+          </Link>
         </div>
+        <SeparatorWithText>{dict.auth.orContinueWith}</SeparatorWithText>
+        <OAuthLinks />
+      </form>
 
-        <Controller
-          name="password"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel>{dict.auth.register.password}</FieldLabel>
-              <Input
-                {...field}
-                value={field.value ?? ''}
-                type="password"
-                placeholder={dict.auth.register.placeholderPassword}
-              />
-              {fieldState.invalid && fieldState.error && (
-                <FieldError>{fieldState.error.message}</FieldError>
-              )}
-            </Field>
-          )}
-        />
-
-        <Controller
-          name="confirmPassword"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel>{dict.auth.register.confirmPassword}</FieldLabel>
-              <Input
-                {...field}
-                value={field.value ?? ''}
-                type="password"
-                placeholder={dict.auth.register.placeholderConfirmPassword}
-              />
-              {fieldState.invalid && fieldState.error && (
-                <FieldError>{fieldState.error.message}</FieldError>
-              )}
-            </Field>
-          )}
-        />
-      </div>
-
-      <ButtonLoading isLoading={isPending} disabled={isPending} aria-label={dict.auth.access}>
-        {dict.auth.access}
-      </ButtonLoading>
-      <div className="-mt-4 text-center text-sm">
-        {dict.auth.alreadyHaveAccount}{' '}
-        <Link href="/login" className="underline" aria-label={dict.auth.signIn}>
-          {dict.auth.signIn}
-        </Link>
-      </div>
-      <SeparatorWithText>{dict.auth.orContinueWith}</SeparatorWithText>
-      <OAuthLinks />
-    </form>
-
-    <AlertDialog
-      open={showRegistrationSuccess}
-      onOpenChange={setShowRegistrationSuccess}
-    >
-      <AlertDialogContent size="sm">
-        <AlertDialogHeader>
-          <AlertDialogMedia className="mx-auto text-green-600">
-            <CheckCircle2 />
-          </AlertDialogMedia>
-          <AlertDialogTitle>Cadastro realizado!</AlertDialogTitle>
-          <AlertDialogDescription>
-            Sua conta foi criada com sucesso. Bem-vindo ao museu!
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogAction onClick={handleContinue} className="w-full">
-            Continuar
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+      <AlertDialog
+        open={showRegistrationSuccess}
+        onOpenChange={setShowRegistrationSuccess}
+      >
+        <AlertDialogContent size="sm">
+          <AlertDialogHeader>
+            <AlertDialogMedia className="mx-auto text-green-600">
+              <CheckCircle2 />
+            </AlertDialogMedia>
+            <AlertDialogTitle>Cadastro realizado!</AlertDialogTitle>
+            <AlertDialogDescription>
+              Sua conta foi criada com sucesso. Bem-vindo ao museu!
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={handleContinue} className="w-full">
+              Continuar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
