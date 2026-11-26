@@ -1,6 +1,14 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { ModelViewer } from '../landing/models-3d';
+
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { ModelViewer } from "../landing/models-3d";
+
+// ======================================
+// TIPAGEM DAS OBRAS
+// ======================================
 
 interface ObraDetalhes {
   id: string;
@@ -18,281 +26,620 @@ interface ObraDetalhes {
   model3dRotation?: [number, number, number];
 }
 
+// ======================================
+// DADOS DAS OBRAS
+// ======================================
+
 const OBRAS_DATABASE: Record<string, ObraDetalhes> = {
-  '550e8400-e29b-41d4-a716-446655440000': {
-    id: '550e8400-e29b-41d4-a716-446655440000',
-    title: 'Troféu Locomotiva de Bronze',
+  "550e8400-e29b-41d4-a716-446655440000": {
+    id: "550e8400-e29b-41d4-a716-446655440000",
+    title: "Troféu Locomotiva de Bronze",
     description:
-      'Prêmio comemorativo institucional em formato de locomotiva sobre base metálica',
+      "Prêmio comemorativo institucional em formato de locomotiva sobre base metálica",
     fullDescription:
       "Um troféu ou placa de homenagem institucional intitulado 'Locomotiva de Prata', concedido à Agatha Dafine Velani pelo Real Seguros (agência 123-8 - São Caetano / Sucursal Santo André). A peça traz a inscrição 'Nossa Maior Conquista: Ação do Vida', celebrando metas ou conquistas alcançadas em julho de 2006. Apresenta uma miniatura detalhada de uma locomotiva a vapor sobre trilhos, fixada em uma base retangular robusta, inteiramente com acabamento prateado.",
-    img: '/images/train.jpg',
+    img: "/images/train.jpg",
     categories: [
-      'Premiações',
-      'Memorabilia Corporativa',
-      'Anos 2000',
-      'Ferromodelismo',
+      "Premiações",
+      "Memorabilia Corporativa",
+      "Anos 2000",
+      "Ferromodelismo",
     ],
-    year: '2006',
-    artist: 'Real Seguros (Institucional)',
-    material: 'Metal com acabamento prateado',
-    model3dFileName: 'trem.glb',
+    year: "2006",
+    artist: "Real Seguros (Institucional)",
+    material: "Metal com acabamento prateado",
+    model3dFileName: "trem.glb",
     model3dScale: 3.5,
     model3dCameraDistance: 4.5,
     model3dRotation: [-Math.PI / 4, -Math.PI / 8, 0.2],
   },
-  '550e8400-e29b-41d4-a716-446655440001': {
-    id: '550e8400-e29b-41d4-a716-446655440001',
-    title: 'Microfone Condensador Behringer B-1',
+
+  "550e8400-e29b-41d4-a716-446655440001": {
+    id: "550e8400-e29b-41d4-a716-446655440001",
+    title: "Microfone Condensador Behringer B-1",
     description:
-      'Microfone de estúdio condensador de grande diafragma com padrão polar cardioide.',
+      "Microfone de estúdio condensador de grande diafragma com padrão polar cardioide.",
     fullDescription:
-      'O Behringer B-1 é um microfone condensador de grande diafragma projetado para gravação em estúdio. Possui uma cápsula banhada a ouro, padrão de captação cardioide que reduz ruídos laterais, e chaves físicas no corpo para atenuação de entrada (-10 dB) e filtro de corte de graves (low-cut). É um equipamento clássico de áudio profissional, ideal para vozes e instrumentos acústicos, exigindo alimentação Phantom Power (+48V) para funcionamento.',
-    img: '/images/microphone.png',
-    categories: ['Áudio Profissional', 'Equipamento de Estúdio', 'Microfones'],
-    year: '2000-Presente',
-    artist: 'Behringer',
-    material: 'Metal niquelado e componentes eletrônicos',
-    model3dFileName: 'microfone.glb',
+      "O Behringer B-1 é um microfone condensador de grande diafragma projetado para gravação em estúdio. Possui uma cápsula banhada a ouro, padrão de captação cardioide que reduz ruídos laterais, e chaves físicas no corpo para atenuação de entrada (-10 dB) e filtro de corte de graves (low-cut). É um equipamento clássico de áudio profissional, ideal para vozes e instrumentos acústicos, exigindo alimentação Phantom Power (+48V) para funcionamento.",
+    img: "/images/microphone.png",
+    categories: [
+      "Áudio Profissional",
+      "Equipamento de Estúdio",
+      "Microfones",
+    ],
+    year: "2000-Presente",
+    artist: "Behringer",
+    material: "Metal niquelado e componentes eletrônicos",
+    model3dFileName: "microfone.glb",
     model3dScale: 1.8,
     model3dCameraDistance: 3.5,
     model3dRotation: [0, 0, 0],
   },
-  '550e8400-e29b-41d4-a716-446655440004': {
-    id: '550e8400-e29b-41d4-a716-446655440004',
-    title: 'Cálice de Madeira Indígena',
+
+  "550e8400-e29b-41d4-a716-446655440004": {
+    id: "550e8400-e29b-41d4-a716-446655440004",
+    title: "Cálice de Madeira Indígena",
     description:
-      'Cálice artesanal esculpido em madeira nobre com acabamento polido, de origem indígena.',
+      "Cálice artesanal esculpido em madeira nobre com acabamento polido, de origem indígena.",
     fullDescription:
-      'Um cálice utilitário ou ritualístico, confeccionado artesanalmente a partir de um único bloco de madeira de lei. A peça apresenta linhas orgânicas e elegantes, uma copa ogival profunda e uma base circular de sustentação bem definida. O trabalho de tornearia ou escultura manual destaca os veios naturais escuros da madeira, recebendo um polimento fino que confere um aspecto acetinado e sofisticado ao objeto.',
-    img: '/images/cup.jpg',
+      "Um cálice utilitário ou ritualístico, confeccionado artesanalmente a partir de um único bloco de madeira de lei. A peça apresenta linhas orgânicas e elegantes, uma copa ogival profunda e uma base circular de sustentação bem definida. O trabalho de tornearia ou escultura manual destaca os veios naturais escuros da madeira, recebendo um polimento fino que confere um aspecto acetinado e sofisticado ao objeto.",
+    img: "/images/cup.jpg",
     categories: [
-      'Arte Indígena',
-      'Artesanato',
-      'Utensílios de Madeira',
-      'Arte Sacra e Ritualistica',
+      "Arte Indígena",
+      "Artesanato",
+      "Utensílios de Madeira",
+      "Arte Sacra e Ritualistica",
     ],
-    year: '1600-1800',
-    artist: 'Artesão Indígena Desconhecido',
-    material: 'Madeira maciça',
-    model3dFileName: 'caliceindigena.glb',
+    year: "1600-1800",
+    artist: "Artesão Indígena Desconhecido",
+    material: "Madeira maciça",
+    model3dFileName: "caliceindigena.glb",
     model3dScale: 12.0,
     model3dCameraDistance: 4.0,
     model3dRotation: [Math.PI / 2, 0, 0],
   },
-  '550e8400-e29b-41d4-a716-446655440005': {
-    id: '550e8400-e29b-41d4-a716-446655440005',
-    title: 'Telefone de Parede Antigo',
+
+  "550e8400-e29b-41d4-a716-446655440005": {
+    id: "550e8400-e29b-41d4-a716-446655440005",
+    title: "Telefone de Parede Antigo",
     description:
-      'Telefone de parede vintage em madeira e metal com sistema de manivela magnética do início do século XX.',
+      "Telefone de parede vintage em madeira e metal com sistema de manivela magnética do início do século XX.",
     fullDescription:
-      'Um clássico telefone de parede do final do século XIX ou início do século XX, montado em uma estrutura de madeira nobre. O aparelho possui um sistema de campainha dupla de metal no topo, um bocal/receptor conectado por cabo de tecido e uma manivela lateral utilizada para gerar corrente e chamar a telefonista. Este tipo de objeto representa um marco na evolução das telecomunicações globais.',
-    img: '/images/old_telephone.jpg',
-    categories: ['Antiguidades', 'Telecomunicações', 'História da Tecnologia'],
-    year: '1890-1920',
-    artist: 'LM Ericsson & Co.',
-    material: 'Madeira, ferro e latão',
-    model3dFileName: 'telefone.glb',
+      "Um clássico telefone de parede do final do século XIX ou início do século XX, montado em uma estrutura de madeira nobre. O aparelho possui um sistema de campainha dupla de metal no topo, um bocal/receptor conectado por cabo de tecido e uma manivela lateral utilizada para gerar corrente e chamar a telefonista. Este tipo de objeto representa um marco na evolução das telecomunicações globais.",
+    img: "/images/old_telephone.jpg",
+    categories: [
+      "Antiguidades",
+      "Telecomunicações",
+      "História da Tecnologia",
+    ],
+    year: "1890-1920",
+    artist: "LM Ericsson & Co.",
+    material: "Madeira, ferro e latão",
+    model3dFileName: "telefone.glb",
     model3dScale: 2.4,
     model3dCameraDistance: 4.0,
     model3dRotation: [0, 0, 0],
   },
-  '550e8400-e29b-41d4-a716-446655440006': {
-    id: '550e8400-e29b-41d4-a716-446655440006',
-    title: 'Jarro de Terracota',
+
+  "550e8400-e29b-41d4-a716-446655440006": {
+    id: "550e8400-e29b-41d4-a716-446655440006",
+    title: "Jarro de Terracota",
     description:
-      'Jarro de terracota artesanal, com acabamento único e detalhes handcrafted.',
+      "Jarro de terracota artesanal, com acabamento único e detalhes handcrafted.",
     fullDescription:
-      'Este recipiente de terracota, marcado pelo tempo e com o bocal quebrado, era utilizado pelos primeiros habitantes de Birigui-SP para armazenar e refrescar água. Hoje, a peça é um importante registro histórico que simboliza o trabalho, a simplicidade e a resiliência dos pioneiros no interior paulista.',
-    img: '/images/terracota_jug.jpg',
+      "Este recipiente de terracota, marcado pelo tempo e com o bocal quebrado, era utilizado pelos primeiros habitantes de Birigui-SP para armazenar e refrescar água. Hoje, a peça é um importante registro histórico que simboliza o trabalho, a simplicidade e a resiliência dos pioneiros no interior paulista.",
+    img: "/images/terracota_jug.jpg",
     categories: [
-      'Arte Indígena',
-      'Artesanato',
-      'Utensílios de Argila',
-      'Arte Sacra e Ritualistica',
+      "Arte Indígena",
+      "Artesanato",
+      "Utensílios de Argila",
+      "Arte Sacra e Ritualistica",
     ],
-    year: '1901-2000',
-    artist: 'Artesão Indígena Desconhecido',
-    material: 'Argila cozida',
-    model3dFileName: 'vazo.glb',
+    year: "1901-2000",
+    artist: "Artesão Indígena Desconhecido",
+    material: "Argila cozida",
+    model3dFileName: "vazo.glb",
     model3dScale: 4.5,
     model3dCameraDistance: 3.5,
     model3dRotation: [0, 0, 0],
   },
 };
 
-export function ArtworkDetails({ obraId }: { obraId: string }) {
+// ======================================
+// COMPONENTE PRINCIPAL
+// ======================================
+
+export function ArtworkDetails({
+  obraId,
+}: {
+  obraId: string;
+}) {
+  const [abaAtiva, setAbaAtiva] =
+    useState<"sobre" | "dados" | "modelo">("sobre");
+
   const obra = OBRAS_DATABASE[obraId];
 
   if (!obra) {
     return (
-      <main className="flex-grow flex items-center justify-center">
+      <main className="flex min-h-[60vh] items-center justify-center px-4 py-20">
         <div className="text-center">
-          <h1 className="text-3xl font-bold mb-4">Obra não encontrada</h1>
-          <p className="text-muted-foreground mb-8">
-            Desculpe, não conseguimos encontrar a obra que você está procurando.
-          </p>
+          <h1 className="mb-4 font-serif text-3xl font-bold">
+            Obra não encontrada
+          </h1>
+
+          <Link
+            href="/acervo/obras"
+            className="underline underline-offset-4"
+          >
+            Voltar ao acervo
+          </Link>
         </div>
       </main>
     );
   }
 
+  const relacionadas = Object.values(OBRAS_DATABASE)
+    .filter((item) => item.id !== obra.id)
+    .slice(0, 3);
+
+  const abas = [
+    { id: "sobre", nome: "Sobre" },
+    { id: "dados", nome: "Dados" },
+    { id: "modelo", nome: "Modelo 3D" },
+  ] as const;
+
   return (
-    <main className="flex-grow w-full py-12 px-4">
-      <div className="container mx-auto max-w-6xl">
-        {/* Botão voltar e título */}
-        <div className="mb-8">
-          <Link
-            href="/acervo"
-            className="inline-flex items-center gap-2 text-sm font-medium mb-6 hover:opacity-70 transition-opacity"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            Voltar ao Acervo
-          </Link>
-          <h1 className="text-2xl font-bold font-serif">Detalhes da Obra:</h1>
-        </div>
+    <main className="w-full min-w-0 flex-grow bg-background text-foreground">
 
-        {/* Seção principal com imagem e informações */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-          {/* Imagem da obra */}
-          <div className="flex items-start">
-            <div className="w-full h-[500px] relative rounded-xl overflow-hidden shadow-md bg-black/5 flex items-center justify-center p-4">
-              <Image
-                src={obra.img}
-                alt={obra.title}
-                fill
-                className="object-contain p-4 drop-shadow-sm"
-                priority
-              />
-            </div>
-          </div>
+      {/* =====================================
+          1. NAVEGAÇÃO SUPERIOR
+      ===================================== */}
 
-          {/* Informações da obra */}
-          <div className="flex flex-col justify-start space-y-8">
-            <div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 font-serif">
-                {obra.title}
-              </h1>
+      <div className="mx-auto max-w-6xl px-4 pb-6 pt-10">
+        <Link
+          href="/acervo"
+          className="mb-5 inline-flex items-center gap-2 text-sm font-medium transition-opacity hover:opacity-70"
+        >
+          <span aria-hidden="true">←</span>
+          Voltar ao Acervo
+        </Link>
 
-              {/* Categorias */}
-              <div className="flex flex-wrap gap-2 mb-6 mt-6">
-                {obra.categories.map((category) => (
-                  <span
-                    key={category}
-                    className={`px-3 py-1 rounded text-sm font-medium border bg-orange-400/50`}
-                  >
-                    {category}
-                  </span>
-                ))}
-              </div>
-
-              {/* Descrição curta */}
-              <p className="text-lg text-muted-foreground mb-6">
-                {obra.description}
-              </p>
-            </div>
-
-            {/* Detalhes técnicos */}
-            <div className="space-y-4 border-t pt-6">
-              {obra.year && (
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground uppercase tracking-wide">
-                      Período
-                    </p>
-                    <p className="text-base font-medium">{obra.year}</p>
-                  </div>
-                </div>
-              )}
-
-              {obra.artist && (
-                <div>
-                  <p className="text-sm text-muted-foreground uppercase tracking-wide">
-                    Artista / Fabricante
-                  </p>
-                  <p className="text-base font-medium">{obra.artist}</p>
-                </div>
-              )}
-
-              {obra.material && (
-                <div>
-                  <p className="text-sm text-muted-foreground uppercase tracking-wide">
-                    Material
-                  </p>
-                  <p className="text-base font-medium">{obra.material}</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Descrição completa */}
-        <div className="mb-16 border-t pt-12">
-          <h2 className="text-2xl font-bold mb-6 font-serif">
-            Sobre esta obra
-          </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            {obra.fullDescription}
-          </p>
-        </div>
-
-        {/* Seção de visualização 3D */}
-        <div className="border-t pt-12">
-          {obra.model3dFileName ? (
-            <ModelViewer
-              fileName={obra.model3dFileName}
-              scale={obra.model3dScale}
-              cameraDistance={obra.model3dCameraDistance}
-              rotation={obra.model3dRotation}
-            />
-          ) : (
-            <div className="rounded-lg border-2 border-dashed border-muted-foreground/30 p-16 text-center bg-muted/20">
-              <div className="max-w-2xl mx-auto">
-                <div className="mb-4">
-                  <svg
-                    className="w-16 h-16 mx-auto text-muted-foreground/50"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 10V3L4 14h7v7l9-11h-7z"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-bold mb-2">
-                  Visualização 3D em Desenvolvimento
-                </h3>
-                <p className="text-muted-foreground mb-4">
-                  Estamos preparando uma experiência interativa em 3D para esta
-                  obra. Em breve, você poderá visualizar e explorar todos os
-                  detalhes desta peça sob diferentes ângulos e com zoom
-                  avançado.
-                </p>
-                <p className="text-sm text-muted-foreground italic">
-                  Esta seção será preenchida com tecnologia 3D de última
-                  geração.
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
+        <h2 className="font-serif text-2xl font-bold">
+          Detalhes da Obra:
+        </h2>
       </div>
+
+      {/* =====================================
+          2. FOTOGRAFIA EM LARGURA TOTAL
+          SEM CORTES
+      ===================================== */}
+
+      <section
+        aria-label="Fotografia principal da obra"
+        className="w-full overflow-hidden bg-black/5"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={obra.img}
+          alt={obra.title}
+          className="block h-auto w-full"
+        />
+      </section>
+
+      {/* =====================================
+          3. SISTEMA DE ABAS
+      ===================================== */}
+
+      <section className="mx-auto max-w-6xl px-4 pb-14 pt-9">
+
+        {/* BOTÕES DAS TRÊS ABAS */}
+
+        <div
+          role="tablist"
+          aria-label="Informações da obra"
+          className="mb-10 flex flex-wrap gap-7 border-b"
+        >
+          {abas.map((aba) => (
+            <button
+              key={aba.id}
+              type="button"
+              role="tab"
+              id={`aba-${aba.id}`}
+              aria-selected={abaAtiva === aba.id}
+              aria-controls={`painel-${aba.id}`}
+              onClick={() => setAbaAtiva(aba.id)}
+              className={`
+                -mb-px cursor-pointer
+                border-b-2 px-1 pb-4
+                text-sm font-bold
+                uppercase tracking-wide
+                transition-colors
+                focus-visible:outline-2
+                focus-visible:outline-offset-4
+                focus-visible:outline-ring
+                ${
+                  abaAtiva === aba.id
+                    ? "border-primary text-foreground"
+                    : "border-transparent text-muted-foreground hover:text-foreground"
+                }
+              `}
+            >
+              {aba.nome}
+            </button>
+          ))}
+        </div>
+
+        {/* =====================================
+            ABA SOBRE
+        ===================================== */}
+
+        {abaAtiva === "sobre" && (
+          <div
+            id="painel-sobre"
+            role="tabpanel"
+            aria-labelledby="aba-sobre"
+          >
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,2fr)_minmax(240px,1fr)]">
+
+              {/* DESCRIÇÃO */}
+
+              <article>
+                <h1 className="mb-3 font-serif text-3xl font-bold md:text-4xl">
+                  {obra.title}
+                </h1>
+
+                {obra.artist && obra.year && (
+                  <p className="mb-6 text-sm text-muted-foreground">
+                    {obra.artist}, {obra.year}
+                  </p>
+                )}
+
+                <p className="mb-6 text-lg leading-relaxed text-muted-foreground">
+                  {obra.description}
+                </p>
+
+                <h2 className="mb-4 font-serif text-2xl font-bold">
+                  Sobre esta obra
+                </h2>
+
+                <p className="text-base leading-8 text-muted-foreground">
+                  {obra.fullDescription}
+                </p>
+              </article>
+
+              {/* RESUMO TÉCNICO */}
+
+              <aside className="border-t pt-6 lg:border-t-0 lg:pt-0">
+                <dl className="space-y-6">
+
+                  {obra.year && (
+                    <div>
+                      <dt className="text-sm font-semibold">
+                        Período
+                      </dt>
+                      <dd className="mt-1 text-sm text-muted-foreground">
+                        {obra.year}
+                      </dd>
+                    </div>
+                  )}
+
+                  {obra.artist && (
+                    <div>
+                      <dt className="text-sm font-semibold">
+                        Artista / Fabricante
+                      </dt>
+                      <dd className="mt-1 text-sm text-muted-foreground">
+                        {obra.artist}
+                      </dd>
+                    </div>
+                  )}
+
+                  {obra.material && (
+                    <div>
+                      <dt className="text-sm font-semibold">
+                        Material
+                      </dt>
+                      <dd className="mt-1 text-sm text-muted-foreground">
+                        {obra.material}
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+
+                <button
+                  type="button"
+                  onClick={() => setAbaAtiva("dados")}
+                  className="mt-8 cursor-pointer text-sm font-semibold underline underline-offset-4 hover:opacity-70"
+                >
+                  Ver todos os dados
+                </button>
+              </aside>
+            </div>
+          </div>
+        )}
+
+        {/* =====================================
+            ABA DADOS
+        ===================================== */}
+
+        {abaAtiva === "dados" && (
+          <div
+            id="painel-dados"
+            role="tabpanel"
+            aria-labelledby="aba-dados"
+          >
+            <div className="grid grid-cols-1 gap-10 md:grid-cols-[minmax(180px,1fr)_minmax(0,2.5fr)] md:gap-14">
+
+              {/* MINIATURA */}
+
+              <div className="relative h-[320px] w-full overflow-hidden rounded-lg bg-black/5 sm:h-[400px]">
+                <Image
+                  src={obra.img}
+                  alt={`Miniatura de ${obra.title}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 30vw"
+                  className="object-contain p-3"
+                />
+              </div>
+
+              {/* FICHA TÉCNICA */}
+
+              <div className="min-w-0 space-y-10">
+
+                {/* IDENTIFICAÇÃO */}
+
+                <section className="border-b pb-8">
+                  <h2 className="mb-6 font-serif text-xl font-bold uppercase tracking-wide">
+                    Identificação
+                  </h2>
+
+                  <dl className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-[160px_1fr]">
+
+                    <dt className="text-sm font-semibold">
+                      Título
+                    </dt>
+                    <dd className="text-sm text-muted-foreground">
+                      {obra.title}
+                    </dd>
+
+                    <dt className="text-sm font-semibold">
+                      Descrição
+                    </dt>
+                    <dd className="text-sm leading-relaxed text-muted-foreground">
+                      {obra.description}
+                    </dd>
+
+                    <dt className="text-sm font-semibold">
+                      Identificador digital
+                    </dt>
+                    <dd className="break-all text-sm text-muted-foreground">
+                      {obra.id}
+                    </dd>
+                  </dl>
+                </section>
+
+                {/* CRIAÇÃO */}
+
+                <section className="border-b pb-8">
+                  <h2 className="mb-6 font-serif text-xl font-bold uppercase tracking-wide">
+                    Criação
+                  </h2>
+
+                  <dl className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-[160px_1fr]">
+
+                    {obra.artist && (
+                      <>
+                        <dt className="text-sm font-semibold">
+                          Artista / Fabricante
+                        </dt>
+                        <dd className="text-sm text-muted-foreground">
+                          {obra.artist}
+                        </dd>
+                      </>
+                    )}
+
+                    {obra.year && (
+                      <>
+                        <dt className="text-sm font-semibold">
+                          Período
+                        </dt>
+                        <dd className="text-sm text-muted-foreground">
+                          {obra.year}
+                        </dd>
+                      </>
+                    )}
+
+                  </dl>
+                </section>
+
+                {/* MATERIAL E CLASSIFICAÇÃO */}
+
+                <section className="border-b pb-8">
+                  <h2 className="mb-6 font-serif text-xl font-bold uppercase tracking-wide">
+                    Material e classificação
+                  </h2>
+
+                  <dl className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-[160px_1fr]">
+
+                    {obra.material && (
+                      <>
+                        <dt className="text-sm font-semibold">
+                          Material
+                        </dt>
+                        <dd className="text-sm text-muted-foreground">
+                          {obra.material}
+                        </dd>
+                      </>
+                    )}
+
+                    <dt className="text-sm font-semibold">
+                      Categorias
+                    </dt>
+                    <dd className="flex flex-wrap gap-2">
+                      {obra.categories.map((categoria) => (
+                        <span
+                          key={categoria}
+                          className="rounded border bg-orange-400/50 px-3 py-1 text-sm font-medium"
+                        >
+                          {categoria}
+                        </span>
+                      ))}
+                    </dd>
+                  </dl>
+                </section>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* =====================================
+            ABA MODELO 3D
+        ===================================== */}
+
+        {abaAtiva === "modelo" && (
+          <div
+            id="painel-modelo"
+            role="tabpanel"
+            aria-labelledby="aba-modelo"
+          >
+            {obra.model3dFileName ? (
+              <ModelViewer
+                fileName={obra.model3dFileName}
+                title="Exploração Interativa 3D"
+                description="Clique e arraste para girar a peça. Use o scroll para aproximar ou afastar."
+                scale={obra.model3dScale}
+                cameraDistance={obra.model3dCameraDistance}
+                rotation={obra.model3dRotation}
+              />
+            ) : (
+              <div className="rounded-lg border-2 border-dashed p-12 text-center">
+
+                <h2 className="font-serif text-2xl font-bold">
+                  Visualização 3D em desenvolvimento
+                </h2>
+
+                <p className="mt-3 text-muted-foreground">
+                  O modelo tridimensional desta peça ainda não está disponível.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+      </section>
+
+      {/* =====================================
+          4. DESCUBRA MAIS
+          LARGURA TOTAL - ESTILO RIJKSMUSEUM
+      ===================================== */}
+
+      {relacionadas.length > 0 && (
+        <section
+          aria-labelledby="titulo-relacionadas"
+          className="w-full border-t border-border bg-background"
+        >
+          {/* CABEÇALHO */}
+
+          <div className="border-b border-border px-6 py-8 md:px-16">
+            <h2
+              id="titulo-relacionadas"
+              className="text-sm font-bold uppercase tracking-widest"
+            >
+              Descubra mais
+            </h2>
+          </div>
+
+          {/* GALERIA */}
+
+          <div className="grid grid-cols-1 gap-[2px] bg-border sm:grid-cols-2 lg:grid-cols-3">
+
+            {relacionadas.map((item, index) => (
+              <Link
+                key={item.id}
+                href={`/acervo/${item.id}/detalhes`}
+                aria-label={`Ver detalhes de ${item.title}`}
+                className="group relative block h-[350px] overflow-hidden bg-[#241a12] md:h-[420px]"
+              >
+
+                {/* IMAGEM */}
+
+                <Image
+                  src={item.img}
+                  alt={item.title}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                />
+
+                {/* DEGRADÊ */}
+
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/35"
+                />
+
+                {/* IDENTIFICAÇÃO DA GALERIA */}
+
+                {index === 0 && (
+                  <p className="absolute left-6 top-8 z-10 text-2xl font-bold uppercase tracking-wide text-[#f6e9d0] md:left-10 md:text-3xl">
+                    Mais do acervo
+                  </p>
+                )}
+
+                {/* TÍTULO DA OBRA */}
+
+                <div className="absolute bottom-0 left-0 z-10 w-full p-6 md:p-8">
+
+                  <h3 className="mb-2 text-xl font-bold leading-tight text-[#f6e9d0]">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-sm text-white/90">
+                    {item.year || "Peça do acervo"}
+                  </p>
+
+                  <span
+                    className="
+                      mt-4 inline-block
+                      translate-y-2
+                      text-sm font-medium
+                      text-[#e8c995]
+                      opacity-0
+                      transition-all duration-300
+                      group-hover:translate-y-0
+                      group-hover:opacity-100
+                      group-focus-visible:opacity-100
+                      max-md:translate-y-0
+                      max-md:opacity-100
+                    "
+                  >
+                    Explorar obra →
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* BOTÃO FINAL */}
+
+          <div className="flex justify-center px-6 py-12 md:py-16">
+            <Link
+              href="/acervo/obras"
+              className="
+                border border-border
+                px-8 py-3
+                text-sm font-semibold
+                uppercase tracking-wide
+                text-foreground
+                transition-colors duration-300
+                hover:bg-foreground
+                hover:text-background
+              "
+            >
+              Explorar todo o acervo
+            </Link>
+          </div>
+        </section>
+      )}
     </main>
   );
 }
