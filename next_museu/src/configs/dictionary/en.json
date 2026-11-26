@@ -1,5 +1,40 @@
 {
   "lang": "en",
+  "dashboard": {
+    "title": "Dashboard",
+    "description": "See what is available in the public collection of the Birigui Virtual Museum.",
+    "total": "Items in the public collection",
+    "objects": "Works and objects",
+    "photographs": "Photographs",
+    "documents": "Historical documents",
+    "recent": "Recent additions",
+    "documentType": "Historical document",
+    "pdfPage": "{count}-page PDF",
+    "pdfPages": "{count}-page PDF",
+    "accountMenu": {
+      "account": "My account",
+      "notifications": "Notifications",
+      "signOut": "Sign out"
+    }
+  },
+  "preferences": {
+    "language": "Language",
+    "toggleTheme": "Change theme",
+    "dark": "Dark",
+    "light": "Light"
+  },
+  "profilePhoto": {
+    "title": "My profile",
+    "label": "Profile photo",
+    "hint": "Select a JPEG, PNG, or WebP image up to 5 MB.",
+    "save": "Save photo",
+    "saving": "Saving photo…",
+    "saved": "Profile photo updated.",
+    "invalid": "Select a JPEG, PNG, or WebP image up to 5 MB.",
+    "failed": "The photo could not be saved. Try again.",
+    "backToDashboard": "Back to dashboard",
+    "backToMuseum": "Back to museum"
+  },
   "navigation": {
     "dashboards": "Dashboard",
     "back_dashboards": "Back to Home Page",
@@ -126,7 +161,7 @@
       "invalidEmail": "Invalid email",
       "invalidMinPassword": "Password must contain at least 8 characters",
       "invalidMaxPassword": "Password contains more than 250 characters",
-      "invalidCaracterPassword": "Password must contain at least one letter",
+      "invalidCharacterPassword": "Password must contain at least one letter",
       "invalidNumberDigit": "Password must contain at least one number",
       "passwordsMustMatch": "Passwords do not match",
       "invalidMinFirstName": "First Name must contain at least 2 characters.",
@@ -176,7 +211,11 @@
         "name": "Name",
         "email": "E-mail",
         "password": "Password",
-        "confirmPassword": "Confirm Password"
+        "confirmPassword": "Confirm Password",
+        "placeHolderName": "Enter your name",
+        "placeHolderEmail": "Enter your email address",
+        "placeHolderPassword": "Enter your password",
+        "placeHolderConfirmPassword": "Enter your password again"
       }
     },
     "foto": {
@@ -265,7 +304,7 @@
     "management": {
       "title": "Event Management",
       "description": "Manage events in the system.",
-      "lista_contact": "List of Events"
+      "lista_eventos": "List of Events"
     },
     "calendarDndProvider": {
       "activeData_overData": "Missing required event data",
@@ -278,7 +317,7 @@
       "edit_event": "Edit Event",
       "create_event": "Create Event",
       "description": "Description",
-      "title:": "Title",
+      "title": "Title",
       "start_date": "Start Date",
       "start_time": "Start Time",
       "end_date": "End Date",
@@ -291,6 +330,8 @@
       "no_period": "There are no events scheduled for this time period."
     },
     "calendar": {
+      "today": "Today",
+      "new_event": "New event",
       "event": "Event",
       "update": "upated",
       "add": "added",
@@ -389,7 +430,8 @@
       "action_delete": "Delete Role Record",
       "action_new": "Add Role Record",
       "action_cancel": "Cancel transaction in Role Record",
-      "id_not_found": "Role identifier not found"
+      "id_not_found": "Role identifier not found",
+      "not_found": "Role not found"
     },
     "form": {
       "create_title": "New Role",
