@@ -7,7 +7,7 @@ import Link from "next/link";
 import { ModelViewer } from "../landing/models-3d";
 
 // ======================================
-// TIPAGEM DAS OBRAS
+// TIPAGEM
 // ======================================
 
 interface ObraDetalhes {
@@ -18,6 +18,7 @@ interface ObraDetalhes {
   img: string;
   categories: string[];
   year?: string;
+  date?: string;
   artist?: string;
   material?: string;
   model3dFileName?: string;
@@ -27,10 +28,15 @@ interface ObraDetalhes {
 }
 
 // ======================================
-// DADOS DAS OBRAS
+// BANCO DE DADOS
 // ======================================
 
 const OBRAS_DATABASE: Record<string, ObraDetalhes> = {
+
+  // ====================================
+  // OBRAS E OBJETOS
+  // ====================================
+
   "550e8400-e29b-41d4-a716-446655440000": {
     id: "550e8400-e29b-41d4-a716-446655440000",
     title: "Troféu Locomotiva de Bronze",
@@ -143,6 +149,49 @@ const OBRAS_DATABASE: Record<string, ObraDetalhes> = {
     model3dCameraDistance: 3.5,
     model3dRotation: [0, 0, 0],
   },
+
+  // ====================================
+  // FOTOGRAFIAS HISTÓRICAS
+  // ====================================
+
+  "foto-001": {
+    id: "foto-001",
+    title: "Praça Central de Birigui",
+    description:
+      "Registro fotográfico da praça principal da cidade em meados do século XX.",
+    fullDescription:
+      "Registro fotográfico da praça principal da cidade em meados do século XX.",
+    img: "/images/04-%20Pra%C3%A7a%20Dr.%20Gama.jpg",
+    categories: ["Fotografia"],
+    year: "1958",
+    date: "1958-08-14",
+  },
+
+  "foto-002": {
+    id: "foto-002",
+    title: "Família do Bairro Centro",
+    description:
+      "Imagem histórica de uma família local em ambiente urbano e cotidiano.",
+    fullDescription:
+      "Imagem histórica de uma família local em ambiente urbano e cotidiano.",
+    img: "/images/01-%20Folia%20de%20Reis%20-%20Frei%20Tarc%C3%ADsio%20-%201982.jpg",
+    categories: ["Fotografia"],
+    year: "1982",
+    date: "1982-01-06",
+  },
+
+  "foto-003": {
+    id: "foto-003",
+    title: "Escola Municipal",
+    description:
+      "Fotografia de alunos e professores em frente à escola da cidade.",
+    fullDescription:
+      "Fotografia de alunos e professores em frente à escola da cidade.",
+    img: "/images/09.jpg",
+    categories: ["Fotografia"],
+    year: "1964",
+    date: "1964-10-21",
+  },
 };
 
 // ======================================
@@ -161,14 +210,18 @@ export function ArtworkDetails({
 
   if (!obra) {
     return (
-      <main className="flex min-h-[60vh] items-center justify-center px-4 py-20">
+      <main className="flex min-h-[60vh] flex-grow items-center justify-center px-4 py-20">
         <div className="text-center">
           <h1 className="mb-4 font-serif text-3xl font-bold">
             Obra não encontrada
           </h1>
 
+          <p className="mb-6 text-muted-foreground">
+            Não foi possível localizar este item no acervo.
+          </p>
+
           <Link
-            href="/acervo/obras"
+            href="/acervo"
             className="underline underline-offset-4"
           >
             Voltar ao acervo
@@ -178,26 +231,56 @@ export function ArtworkDetails({
     );
   }
 
-  const relacionadas = Object.values(OBRAS_DATABASE)
-    .filter((item) => item.id !== obra.id)
-    .slice(0, 3);
+  // ====================================
+  // IDENTIFICA O TIPO DE ACERVO
+  // ====================================
+
+  const isFoto = obra.id.startsWith("foto-");
+  const temModelo3D = Boolean(obra.model3dFileName);
+
+  const abaExibida =
+    !temModelo3D && abaAtiva === "modelo"
+      ? "sobre"
+      : abaAtiva;
 
   const abas = [
     { id: "sobre", nome: "Sobre" },
     { id: "dados", nome: "Dados" },
-    { id: "modelo", nome: "Modelo 3D" },
+    ...(temModelo3D
+      ? [{ id: "modelo", nome: "Modelo 3D" }]
+      : []),
   ] as const;
+
+  // ====================================
+  // OBRAS RELACIONADAS DO MESMO TIPO
+  // ====================================
+
+  const relacionadas = Object.values(OBRAS_DATABASE)
+    .filter((item) => {
+      const itemIsFoto = item.id.startsWith("foto-");
+
+      return (
+        item.id !== obra.id &&
+        itemIsFoto === isFoto
+      );
+    })
+    .slice(0, 3);
+
+  const linkAcervo = isFoto
+    ? "/acervo?tipo=foto"
+    : "/acervo?tipo=obra";
 
   return (
     <main className="w-full min-w-0 flex-grow bg-background text-foreground">
 
       {/* =====================================
-          1. NAVEGAÇÃO SUPERIOR
+          NAVEGAÇÃO SUPERIOR
       ===================================== */}
 
       <div className="mx-auto max-w-6xl px-4 pb-6 pt-10">
+
         <Link
-          href="/acervo"
+          href={linkAcervo}
           className="mb-5 inline-flex items-center gap-2 text-sm font-medium transition-opacity hover:opacity-70"
         >
           <span aria-hidden="true">←</span>
@@ -205,17 +288,19 @@ export function ArtworkDetails({
         </Link>
 
         <h2 className="font-serif text-2xl font-bold">
-          Detalhes da Obra:
+          {isFoto
+            ? "Detalhes da Fotografia:"
+            : "Detalhes da Obra:"}
         </h2>
       </div>
 
       {/* =====================================
-          2. FOTOGRAFIA EM LARGURA TOTAL
-          SEM CORTES
+          FOTOGRAFIA PRINCIPAL
+          LARGURA TOTAL SEM CORTES
       ===================================== */}
 
       <section
-        aria-label="Fotografia principal da obra"
+        aria-label="Imagem principal do acervo"
         className="w-full overflow-hidden bg-black/5"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -227,16 +312,16 @@ export function ArtworkDetails({
       </section>
 
       {/* =====================================
-          3. SISTEMA DE ABAS
+          SISTEMA DE ABAS
       ===================================== */}
 
       <section className="mx-auto max-w-6xl px-4 pb-14 pt-9">
 
-        {/* BOTÕES DAS TRÊS ABAS */}
+        {/* BOTÕES */}
 
         <div
           role="tablist"
-          aria-label="Informações da obra"
+          aria-label="Informações do item"
           className="mb-10 flex flex-wrap gap-7 border-b"
         >
           {abas.map((aba) => (
@@ -245,9 +330,13 @@ export function ArtworkDetails({
               type="button"
               role="tab"
               id={`aba-${aba.id}`}
-              aria-selected={abaAtiva === aba.id}
+              aria-selected={abaExibida === aba.id}
               aria-controls={`painel-${aba.id}`}
-              onClick={() => setAbaAtiva(aba.id)}
+              onClick={() =>
+                setAbaAtiva(
+                  aba.id as "sobre" | "dados" | "modelo"
+                )
+              }
               className={`
                 -mb-px cursor-pointer
                 border-b-2 px-1 pb-4
@@ -256,9 +345,8 @@ export function ArtworkDetails({
                 transition-colors
                 focus-visible:outline-2
                 focus-visible:outline-offset-4
-                focus-visible:outline-ring
                 ${
-                  abaAtiva === aba.id
+                  abaExibida === aba.id
                     ? "border-primary text-foreground"
                     : "border-transparent text-muted-foreground hover:text-foreground"
                 }
@@ -273,7 +361,7 @@ export function ArtworkDetails({
             ABA SOBRE
         ===================================== */}
 
-        {abaAtiva === "sobre" && (
+        {abaExibida === "sobre" && (
           <div
             id="painel-sobre"
             role="tabpanel"
@@ -284,13 +372,15 @@ export function ArtworkDetails({
               {/* DESCRIÇÃO */}
 
               <article>
-                <h1 className="mb-3 font-serif text-3xl font-bold md:text-4xl">
+                <h1 className="mb-4 font-serif text-3xl font-bold md:text-4xl">
                   {obra.title}
                 </h1>
 
-                {obra.artist && obra.year && (
+                {obra.year && (
                   <p className="mb-6 text-sm text-muted-foreground">
-                    {obra.artist}, {obra.year}
+                    {obra.artist
+                      ? `${obra.artist}, ${obra.year}`
+                      : obra.year}
                   </p>
                 )}
 
@@ -298,13 +388,18 @@ export function ArtworkDetails({
                   {obra.description}
                 </p>
 
-                <h2 className="mb-4 font-serif text-2xl font-bold">
-                  Sobre esta obra
-                </h2>
+                {!isFoto &&
+                  obra.fullDescription !== obra.description && (
+                    <>
+                      <h2 className="mb-4 font-serif text-2xl font-bold">
+                        Sobre esta obra
+                      </h2>
 
-                <p className="text-base leading-8 text-muted-foreground">
-                  {obra.fullDescription}
-                </p>
+                      <p className="text-base leading-8 text-muted-foreground">
+                        {obra.fullDescription}
+                      </p>
+                    </>
+                  )}
               </article>
 
               {/* RESUMO TÉCNICO */}
@@ -315,8 +410,9 @@ export function ArtworkDetails({
                   {obra.year && (
                     <div>
                       <dt className="text-sm font-semibold">
-                        Período
+                        {isFoto ? "Ano" : "Período"}
                       </dt>
+
                       <dd className="mt-1 text-sm text-muted-foreground">
                         {obra.year}
                       </dd>
@@ -328,6 +424,7 @@ export function ArtworkDetails({
                       <dt className="text-sm font-semibold">
                         Artista / Fabricante
                       </dt>
+
                       <dd className="mt-1 text-sm text-muted-foreground">
                         {obra.artist}
                       </dd>
@@ -339,11 +436,25 @@ export function ArtworkDetails({
                       <dt className="text-sm font-semibold">
                         Material
                       </dt>
+
                       <dd className="mt-1 text-sm text-muted-foreground">
                         {obra.material}
                       </dd>
                     </div>
                   )}
+
+                  <div>
+                    <dt className="text-sm font-semibold">
+                      Tipo de acervo
+                    </dt>
+
+                    <dd className="mt-1 text-sm text-muted-foreground">
+                      {isFoto
+                        ? "Fotografia"
+                        : "Obra ou objeto"}
+                    </dd>
+                  </div>
+
                 </dl>
 
                 <button
@@ -362,7 +473,7 @@ export function ArtworkDetails({
             ABA DADOS
         ===================================== */}
 
-        {abaAtiva === "dados" && (
+        {abaExibida === "dados" && (
           <div
             id="painel-dados"
             role="tabpanel"
@@ -398,6 +509,7 @@ export function ArtworkDetails({
                     <dt className="text-sm font-semibold">
                       Título
                     </dt>
+
                     <dd className="text-sm text-muted-foreground">
                       {obra.title}
                     </dd>
@@ -405,6 +517,7 @@ export function ArtworkDetails({
                     <dt className="text-sm font-semibold">
                       Descrição
                     </dt>
+
                     <dd className="text-sm leading-relaxed text-muted-foreground">
                       {obra.description}
                     </dd>
@@ -412,9 +525,21 @@ export function ArtworkDetails({
                     <dt className="text-sm font-semibold">
                       Identificador digital
                     </dt>
+
                     <dd className="break-all text-sm text-muted-foreground">
                       {obra.id}
                     </dd>
+
+                    <dt className="text-sm font-semibold">
+                      Tipo
+                    </dt>
+
+                    <dd className="text-sm text-muted-foreground">
+                      {isFoto
+                        ? "Fotografia histórica"
+                        : "Obra ou objeto"}
+                    </dd>
+
                   </dl>
                 </section>
 
@@ -432,6 +557,7 @@ export function ArtworkDetails({
                         <dt className="text-sm font-semibold">
                           Artista / Fabricante
                         </dt>
+
                         <dd className="text-sm text-muted-foreground">
                           {obra.artist}
                         </dd>
@@ -441,10 +567,23 @@ export function ArtworkDetails({
                     {obra.year && (
                       <>
                         <dt className="text-sm font-semibold">
-                          Período
+                          {isFoto ? "Ano cadastrado" : "Período"}
                         </dt>
+
                         <dd className="text-sm text-muted-foreground">
                           {obra.year}
+                        </dd>
+                      </>
+                    )}
+
+                    {obra.date && (
+                      <>
+                        <dt className="text-sm font-semibold">
+                          Data cadastrada
+                        </dt>
+
+                        <dd className="text-sm text-muted-foreground">
+                          {obra.date.split("-").reverse().join("/")}
                         </dd>
                       </>
                     )}
@@ -456,7 +595,9 @@ export function ArtworkDetails({
 
                 <section className="border-b pb-8">
                   <h2 className="mb-6 font-serif text-xl font-bold uppercase tracking-wide">
-                    Material e classificação
+                    {isFoto
+                      ? "Classificação"
+                      : "Material e classificação"}
                   </h2>
 
                   <dl className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-[160px_1fr]">
@@ -466,6 +607,7 @@ export function ArtworkDetails({
                         <dt className="text-sm font-semibold">
                           Material
                         </dt>
+
                         <dd className="text-sm text-muted-foreground">
                           {obra.material}
                         </dd>
@@ -475,6 +617,7 @@ export function ArtworkDetails({
                     <dt className="text-sm font-semibold">
                       Categorias
                     </dt>
+
                     <dd className="flex flex-wrap gap-2">
                       {obra.categories.map((categoria) => (
                         <span
@@ -485,8 +628,10 @@ export function ArtworkDetails({
                         </span>
                       ))}
                     </dd>
+
                   </dl>
                 </section>
+
               </div>
             </div>
           </div>
@@ -494,15 +639,16 @@ export function ArtworkDetails({
 
         {/* =====================================
             ABA MODELO 3D
+            APENAS PARA OBRAS COM MODELO
         ===================================== */}
 
-        {abaAtiva === "modelo" && (
-          <div
-            id="painel-modelo"
-            role="tabpanel"
-            aria-labelledby="aba-modelo"
-          >
-            {obra.model3dFileName ? (
+        {abaExibida === "modelo" &&
+          obra.model3dFileName && (
+            <div
+              id="painel-modelo"
+              role="tabpanel"
+              aria-labelledby="aba-modelo"
+            >
               <ModelViewer
                 fileName={obra.model3dFileName}
                 title="Exploração Interativa 3D"
@@ -511,25 +657,14 @@ export function ArtworkDetails({
                 cameraDistance={obra.model3dCameraDistance}
                 rotation={obra.model3dRotation}
               />
-            ) : (
-              <div className="rounded-lg border-2 border-dashed p-12 text-center">
+            </div>
+          )}
 
-                <h2 className="font-serif text-2xl font-bold">
-                  Visualização 3D em desenvolvimento
-                </h2>
-
-                <p className="mt-3 text-muted-foreground">
-                  O modelo tridimensional desta peça ainda não está disponível.
-                </p>
-              </div>
-            )}
-          </div>
-        )}
       </section>
 
       {/* =====================================
-          4. DESCUBRA MAIS
-          LARGURA TOTAL - ESTILO RIJKSMUSEUM
+          DESCUBRA MAIS
+          ESTILO RIJKSMUSEUM
       ===================================== */}
 
       {relacionadas.length > 0 && (
@@ -537,6 +672,7 @@ export function ArtworkDetails({
           aria-labelledby="titulo-relacionadas"
           className="w-full border-t border-border bg-background"
         >
+
           {/* CABEÇALHO */}
 
           <div className="border-b border-border px-6 py-8 md:px-16">
@@ -550,8 +686,17 @@ export function ArtworkDetails({
 
           {/* GALERIA */}
 
-          <div className="grid grid-cols-1 gap-[2px] bg-border sm:grid-cols-2 lg:grid-cols-3">
-
+          <div
+            className={`
+              grid grid-cols-1 gap-[2px] bg-border
+              sm:grid-cols-2
+              ${
+                relacionadas.length >= 3
+                  ? "lg:grid-cols-3"
+                  : "lg:grid-cols-2"
+              }
+            `}
+          >
             {relacionadas.map((item, index) => (
               <Link
                 key={item.id}
@@ -581,11 +726,13 @@ export function ArtworkDetails({
 
                 {index === 0 && (
                   <p className="absolute left-6 top-8 z-10 text-2xl font-bold uppercase tracking-wide text-[#f6e9d0] md:left-10 md:text-3xl">
-                    Mais do acervo
+                    {isFoto
+                      ? "Mais fotografias"
+                      : "Mais do acervo"}
                   </p>
                 )}
 
-                {/* TÍTULO DA OBRA */}
+                {/* INFORMAÇÕES */}
 
                 <div className="absolute bottom-0 left-0 z-10 w-full p-6 md:p-8">
 
@@ -612,8 +759,9 @@ export function ArtworkDetails({
                       max-md:opacity-100
                     "
                   >
-                    Explorar obra →
+                    Explorar item →
                   </span>
+
                 </div>
               </Link>
             ))}
@@ -623,7 +771,7 @@ export function ArtworkDetails({
 
           <div className="flex justify-center px-6 py-12 md:py-16">
             <Link
-              href="/acervo/obras"
+              href={linkAcervo}
               className="
                 border border-border
                 px-8 py-3
@@ -635,11 +783,15 @@ export function ArtworkDetails({
                 hover:text-background
               "
             >
-              Explorar todo o acervo
+              {isFoto
+                ? "Explorar fotografias"
+                : "Explorar todo o acervo"}
             </Link>
           </div>
+
         </section>
       )}
+
     </main>
   );
 }
