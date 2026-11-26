@@ -5,9 +5,10 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ModelViewer } from "../landing/models-3d";
+import { ArtworkImageZoom } from "./artwork-image-zoom";
 
 // ======================================
-// TIPAGEM
+// TIPAGEM DAS OBRAS
 // ======================================
 
 interface ObraDetalhes {
@@ -28,7 +29,7 @@ interface ObraDetalhes {
 }
 
 // ======================================
-// BANCO DE DADOS
+// BANCO DE DADOS DAS OBRAS
 // ======================================
 
 const OBRAS_DATABASE: Record<string, ObraDetalhes> = {
@@ -236,7 +237,10 @@ export function ArtworkDetails({
   // ====================================
 
   const isFoto = obra.id.startsWith("foto-");
-  const temModelo3D = Boolean(obra.model3dFileName);
+
+  const temModelo3D = Boolean(
+    obra.model3dFileName
+  );
 
   const abaExibida =
     !temModelo3D && abaAtiva === "modelo"
@@ -252,7 +256,7 @@ export function ArtworkDetails({
   ] as const;
 
   // ====================================
-  // OBRAS RELACIONADAS DO MESMO TIPO
+  // OBRAS RELACIONADAS
   // ====================================
 
   const relacionadas = Object.values(OBRAS_DATABASE)
@@ -274,11 +278,10 @@ export function ArtworkDetails({
     <main className="w-full min-w-0 flex-grow bg-background text-foreground">
 
       {/* =====================================
-          NAVEGAÇÃO SUPERIOR
+          1. NAVEGAÇÃO SUPERIOR
       ===================================== */}
 
       <div className="mx-auto max-w-6xl px-4 pb-6 pt-10">
-
         <Link
           href={linkAcervo}
           className="mb-5 inline-flex items-center gap-2 text-sm font-medium transition-opacity hover:opacity-70"
@@ -295,29 +298,28 @@ export function ArtworkDetails({
       </div>
 
       {/* =====================================
-          FOTOGRAFIA PRINCIPAL
-          LARGURA TOTAL SEM CORTES
+          2. FOTOGRAFIA PRINCIPAL
+          COM ZOOM INTERATIVO
       ===================================== */}
 
       <section
         aria-label="Imagem principal do acervo"
-        className="w-full overflow-hidden bg-black/5"
+        className="w-full"
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <ArtworkImageZoom
+          key={obra.id}
           src={obra.img}
           alt={obra.title}
-          className="block h-auto w-full"
         />
       </section>
 
       {/* =====================================
-          SISTEMA DE ABAS
+          3. SISTEMA DE ABAS
       ===================================== */}
 
       <section className="mx-auto max-w-6xl px-4 pb-14 pt-9">
 
-        {/* BOTÕES */}
+        {/* BOTÕES DAS ABAS */}
 
         <div
           role="tablist"
@@ -405,6 +407,7 @@ export function ArtworkDetails({
               {/* RESUMO TÉCNICO */}
 
               <aside className="border-t pt-6 lg:border-t-0 lg:pt-0">
+
                 <dl className="space-y-6">
 
                   {obra.year && (
@@ -454,7 +457,6 @@ export function ArtworkDetails({
                         : "Obra ou objeto"}
                     </dd>
                   </div>
-
                 </dl>
 
                 <button
@@ -484,6 +486,7 @@ export function ArtworkDetails({
               {/* MINIATURA */}
 
               <div className="relative h-[320px] w-full overflow-hidden rounded-lg bg-black/5 sm:h-[400px]">
+
                 <Image
                   src={obra.img}
                   alt={`Miniatura de ${obra.title}`}
@@ -491,6 +494,7 @@ export function ArtworkDetails({
                   sizes="(max-width: 768px) 100vw, 30vw"
                   className="object-contain p-3"
                 />
+
               </div>
 
               {/* FICHA TÉCNICA */}
@@ -500,6 +504,7 @@ export function ArtworkDetails({
                 {/* IDENTIFICAÇÃO */}
 
                 <section className="border-b pb-8">
+
                   <h2 className="mb-6 font-serif text-xl font-bold uppercase tracking-wide">
                     Identificação
                   </h2>
@@ -546,6 +551,7 @@ export function ArtworkDetails({
                 {/* CRIAÇÃO */}
 
                 <section className="border-b pb-8">
+
                   <h2 className="mb-6 font-serif text-xl font-bold uppercase tracking-wide">
                     Criação
                   </h2>
@@ -567,7 +573,9 @@ export function ArtworkDetails({
                     {obra.year && (
                       <>
                         <dt className="text-sm font-semibold">
-                          {isFoto ? "Ano cadastrado" : "Período"}
+                          {isFoto
+                            ? "Ano cadastrado"
+                            : "Período"}
                         </dt>
 
                         <dd className="text-sm text-muted-foreground">
@@ -583,7 +591,10 @@ export function ArtworkDetails({
                         </dt>
 
                         <dd className="text-sm text-muted-foreground">
-                          {obra.date.split("-").reverse().join("/")}
+                          {obra.date
+                            .split("-")
+                            .reverse()
+                            .join("/")}
                         </dd>
                       </>
                     )}
@@ -594,6 +605,7 @@ export function ArtworkDetails({
                 {/* MATERIAL E CLASSIFICAÇÃO */}
 
                 <section className="border-b pb-8">
+
                   <h2 className="mb-6 font-serif text-xl font-bold uppercase tracking-wide">
                     {isFoto
                       ? "Classificação"
@@ -619,6 +631,7 @@ export function ArtworkDetails({
                     </dt>
 
                     <dd className="flex flex-wrap gap-2">
+
                       {obra.categories.map((categoria) => (
                         <span
                           key={categoria}
@@ -627,6 +640,7 @@ export function ArtworkDetails({
                           {categoria}
                         </span>
                       ))}
+
                     </dd>
 
                   </dl>
@@ -639,7 +653,6 @@ export function ArtworkDetails({
 
         {/* =====================================
             ABA MODELO 3D
-            APENAS PARA OBRAS COM MODELO
         ===================================== */}
 
         {abaExibida === "modelo" &&
@@ -663,7 +676,7 @@ export function ArtworkDetails({
       </section>
 
       {/* =====================================
-          DESCUBRA MAIS
+          4. DESCUBRA MAIS
           ESTILO RIJKSMUSEUM
       ===================================== */}
 
@@ -676,12 +689,14 @@ export function ArtworkDetails({
           {/* CABEÇALHO */}
 
           <div className="border-b border-border px-6 py-8 md:px-16">
+
             <h2
               id="titulo-relacionadas"
               className="text-sm font-bold uppercase tracking-widest"
             >
               Descubra mais
             </h2>
+
           </div>
 
           {/* GALERIA */}
@@ -697,6 +712,7 @@ export function ArtworkDetails({
               }
             `}
           >
+
             {relacionadas.map((item, index) => (
               <Link
                 key={item.id}
@@ -722,7 +738,7 @@ export function ArtworkDetails({
                   className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/35"
                 />
 
-                {/* IDENTIFICAÇÃO DA GALERIA */}
+                {/* IDENTIFICAÇÃO */}
 
                 {index === 0 && (
                   <p className="absolute left-6 top-8 z-10 text-2xl font-bold uppercase tracking-wide text-[#f6e9d0] md:left-10 md:text-3xl">
@@ -732,7 +748,7 @@ export function ArtworkDetails({
                   </p>
                 )}
 
-                {/* INFORMAÇÕES */}
+                {/* INFORMAÇÕES DA PEÇA */}
 
                 <div className="absolute bottom-0 left-0 z-10 w-full p-6 md:p-8">
 
@@ -770,6 +786,7 @@ export function ArtworkDetails({
           {/* BOTÃO FINAL */}
 
           <div className="flex justify-center px-6 py-12 md:py-16">
+
             <Link
               href={linkAcervo}
               className="
@@ -787,8 +804,8 @@ export function ArtworkDetails({
                 ? "Explorar fotografias"
                 : "Explorar todo o acervo"}
             </Link>
-          </div>
 
+          </div>
         </section>
       )}
 
