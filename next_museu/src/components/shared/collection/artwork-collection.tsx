@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { SectionReveal } from '../motion/section-reveal';
 import { ArtworkGallery } from './artwork-gallery';
 import { FOTOGRAFIAS, OBRAS, type CollectionItem } from './collection-items';
 
@@ -119,13 +120,14 @@ export function ArtworkCollection({
     <section className="min-h-screen w-full bg-background text-foreground">
       <header className="border-b border-border">
         <div className="mx-auto max-w-7xl px-5 pb-10 pt-24 sm:px-8 md:pb-12 md:pt-28 lg:px-12">
-          <p className="mb-4 text-sm font-medium tracking-wide text-muted-foreground">
-            {config.eyebrow}
-          </p>
-
-          <h1 className="max-w-5xl text-5xl font-black uppercase leading-[0.92] tracking-tight text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
-            {config.title}
-          </h1>
+          <SectionReveal>
+            <p className="mb-4 text-sm font-medium tracking-wide text-muted-foreground">
+              {config.eyebrow}
+            </p>
+            <h1 className="max-w-5xl text-5xl font-black uppercase leading-[0.92] tracking-tight text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
+              {config.title}
+            </h1>
+          </SectionReveal>
 
           <nav aria-label="Categorias do acervo" className="mt-8">
             <ul className="flex flex-wrap gap-2">

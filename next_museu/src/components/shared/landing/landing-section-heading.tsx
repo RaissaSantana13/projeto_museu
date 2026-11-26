@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SectionReveal } from '../motion/section-reveal';
 
 export function LandingSectionHeading({
   id,
@@ -14,7 +15,7 @@ export function LandingSectionHeading({
   onDark?: boolean;
 }) {
   return (
-    <div className="mx-auto flex max-w-7xl flex-wrap items-baseline justify-between gap-4 px-5 pt-10 pb-8 sm:px-8 lg:px-12">
+    <SectionReveal className="mx-auto flex max-w-7xl flex-wrap items-baseline justify-between gap-4 px-5 pt-10 pb-8 sm:px-8 lg:px-12">
       <h2 id={id} className="text-sm font-bold tracking-[0.12em] uppercase">
         {title}
       </h2>
@@ -24,6 +25,6 @@ export function LandingSectionHeading({
       >
         {linkLabel}
       </Link>
-    </div>
+    </SectionReveal>
   );
 }

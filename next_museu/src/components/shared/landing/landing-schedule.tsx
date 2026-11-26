@@ -1,10 +1,9 @@
 import {
-  Carousel,
   CarouselContent,
-  CarouselItem,
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { DepthDeck, DepthDeckItem } from '../motion/depth-deck';
 import { ProgramacaoCard } from '../programacao/programacao-card';
 import { PROGRAMACAO } from '../programacao/programacao-data';
 import { LandingSectionHeading } from './landing-section-heading';
@@ -33,22 +32,20 @@ export function LandingSchedule() {
       />
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
         {EVENTOS_ATIVOS.length > 1 ? (
-          <Carousel
+          <DepthDeck
             aria-label="Eventos em cartaz e últimos dias"
             className="w-full"
-            opts={{
-              align: 'start',
-              breakpoints: { '(prefers-reduced-motion: reduce)': { duration: 0 } },
-            }}
+            opts={{ align: 'start' }}
           >
-            <CarouselContent className="-ml-4 cursor-grab pb-1 select-none active:cursor-grabbing">
-              {EVENTOS_ATIVOS.map((event) => (
-                <CarouselItem
+            <CarouselContent className="-ml-4 cursor-grab py-2 select-none active:cursor-grabbing">
+              {EVENTOS_ATIVOS.map((event, index) => (
+                <DepthDeckItem
                   key={event.id}
+                  index={index}
                   className="basis-[92%] pl-4 sm:basis-[88%]"
                 >
                   <ProgramacaoCard event={event} compact />
-                </CarouselItem>
+                </DepthDeckItem>
               ))}
             </CarouselContent>
             <div className="mt-3 flex items-center justify-between gap-3">
@@ -63,7 +60,7 @@ export function LandingSchedule() {
                 <CarouselNext aria-label="Próximo evento" className={arrowClass} />
               </div>
             </div>
-          </Carousel>
+          </DepthDeck>
         ) : EVENTOS_ATIVOS.length === 1 ? (
           <div className="w-full">
             <ProgramacaoCard event={EVENTOS_ATIVOS[0]} compact />

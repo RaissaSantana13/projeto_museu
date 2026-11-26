@@ -1,13 +1,12 @@
 import {
-  Carousel,
   CarouselContent,
-  CarouselItem,
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { DepthDeck, DepthDeckItem } from '../motion/depth-deck';
 import type { Exposicao } from './exposicoes-data';
 
 export function ExposicoesList({ items }: { items: Exposicao[] }) {
@@ -20,11 +19,12 @@ export function ExposicoesList({ items }: { items: Exposicao[] }) {
   }
 
   return (
-    <Carousel aria-label="Cartazes das exposições" opts={{ align: 'start' }}>
-      <CarouselContent className="-ml-5 py-1">
-        {items.map((exposicao) => (
-          <CarouselItem
+    <DepthDeck aria-label="Cartazes das exposições" opts={{ align: 'start' }}>
+      <CarouselContent className="-ml-5 py-2">
+        {items.map((exposicao, index) => (
+          <DepthDeckItem
             key={exposicao.id}
+            index={index}
             className="basis-full pl-5 sm:basis-1/2 lg:basis-1/3"
           >
             <article className="flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-xs">
@@ -65,7 +65,7 @@ export function ExposicoesList({ items }: { items: Exposicao[] }) {
                 </Link>
               </div>
             </article>
-          </CarouselItem>
+          </DepthDeckItem>
         ))}
       </CarouselContent>
 
@@ -83,6 +83,6 @@ export function ExposicoesList({ items }: { items: Exposicao[] }) {
           />
         </div>
       )}
-    </Carousel>
+    </DepthDeck>
   );
 }

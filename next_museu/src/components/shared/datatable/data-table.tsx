@@ -24,6 +24,7 @@ import {
 import React from 'react';
 import { Card, CardContent } from '../../ui/card';
 import { Input } from '../../ui/input';
+import { SectionReveal } from '../motion/section-reveal';
 import { DataTablePagination } from './pagination';
 
 interface DataTableProps<TData, TValue> {
@@ -130,7 +131,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div>
+    <SectionReveal>
       <div className="flex justify-between items-center py-4">
         <Input
           placeholder="Pesquisa"
@@ -224,6 +225,6 @@ export function DataTable<TData, TValue>({
       <div className="flex flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
         <DataTablePagination table={table} />
       </div>
-    </div>
+    </SectionReveal>
   );
 }

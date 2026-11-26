@@ -12,28 +12,28 @@ services: # Bloco raiz que define todos os serviços (contêineres) da aplicaç�
     environment: # Bloco de variáveis de ambiente injetadas dentro do contêiner em tempo de execução
       - NODE_ENV=production # Define o ambiente de execução do Node.js como produção (otimizações ativadas)
       - PORT=3000 # Informa à aplicação qual porta interna ela deve escutar
-      - DB_HOST=mudar_valor # Define o hostname do banco de dados (usa o DNS interno do Docker para achar o contêiner 'meu-postgres')
+      - DB_HOST=aws-1-sa-east-1.pooler.supabase.com # Define o hostname do banco de dados (usa o DNS interno do Docker para achar o contêiner 'meu-postgres')
       - DB_PORT=5432 # Porta padrão de conexão com o banco de dados PostgreSQL
-      - DB_USER=mudar_valor # Nome de usuário do banco, extraído de arquivo .env ou do ambiente do host
-      - DB_PASS=mudar_valor # Senha do banco, extraída de arquivo .env ou do ambiente do host
-      - DB_NAME=mudar_valor # Nome da base de dados a ser acessada, extraído de arquivo .env ou do host
-      - DB_SCHEMA=mudar_valor
-      - JWT_ACCESS_TOKEN_SECRET=mudar_valor
-      - JWT_ACCESS_TOKEN_EXPIRATION_TIME=mudar_valor
-      - JWT_REFRESH_TOKEN_SECRET=mudar_valor
-      - JWT_REFRESH_TOKEN_EXPIRATION_TIME=mudar_valor
-      - JWT_VERIFICATION_TOKEN_SECRET=mudar_valor
-      - JWT_VERIFICATION_TOKEN_EXPIRATION_TIME=mudar_valor
-      - EMAIL_HOST=mudar_valor
-      - EMAIL_PORT=mudar_valor
-      - EMAIL_USER=mudar_valor
-      - EMAIL_PASSWORD=mudar_valor
-      - EMAIL_FROM=mudar_valor
-      - EMAIL_FROM_NAME=mudar_valor
+      - DB_USER=postgres.lqkamffkolgjxredbvyw # Nome de usuário do banco, extraído de arquivo .env ou do ambiente do host
+      - DB_PASS=ziEeI7hkCViSZ9z0 # Senha do banco, extraída de arquivo .env ou do ambiente do host
+      - DB_NAME=postgres # Nome da base de dados a ser acessada, extraído de arquivo .env ou do host
+      - DB_SCHEMA=museu
+      - JWT_ACCESS_TOKEN_SECRET=5e7f1a3b8c9d2e4f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f
+      - JWT_ACCESS_TOKEN_EXPIRATION_TIME=3600 # 1 hora em segundos
+      - JWT_REFRESH_TOKEN_SECRET=a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4g5h6i7j8k9l0m1n
+      - JWT_REFRESH_TOKEN_EXPIRATION_TIME=604800 # 7 dias em segundos
+      - JWT_VERIFICATION_TOKEN_SECRET=f9e8d7c6b5a43210fedcba9876543210abcdef0123456789abcdef0123456789
+      - JWT_VERIFICATION_TOKEN_EXPIRATION_TIME=86400 # 24 horas em segundos
+      - EMAIL_HOST=smtp.gmail.com
+      - EMAIL_PORT=587
+      - EMAIL_USER='gusta.azv18@gmail.com'
+      - EMAIL_PASSWORD='sttj ytjp bqkm vomd'
+      - EMAIL_FROM="Museu Virtual <gusta.azv18@gmail.com>"
+      - EMAIL_FROM_NAME='Nest Academico'
       - EMAIL_SECURE=false
       - EMAIL_TLS=false
-      - REGISTER_CONFIRMATION=mudar_valor
-      - EMAIL_CONFIRMED=mudar_valor
+      - REGISTER_CONFIRMATION=http://localhost:6001/confirmar-email
+      - EMAIL_CONFIRMED=http://localhost:6001/login
       - FRONTEND_URL=http://localhost:3000
 
   frontend:
@@ -44,7 +44,10 @@ services: # Bloco raiz que define todos os serviços (contêineres) da aplicaç�
       - '6001:6001' # Redireciona a porta 6001 do host para a porta 6001 interna do contêiner
     environment: # Bloco de variáveis de ambiente injetadas dentro do contêiner em tempo de execução
       - NODE_ENV=production # Define o ambiente de execução do Node.js como produção (otimizações ativadas)
-
+      - API_AUTH_SESSION_URL=http://backend:3000/api/v1/credentials/session
+      - API_AUTH_ME_URL=http://backend:3000/api/v1/credentials/session/me
+      - API_INTERNAL_URL=http://backend:3000
+      - NEXT_PUBLIC_API_URL=http://backend:3000
     # networks: # Associa o serviço a redes virtuais específicas do Docker
     #   - postgres-network # Conecta o contêiner à rede compartilhada onde o PostgreSQL deve estar para permitir comunicação direta
 

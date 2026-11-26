@@ -10,18 +10,20 @@ import VLibras from '@/components/layout/VLibras';
 
 export default function Home() {
   return (
-    <div className="relative flex min-h-screen flex-col">
+    <>
       <AccessibilityToolbar />
       <VLibras />
-      <Navbar overHero />
-      <main className="flex-grow flex flex-col items-center w-full overflow-x-hidden">
-        <HeroMuseum />
-        <LandingSchedule />
-        <HighlightCarousel />
-        <LandingGallery />
-        <Faqs />
-      </main>
-      <Footer />
-    </div>
+      <div className="a11y-page-content relative flex min-h-screen flex-col">
+        <Navbar overHero />
+        <main className="flex-grow flex flex-col items-center w-full overflow-x-hidden">
+          <HeroMuseum />
+          <LandingSchedule />
+          <HighlightCarousel />
+          <LandingGallery />
+          <Faqs />
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }

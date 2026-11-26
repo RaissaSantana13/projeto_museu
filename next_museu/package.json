@@ -43,6 +43,7 @@
     "js-cookie": "^3.0.8",
     "label": "^0.2.2",
     "lucide-react": "^0.577.0",
+    "motion": "^14.14.0",
     "negotiator": "^1.0.0",
     "next": "^16.2.3",
     "next-auth": "^4.24.13",

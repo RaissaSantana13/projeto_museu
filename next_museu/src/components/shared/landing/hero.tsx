@@ -7,7 +7,7 @@ export function HeroMuseum() {
       className="relative isolate flex min-h-[max(32rem,100svh)] w-full items-end overflow-hidden bg-neutral-900"
     >
       <Image
-        src="/images/capa-paco-municipal.jpg"
+        src="/images/paco-tour-virtual.jpg"
         alt="Paço Municipal de Birigui, com a fonte e o busto na praça"
         fill
         sizes="100vw"
