@@ -42,9 +42,8 @@ export function ArtworkImageZoom({
   const [arrastando, setArrastando] = useState(false);
   const [telaCheia, setTelaCheia] = useState(false);
 
-  // =====================================
   // LIMITAR O MOVIMENTO DA IMAGEM
-  // =====================================
+
 
   function limitarPosicao(
     x: number,
@@ -69,9 +68,7 @@ export function ArtworkImageZoom({
     };
   }
 
-  // =====================================
   // APLICAR ZOOM
-  // =====================================
 
   function alterarZoom(novaEscala: number) {
     const escala = Math.max(
@@ -101,9 +98,7 @@ export function ArtworkImageZoom({
     setPosicao({ x: 0, y: 0 });
   }
 
-  // =====================================
   // ARRASTAR COM O MOUSE OU TOQUE
-  // =====================================
 
   function iniciarArrasto(
     event: React.PointerEvent<HTMLDivElement>
@@ -170,9 +165,7 @@ export function ArtworkImageZoom({
     setArrastando(false);
   }
 
-  // =====================================
   // TELA CHEIA
-  // =====================================
 
   useEffect(() => {
     function verificarTelaCheia() {
@@ -214,9 +207,7 @@ export function ArtworkImageZoom({
     }
   }
 
-  // =====================================
   // COMPONENTE VISUAL
-  // =====================================
 
   return (
     <div
@@ -302,9 +293,7 @@ export function ArtworkImageZoom({
         </div>
       )}
 
-      {/* =====================================
-          CONTROLES LATERAIS
-      ===================================== */}
+      {/* CONTROLES LATERAIS */}
 
       <div
         className="

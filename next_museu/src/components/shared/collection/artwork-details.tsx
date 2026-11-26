@@ -7,9 +7,8 @@ import Link from "next/link";
 import { ModelViewer } from "../landing/models-3d";
 import { ArtworkImageZoom } from "./artwork-image-zoom";
 
-// ======================================
 // TIPAGEM DAS OBRAS
-// ======================================
+
 
 interface ObraDetalhes {
   id: string;
@@ -28,15 +27,14 @@ interface ObraDetalhes {
   model3dRotation?: [number, number, number];
 }
 
-// ======================================
+
 // BANCO DE DADOS DAS OBRAS
-// ======================================
+
 
 const OBRAS_DATABASE: Record<string, ObraDetalhes> = {
 
-  // ====================================
   // OBRAS E OBJETOS
-  // ====================================
+
 
   "550e8400-e29b-41d4-a716-446655440000": {
     id: "550e8400-e29b-41d4-a716-446655440000",
@@ -151,9 +149,9 @@ const OBRAS_DATABASE: Record<string, ObraDetalhes> = {
     model3dRotation: [0, 0, 0],
   },
 
-  // ====================================
+
   // FOTOGRAFIAS HISTÓRICAS
-  // ====================================
+
 
   "foto-001": {
     id: "foto-001",
@@ -195,9 +193,9 @@ const OBRAS_DATABASE: Record<string, ObraDetalhes> = {
   },
 };
 
-// ======================================
+
 // COMPONENTE PRINCIPAL
-// ======================================
+
 
 export function ArtworkDetails({
   obraId,
@@ -232,9 +230,9 @@ export function ArtworkDetails({
     );
   }
 
-  // ====================================
+
   // IDENTIFICA O TIPO DE ACERVO
-  // ====================================
+
 
   const isFoto = obra.id.startsWith("foto-");
 
@@ -255,9 +253,9 @@ export function ArtworkDetails({
       : []),
   ] as const;
 
-  // ====================================
+
   // OBRAS RELACIONADAS
-  // ====================================
+
 
   const relacionadas = Object.values(OBRAS_DATABASE)
     .filter((item) => {
@@ -277,9 +275,7 @@ export function ArtworkDetails({
   return (
     <main className="w-full min-w-0 flex-grow bg-background text-foreground">
 
-      {/* =====================================
-          1. NAVEGAÇÃO SUPERIOR
-      ===================================== */}
+      {/*  NAVEGAÇÃO SUPERIOR*/}
 
       <div className="mx-auto max-w-6xl px-4 pb-6 pt-10">
         <Link
@@ -297,10 +293,7 @@ export function ArtworkDetails({
         </h2>
       </div>
 
-      {/* =====================================
-          2. FOTOGRAFIA PRINCIPAL
-          COM ZOOM INTERATIVO
-      ===================================== */}
+      {/* FOTOGRAFIA PRINCIPAL COM ZOOM INTERATIVO*/}
 
       <section
         aria-label="Imagem principal do acervo"
@@ -313,9 +306,7 @@ export function ArtworkDetails({
         />
       </section>
 
-      {/* =====================================
-          3. SISTEMA DE ABAS
-      ===================================== */}
+      {/* SISTEMA DE ABAS*/}
 
       <section className="mx-auto max-w-6xl px-4 pb-14 pt-9">
 
@@ -359,9 +350,7 @@ export function ArtworkDetails({
           ))}
         </div>
 
-        {/* =====================================
-            ABA SOBRE
-        ===================================== */}
+        {/*ABA SOBRE*/}
 
         {abaExibida === "sobre" && (
           <div
@@ -471,9 +460,7 @@ export function ArtworkDetails({
           </div>
         )}
 
-        {/* =====================================
-            ABA DADOS
-        ===================================== */}
+        {/*ABA DADOS*/}
 
         {abaExibida === "dados" && (
           <div
@@ -651,9 +638,7 @@ export function ArtworkDetails({
           </div>
         )}
 
-        {/* =====================================
-            ABA MODELO 3D
-        ===================================== */}
+        {/*ABA MODELO 3D*/}
 
         {abaExibida === "modelo" &&
           obra.model3dFileName && (
@@ -675,10 +660,7 @@ export function ArtworkDetails({
 
       </section>
 
-      {/* =====================================
-          4. DESCUBRA MAIS
-          ESTILO RIJKSMUSEUM
-      ===================================== */}
+      {/* DESCUBRA MAIS*/}
 
       {relacionadas.length > 0 && (
         <section
