@@ -9,6 +9,29 @@ export interface CollectionItem {
   imagePosition?: string;
 }
 
+interface HistoricalDocument extends CollectionItem {
+  pdf: string;
+  pages: number;
+  edition: number;
+}
+
+export const DOCUMENTOS: HistoricalDocument[] = [
+  {
+    id: 'a-verdade-1946-08-04',
+    title: 'Jornal A Verdade — 4 de agosto de 1946',
+    description:
+      'Edição nº 42 do semanário de Birigui, com notícias locais, anúncios e uma homenagem ao padre Pedro João Dingenouts.',
+    img: '/images/a-verdade-1946-08-04.jpg',
+    pdf: '/documentos/a-verdade-1946-08-04.pdf',
+    pages: 6,
+    edition: 42,
+    year: 1946,
+    date: '1946-08-04',
+    tileClass: 'md:col-span-5 md:row-span-2',
+    imagePosition: 'object-top',
+  },
+];
+
 export const OBRAS: CollectionItem[] = [
   {
     id: '550e8400-e29b-41d4-a716-446655440000',
@@ -84,7 +107,7 @@ export const FOTOGRAFIAS: CollectionItem[] = [
     title: 'Família do Bairro Centro',
     description:
       'Imagem histórica de uma família local em ambiente urbano e cotidiano.',
-    img: '/images/01-%20Folia%20de%20Reis%20-%20Frei%20Tarc%C3%ADscio%20-%201982.jpg',
+    img: '/images/folia-de-reis-1982.jpg',
     year: 1982,
     date: '1982-01-06',
     tileClass: 'md:col-span-5 md:row-span-2',

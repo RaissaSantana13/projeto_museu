@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ['museuvirtualbirigui.com.br'],
   // "standalone" gera uma pasta .next/standalone com um server.js mínimo e
   // só os node_modules realmente usados em produção — essencial para uma
   // imagem Docker pequena (sem isso, o Dockerfile teria que copiar o
