@@ -136,6 +136,8 @@
       "placeholderEmail": "Enter your email"
     },
     "verifyEmail": {
+      "resendSuccess": "If the email is registered and has not been confirmed, you will receive a new link.",
+      "resendFailed": "Could not request a new link. Please try again later.",
       "title": "Revalidate your email",
       "description": "Enter your email for revalidation.",
       "email": "Email",

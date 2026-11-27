@@ -136,6 +136,8 @@
       "placeholderEmail": "Escriba su correo electrónico"
     },
     "verifyEmail": {
+      "resendSuccess": "Si el correo está registrado y aún no se ha confirmado, recibirás un nuevo enlace.",
+      "resendFailed": "No se pudo solicitar un nuevo enlace. Inténtalo más tarde.",
       "title": "Revalidar su correo electrónico",
       "description": "Ingrese su correo electrónico para la revalidación.",
       "email": "Correo electrónico",

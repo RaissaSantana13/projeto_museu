@@ -136,6 +136,8 @@
       "placeholderEmail": "Digite seu e-mail"
     },
     "verifyEmail": {
+      "resendSuccess": "Se o e-mail estiver cadastrado e ainda não tiver sido confirmado, você receberá um novo link.",
+      "resendFailed": "Não foi possível solicitar um novo link. Tente novamente mais tarde.",
       "title": "Revalidar seu e-mail ",
       "description": "Insira seu e-mail para revalidação.",
       "email": "E-mail",

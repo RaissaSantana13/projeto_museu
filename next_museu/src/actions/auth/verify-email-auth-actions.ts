@@ -1,46 +1,40 @@
 'use server';
 
 import { getServerDictionary } from '../../lib/get-dictionary';
-import { VerifyEmailResponse } from '../../schemas/verify-email-schema';
-import { AuthService } from '../../service/connection/AuthService';
+import { http } from '@/lib/http';
+import {
+  getVerifyEmailSchema,
+  VerifyEmailResponse,
+} from '../../schemas/verify-email-schema';
 import { ApiResponse } from '../../type/api';
 
 export async function verifayEmailAction(
-  prevState: ApiResponse<VerifyEmailResponse>,
-  payload: {
-    email: string;
-    url: string;
-  },
+  _prevState: ApiResponse<VerifyEmailResponse>,
+  payload: { email: string },
 ): Promise<ApiResponse<VerifyEmailResponse>> {
   const dict = await getServerDictionary();
-  if (!payload.url) {
+  const parsed = getVerifyEmailSchema(dict).safeParse(payload);
+  if (!parsed.success) {
     return {
       status: 400,
-      mensagem: dict.app.endpoint.message,
-      erro: dict.app.endpoint.error,
-      timestamp: new Date().toISOString(),
+      mensagem: dict.auth.validation.invalidEmail,
     };
   }
 
   try {
-    const authService = new AuthService(payload.url);
-
-    const result = await authService.verifyEmail(payload.email);
-
+    await http.post(
+      '/api/v1/credentials/resend-confirmation',
+      { email: parsed.data.email.trim().toLowerCase() },
+      { maxRedirects: 0 },
+    );
     return {
-      status: result.status || 201,
-      mensagem: result.mensagem || dict.app.endpoint.api_success,
+      status: 200,
+      mensagem: dict.auth.verifyEmail.resendSuccess,
     };
-  } catch (error: any) {
-    const apiError = error as ApiResponse<never> & { isNetworkError?: boolean };
-
+  } catch {
     return {
-      status: apiError.status || 503,
-      mensagem: apiError.mensagem || dict.app.endpoint.api_message,
-      erro: apiError.erro || dict.app.endpoint.api_error,
-      errors: apiError.dados || {},
-      timestamp: new Date().toISOString(),
-      isNetworkError: true,
-    } as ApiResponse<VerifyEmailResponse> & { isNetworkError: boolean };
+      status: 503,
+      mensagem: dict.auth.verifyEmail.resendFailed,
+    };
   }
 }

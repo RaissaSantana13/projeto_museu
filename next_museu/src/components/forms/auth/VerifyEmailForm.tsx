@@ -8,7 +8,6 @@ import { cn } from '@/lib/utils';
 
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 import { toast } from 'sonner';
 import { verifayEmailAction } from '../../../actions/auth/verify-email-auth-actions';
@@ -18,7 +17,6 @@ import {
   VerifyEmailResponse,
 } from '../../../schemas/verify-email-schema';
 import { useDictionary } from '../../../service/providers/i18n-providers';
-import { useResources } from '../../../service/providers/resource-providers';
 import { ApiResponse } from '../../../type/api';
 import { Field, FieldError, FieldLabel } from '../../ui/field';
 import { Input } from '../../ui/input';
@@ -32,12 +30,11 @@ const initialState: ApiResponse<VerifyEmailResponse> = {
 };
 
 export function VerifyEmailForm() {
-  const [state, action] = React.useActionState(
+  const [state, action, pending] = React.useActionState(
     verifayEmailAction,
     initialState,
   );
   const dict = useDictionary();
-  const router = useRouter();
   const form = useForm<VerifyEmailCreate>({
     resolver: zodResolver(getVerifyEmailSchema(dict)),
     defaultValues: {
@@ -45,51 +42,18 @@ export function VerifyEmailForm() {
     },
   });
 
-  const { status, mensagem, erro, errors } = state;
-  const { resources, loading } = useResources();
-  const urlLogin = React.useMemo(() => {
-    if (loading) return '';
-    const resource = resources.find(
-      (r) => r.name.toLowerCase() === 'credentials' && r.method.includes('PUT'),
-    );
-
-    return resource?.endpoint || '';
-  }, [resources, loading]);
-
   React.useEffect(() => {
-    if (status === 0) return;
-
-    if (status >= 400) {
-      toast.error('Erro', { description: erro || mensagem });
-      if (errors) {
-        Object.entries(errors).forEach(([field, messages]) => {
-          form.setError(field as keyof VerifyEmailCreate, {
-            type: 'server',
-            message: messages?.[0],
-          });
-        });
-      }
+    if (!state.mensagem || state.status === 0) return;
+    if (state.status >= 400) {
+      toast.error(state.mensagem);
     } else {
-      toast.success('Sucesso!', { description: mensagem });
+      toast.success(state.mensagem);
     }
-  }, [status, mensagem, errors, erro, form]);
-
-  React.useEffect(() => {
-    if (state.status === 200 || state.status === 201) {
-      toast.success('Login realizado com sucesso!');
-      router.push('/login');
-      router.refresh();
-    } else if (state.erro || state.mensagem) {
-      toast.error(state.erro || state.mensagem);
-    }
-  }, [state, router]);
+  }, [state]);
 
   const onSubmit = form.handleSubmit((data: VerifyEmailCreate) => {
-    if (!urlLogin) {
-      return toast.error('Configuração de API não encontrada');
-    }
     React.startTransition(() => {
-      action({ email: data.email, url: urlLogin });
+      action({ email: data.email });
     });
   });
 
@@ -116,7 +80,7 @@ export function VerifyEmailForm() {
         />
 
         {/* BOTÃO SUBMIT */}
-        <Button type="submit" aria-label={dict.auth.resend}>{dict.auth.resend}</Button>
+        <Button type="submit" disabled={pending}>{dict.auth.resend}</Button>
 
         {/* SKIP */}
         <Link

@@ -5,6 +5,7 @@ import { CircleCheck, CircleX, LoaderCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
+import { confirmEmailAction } from '@/actions/auth/confirm-email-action';
 import {
   Auth,
   AuthDescription,
@@ -12,9 +13,8 @@ import {
   AuthTitle,
 } from '@/components/auth/auth-layout';
 import { Button } from '@/components/ui/button';
-import { http } from '@/lib/http';
 
-type ConfirmationStatus = 'loading' | 'success' | 'error';
+type ConfirmationStatus = 'loading' | 'success' | 'error' | 'unavailable';
 
 export default function ConfirmEmailPage() {
   return (
@@ -38,10 +38,9 @@ function ConfirmEmailContent() {
     if (submittedToken.current === token) return;
     submittedToken.current = token;
 
-    http
-      .post('/api/v1/credentials/confirm-email', { token })
-      .then(() => setStatus('success'))
-      .catch(() => setStatus('error'));
+    confirmEmailAction(token)
+      .then(setStatus)
+      .catch(() => setStatus('unavailable'));
   }, [token]);
 
   return <ConfirmationView status={status} />;
@@ -65,6 +64,12 @@ function ConfirmationView({ status }: { status: ConfirmationStatus }) {
       title: 'Não foi possível confirmar seu e-mail',
       description:
         'O link pode ser inválido ou ter expirado. Você pode solicitar um novo link de confirmação.',
+      Icon: CircleX,
+      iconClassName: 'text-destructive',
+    },
+    unavailable: {
+      title: 'Serviço de confirmação indisponível',
+      description: 'Tente abrir o link novamente em alguns instantes.',
       Icon: CircleX,
       iconClassName: 'text-destructive',
     },
