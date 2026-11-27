@@ -1,8 +1,8 @@
-import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Download } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ModelViewer } from '../landing/models-3d';
-import { FOTOGRAFIAS } from './collection-items';
+import { DOCUMENTOS, FOTOGRAFIAS } from './collection-items';
 
 interface ObraDetalhes {
   id: string;
@@ -128,7 +128,8 @@ export function ArtworkDetails({ obraId }: { obraId: string }) {
     ? OBRAS_DATABASE[obraId]
     : undefined;
   const fotografia = FOTOGRAFIAS.find((item) => item.id === obraId);
-  const item = obra ?? fotografia;
+  const documento = DOCUMENTOS.find((item) => item.id === obraId);
+  const item = obra ?? fotografia ?? documento;
 
   if (!item) {
     return (
@@ -147,18 +148,35 @@ export function ArtworkDetails({ obraId }: { obraId: string }) {
     );
   }
 
-  const facts = [
-    { label: 'Período', value: item.year },
-    { label: 'Artista ou fabricante', value: obra?.artist },
-    { label: 'Material', value: obra?.material },
-  ].filter(({ value }) => value != null);
+  const tipo = documento ? 'documento' : fotografia ? 'foto' : 'obra';
+  const categoria = documento
+    ? 'Documentos históricos'
+    : fotografia
+      ? 'Fotografias'
+      : 'Obras e objetos';
+  const facts = (
+    documento
+      ? [
+          { label: 'Ano de publicação', value: documento.year },
+          { label: 'Edição', value: `Nº ${documento.edition}` },
+          {
+            label: 'Formato',
+            value: `PDF digitalizado · ${documento.pages} páginas`,
+          },
+        ]
+      : [
+          { label: 'Período', value: item.year },
+          { label: 'Artista ou fabricante', value: obra?.artist },
+          { label: 'Material', value: obra?.material },
+        ]
+  ).filter(({ value }) => value != null);
 
   return (
     <main className="w-full flex-1 bg-background text-foreground">
       <div className="bg-neutral-950 bg-radial-[at_50%_55%] from-[#35261e] to-neutral-950 text-white">
         <div className="mx-auto max-w-7xl px-5 pt-6 pb-8 sm:px-8 sm:pt-8 lg:px-12">
           <Link
-            href={`/acervo?tipo=${fotografia ? 'foto' : 'obra'}`}
+            href={`/acervo?tipo=${tipo}`}
             className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-white/85 underline-offset-4 hover:text-white hover:underline"
           >
             <ArrowLeft className="size-4" aria-hidden="true" />
@@ -169,23 +187,33 @@ export function ArtworkDetails({ obraId }: { obraId: string }) {
             <div className="relative mx-auto h-[clamp(17rem,58svh,38rem)] w-full max-w-5xl">
               <Image
                 src={item.img}
-                alt={item.title}
+                alt={documento ? `Capa de ${item.title}` : item.title}
                 fill
                 sizes="(min-width: 1120px) 1024px, 92vw"
                 className="object-contain"
                 preload
               />
             </div>
-            <figcaption className="mt-4 text-center">
+            <figcaption className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-1">
               <a
-                href={item.img}
+                href={documento?.pdf ?? item.img}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-white/85 underline-offset-4 hover:text-white hover:underline"
               >
-                Abrir imagem em nova aba
+                {documento ? 'Ler PDF em nova aba' : 'Abrir imagem em nova aba'}
                 <ArrowUpRight className="size-4" aria-hidden="true" />
               </a>
+              {documento && (
+                <a
+                  href={documento.pdf}
+                  download
+                  className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-white/85 underline-offset-4 hover:text-white hover:underline"
+                >
+                  Baixar PDF
+                  <Download className="size-4" aria-hidden="true" />
+                </a>
+              )}
             </figcaption>
           </figure>
         </div>
@@ -194,7 +222,7 @@ export function ArtworkDetails({ obraId }: { obraId: string }) {
       <article className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14 lg:px-12">
         <header className="max-w-4xl">
           <p className="text-xs font-bold tracking-[0.18em] text-primary uppercase">
-            Acervo · {fotografia ? 'Fotografias' : 'Obras e objetos'}
+            Acervo · {categoria}
           </p>
           <h1 className="mt-4 font-serif text-4xl leading-[1.05] font-semibold tracking-tight sm:text-5xl lg:text-6xl">
             {item.title}

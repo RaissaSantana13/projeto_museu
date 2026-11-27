@@ -11,7 +11,12 @@ import {
 import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ArtworkGallery } from './artwork-gallery';
-import { FOTOGRAFIAS, OBRAS, type CollectionItem } from './collection-items';
+import {
+  DOCUMENTOS,
+  FOTOGRAFIAS,
+  OBRAS,
+  type CollectionItem,
+} from './collection-items';
 
 type CollectionType = 'obra' | 'foto' | 'documento';
 
@@ -20,8 +25,6 @@ const CATEGORIES = [
   { type: 'foto', label: 'Fotografias', icon: ImageIcon },
   { type: 'documento', label: 'Documentos históricos', icon: FileText },
 ] as const;
-
-const DOCUMENTOS: CollectionItem[] = [];
 
 const COLLECTIONS: Record<CollectionType, CollectionItem[]> = {
   obra: OBRAS,
@@ -173,7 +176,8 @@ export function ArtworkCollection({
             <p className="mt-4 text-sm text-muted-foreground">
               {filteredItems.length}{' '}
               {filteredItems.length === 1 ? config.singular : config.plural}{' '}
-              encontrada{filteredItems.length === 1 ? '' : 's'}
+              {currentType === 'foto' ? 'encontrada' : 'encontrado'}
+              {filteredItems.length === 1 ? '' : 's'}
             </p>
           </div>
         </div>
