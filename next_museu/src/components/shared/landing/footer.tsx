@@ -56,16 +56,6 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link href="#" className="hover:text-primary transition-colors">
-                  Transparência
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-primary transition-colors">
-                  Editais
-                </Link>
-              </li>
             </ul>
           </div>
 
