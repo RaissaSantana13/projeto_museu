@@ -14,6 +14,7 @@ import { GoogleOAuthStrategy } from './config/strategy/providers/google-oauth.st
 import { AccountController } from './controllers/account.controller';
 import { AuthenticationController } from './controllers/authentication.controller';
 import { OAuthController } from './controllers/oauth.controller';
+import { ProfileAvatarController } from './controllers/profile-avatar.controller';
 import { TwoFactorAuthenticationController } from './controllers/twoFactorAuthentication.controller';
 import { Account } from './entities/account.entity';
 import { Credentials } from './entities/credentials.entity';
@@ -21,6 +22,7 @@ import { Session } from './entities/session.entity';
 import { AccountService } from './service/account.service';
 import { AuthenticationService } from './service/authentication.service';
 import { OAuthService } from './service/oauth.service';
+import { ProfileAvatarService } from './service/profile-avatar.service';
 import { SessionService } from './service/session.service';
 import { TwoFactorAuthenticationService } from './service/twoFactorAuthentication.service';
 import { JwtStrategy } from './config/strategy/jwt/jwt.strategy';
@@ -31,6 +33,7 @@ const moduleController = [
   AuthenticationController,
   TwoFactorAuthenticationController,
   OAuthController,
+  ProfileAvatarController,
 ];
 
 const moduleProviders = [
@@ -41,6 +44,7 @@ const moduleProviders = [
   TwoFactorAuthenticationService,
   SessionService,
   OAuthService,
+  ProfileAvatarService,
   GoogleOAuthStrategy,
   FacebookOAuthStrategy,
   GitHubOAuthStrategy,
