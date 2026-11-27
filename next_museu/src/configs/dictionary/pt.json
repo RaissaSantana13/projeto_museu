@@ -1,5 +1,40 @@
 {
   "lang": "pt",
+  "dashboard": {
+    "title": "Painel de Controle",
+    "description": "Acompanhe o que está disponível no acervo público do Museu Virtual de Birigui.",
+    "total": "Itens no acervo público",
+    "objects": "Obras e objetos",
+    "photographs": "Fotografias",
+    "documents": "Documentos históricos",
+    "recent": "Últimas inclusões",
+    "documentType": "Documento histórico",
+    "pdfPage": "PDF de {count} página",
+    "pdfPages": "PDF de {count} páginas",
+    "accountMenu": {
+      "account": "Minha conta",
+      "notifications": "Notificações",
+      "signOut": "Sair"
+    }
+  },
+  "preferences": {
+    "language": "Idioma",
+    "toggleTheme": "Alterar tema",
+    "dark": "Escuro",
+    "light": "Claro"
+  },
+  "profilePhoto": {
+    "title": "Meu perfil",
+    "label": "Foto de perfil",
+    "hint": "Selecione uma imagem JPEG, PNG ou WebP de até 5 MB.",
+    "save": "Salvar foto",
+    "saving": "Salvando foto…",
+    "saved": "Foto de perfil atualizada.",
+    "invalid": "Selecione uma imagem JPEG, PNG ou WebP de até 5 MB.",
+    "failed": "Não foi possível salvar a foto. Tente novamente.",
+    "backToDashboard": "Voltar ao painel",
+    "backToMuseum": "Voltar ao museu"
+  },
   "navigation": {
     "dashboards": "Página Principal",
     "back_dashboards": "Voltar para Página Principal",
