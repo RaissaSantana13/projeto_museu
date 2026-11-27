@@ -10,11 +10,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ChevronDown, Earth } from 'lucide-react';
+import { useDictionary } from '@/service/providers/i18n-providers';
 import { useSettings } from '../../hooks/use-settings';
 import { LocaleType } from '../../type/type';
 
 export function LanguageDropdown() {
   const { settings, updateSettings } = useSettings();
+  const { language } = useDictionary().preferences;
 
   const currentLocale = settings.locale as LocaleType;
 
@@ -30,6 +32,7 @@ export function LanguageDropdown() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
+          aria-label={`${language}: ${currentLocale.toUpperCase()}`}
           variant="outline"
           size="sm"
           className="h-9 gap-2 rounded-full border-sidebar-border bg-sidebar px-3 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
@@ -41,7 +44,7 @@ export function LanguageDropdown() {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-40 bg-popover text-popover-foreground">
-        <div className="px-2 py-1.5 text-xs font-semibold text-popover-foreground">Idioma / Language</div>
+        <div className="px-2 py-1.5 text-xs font-semibold text-popover-foreground">{language}</div>
         <DropdownMenuSeparator />
         <DropdownMenuRadioGroup value={currentLocale} onValueChange={handleLocaleChange}>
           <DropdownMenuRadioItem value="pt" className="cursor-pointer data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground">

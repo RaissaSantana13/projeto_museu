@@ -30,13 +30,13 @@ export default async function DashboardLayout({
       <SidebarProvider>
         <Sidebar dictionary={dict} />
         <SidebarInset>
-          <SiteHeader />
+          <SiteHeader name={user.username} />
           <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
             {children}
           </main>
+          <Footer />
         </SidebarInset>
       </SidebarProvider>
-      <Footer />
     </Providers>
   );
 }

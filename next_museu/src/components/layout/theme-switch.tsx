@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
+import { useDictionary } from '@/service/providers/i18n-providers';
 import { Check, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
@@ -17,6 +18,7 @@ import { useSettings } from '../../hooks/use-settings';
 export function ThemeSwitch() {
   const { theme, resolvedTheme, setTheme } = useTheme();
   const { settings, updateSettings } = useSettings();
+  const labels = useDictionary().preferences;
   const [mounted, setMounted] = React.useState(false);
   const activeTheme = mounted
     ? resolvedTheme ?? (theme === 'light' ? 'light' : 'dark')
@@ -66,7 +68,7 @@ export function ThemeSwitch() {
               activeTheme === 'dark' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-0',
             )}
           />
-          <span className="sr-only">Toggle theme</span>
+          <span className="sr-only">{labels.toggleTheme}</span>
         </Button>
       </DropdownMenuTrigger>
 
@@ -76,7 +78,7 @@ export function ThemeSwitch() {
           className={cn('focus:bg-accent', activeTheme === 'dark' && 'bg-accent text-accent-foreground')}
         >
           <Moon className="me-2 size-4" />
-          Dark
+          {labels.dark}
           <Check size={14} className={cn('ms-auto', activeTheme !== 'dark' && 'hidden')} />
         </DropdownMenuItem>
 
@@ -85,7 +87,7 @@ export function ThemeSwitch() {
           className={cn('focus:bg-accent', activeTheme === 'light' && 'bg-accent text-accent-foreground')}
         >
           <Sun className="me-2 size-4 text-primary" />
-          Light
+          {labels.light}
           <Check size={14} className={cn('ms-auto', activeTheme !== 'light' && 'hidden')} />
         </DropdownMenuItem>
       </DropdownMenuContent>

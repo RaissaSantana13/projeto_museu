@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronRight, Home } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -34,7 +34,7 @@ export function DynamicBreadcrumb() {
   allSegments.forEach((segment) => {
     cumulativePath += `/${segment}`;
 
-    // Ignorar o segmento "dashboard" já tem ícone de Home fixo apontando para ele
+    // O link textual para o painel é exibido separadamente.
     if (segment === 'dashboard') return;
 
     // Verifica se o segmento é um número (ID)
@@ -51,13 +51,14 @@ export function DynamicBreadcrumb() {
     }
   });
 
+  if (!breadcrumbItems.length) return null;
+
   return (
     <nav aria-label="Breadcrumb" className="mb-2">
       <ol className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground font-sans">
-        {/* Ícone de Início (Fixo para Dashboard) */}
         <li className="flex items-center gap-2">
           <Link href="/dashboard" className="hover:text-primary transition-colors flex items-center gap-1">
-            <Home className="h-3.5 w-3.5" />
+            Início
           </Link>
         </li>
 
@@ -66,7 +67,7 @@ export function DynamicBreadcrumb() {
 
           return (
             <li key={item.href} className="flex items-center gap-2">
-              <ChevronRight className="h-3.5 w-3.5 opacity-50" />
+              <ChevronRight className="h-3.5 w-3.5 opacity-50" aria-hidden="true" />
 
               {isLast ? (
                 <span className="font-medium text-foreground" aria-current="page">
